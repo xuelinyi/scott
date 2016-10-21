@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+
+	<beans:bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<beans:property name="location" value="classpath:c3p0.properties"/>
+	</beans:bean>
+
+    
+	<beans:bean id="securityDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<beans:property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<beans:property name="jdbcUrl" value="${jdbc.url}" />
+		<beans:property name="user" value="${jdbc.username}" />
+		<beans:property name="password" value="${jdbc.password}" />
+		<beans:property name="autoCommitOnClose" value="true" />
+		<beans:property name="checkoutTimeout" value="${c3p0.checkoutTimeout}" />
+		<beans:property name="initialPoolSize" value="${c3p0.minPoolSize}" />
+		<beans:property name="minPoolSize" value="${c3p0.minPoolSize}" />
+		<beans:property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<beans:property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+		<beans:property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+		<beans:property name="maxIdleTimeExcessConnections" value="${c3p0.maxIdleTimeExcessConnections}" />
+	</beans:bean>
+	    
+		
+	<beans:bean class="com.comverse.timesheet.web.business.impl.CustomUserDetailsServiceImpl" id="customUserDetailsService">
+		<beans:property name="dataSource" ref="securityDataSource" />
+	</beans:bean>
+
+	<beans:bean id="authenticationFailureHandler" class="com.comverse.timesheet.web.business.impl.AuthenticationFailureHandler">
+		<beans:property name="useForward" value="true"/>
+		<beans:property name="defaultFailureUrl" value="/login" />
+		<beans:property name="dataSource" ref="securityDataSource" />
+	</beans:bean>	
+	
+	<http pattern="/themes/**" security="none"/>
+	<http pattern="/fonts/**" security="none"/>
+	<http pattern="/js/**" security="none"/>
+	<http pattern="/css/**" security="none"/>
+	<http pattern="/images/**" security="none"/>
+	<http pattern="/temp/**" security="none"/>
+	
+	<http auto-config="true" use-expressions="true" create-session="ifRequired" >
+		<csrf disabled="true" />
+		
+		<intercept-url pattern="/login" access="permitAll" />
+		<intercept-url pattern="/index" access="permitAll" />
+		<intercept-url pattern="/PermissionDenied" access="permitAll" />
+		<intercept-url pattern="/system/PermissionDenied" access="permitAll" />
+		<intercept-url pattern="/system/toManagement" access="hasRole('ROLE_ACCOUNT') or hasRole('ROLE_CONFIG') or hasRole('ROLE_BACKUP_SESSION') or hasRole('ROLE_AUDIT')" />
+		<intercept-url pattern="/system/getSystemStatusInfo" access="permitAll" />
+		<intercept-url pattern="/system/getSessionProtocolList" access="permitAll" />
+		
+		<intercept-url pattern="/system/getSessionProtocolLis" access="hasRole('ROLE_BACKUP_SESSION')" />
+		<intercept-url pattern="/system/findExportDataByCondition" access="hasRole('ROLE_BACKUP_SESSION')" />
+		<intercept-url pattern="/system/exportDataByCondition" access="hasRole('ROLE_BACKUP_SESSION')" />
+		<intercept-url pattern="/system/downloadExportData" access="hasRole('ROLE_BACKUP_SESSION')" />
+		<intercept-url pattern="/system/importExportStatusData" access="hasRole('ROLE_BACKUP_SESSION')" />
+		<intercept-url pattern="/system/importDataFromFile" access="hasRole('ROLE_BACKUP_SESSION')" />
+		<intercept-url pattern="/system/getImportTime" access="hasRole('ROLE_BACKUP_SESSION')" />
+		
+		
+		
+		<intercept-url pattern="/account/**" access="hasRole('ROLE_ACCOUNT')" />
+		
+		<intercept-url pattern="/system/**" access="hasRole('ROLE_CONFIG')" />
+		<intercept-url pattern="/deviceConfig/**" access="hasRole('ROLE_CONFIG')" />
+		<intercept-url pattern="/sysConfig/**" access="hasRole('ROLE_CONFIG')" />
+		
+		<intercept-url pattern="/intellectiveAudit/**" access="hasRole('ROLE_AUDIT')" />
+		<intercept-url pattern="/logAudit/**" access="hasRole('ROLE_AUDIT')" />
+		<intercept-url pattern="/packetFile/**" access="hasRole('ROLE_AUDIT')" />
+		<intercept-url pattern="/reportPage/**" access="hasRole('ROLE_AUDIT')" />
+		<intercept-url pattern="/sessionAudit/**" access="hasRole('ROLE_AUDIT')" />
+		
+		<intercept-url pattern="/**" access="hasRole('ROLE_ACCOUNT') or hasRole('ROLE_CONFIG') or hasRole('ROLE_BACKUP_SESSION') or hasRole('ROLE_AUDIT')" />
+		<access-denied-handler error-page="/PermissionDenied"/>
+		<form-login login-page="/login"  login-processing-url="/security_check" username-parameter="username"  password-parameter="password" default-target-url="/index" always-use-default-target="true" authentication-failure-url="/login" authentication-failure-handler-ref="authenticationFailureHandler"  />				 
+	</http>
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="customUserDetailsService" />
+	</authentication-manager>
+	
+
+	<global-method-security pre-post-annotations="enabled" />
+</beans:beans>
