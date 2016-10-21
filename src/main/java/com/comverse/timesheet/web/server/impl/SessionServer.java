@@ -205,8 +205,8 @@ public class SessionServer  extends IoHandlerAdapter implements IServer {
 	}
 
 	public static void main(String[] args) throws IOException {
-		PacketServer ps = new PacketServer();
-		ps.start();
+//		PacketServer ps = new PacketServer();
+//		ps.start();
 
 	}
 
