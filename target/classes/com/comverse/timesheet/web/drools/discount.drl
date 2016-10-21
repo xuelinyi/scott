@@ -1,0 +1,21 @@
+package tnmc.sms.test.drools
+
+import tnmc.sms.test.drools.Order;
+
+rule "Rule1"	
+	when
+		months:Integer(value>1)
+		order:Order(sum<50);
+		
+	then 
+		order.setDiscount(0.10)	;
+end
+
+rule "Rule0"	
+	when
+		order:Order(sum>50);
+	then 
+		order.setDiscount(0.98);
+end
+
+
