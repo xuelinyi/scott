@@ -1,6 +1,9 @@
 package com.comverse.timesheet.web.server.message;
 
+import java.util.Arrays;
+
 import org.apache.commons.codec.binary.Hex;
+
 
 public class TLVMessage {
 	private int tag=-1;

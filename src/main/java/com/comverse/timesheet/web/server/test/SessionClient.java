@@ -35,39 +35,6 @@ public class SessionClient extends IoHandlerAdapter implements Runnable {
 		return sb.toString();
 	}
 
-	private void sendRandomBytes() throws Exception {
-		IoBuffer buffer = IoBuffer.allocate(2048).setAutoExpand(true);
-		buffer.order(ByteOrder.BIG_ENDIAN);
-		buffer.put(new byte[(int) (100 * Math.random())]);
-		buffer.flip();
-		session.write(buffer);
-	}
-
-	private void sendPremble() throws Exception {
-		IoBuffer buffer = IoBuffer.allocate(2048).setAutoExpand(true);
-		buffer.order(ByteOrder.BIG_ENDIAN);
-		
-		buffer.put((byte) 0xFE);
-		buffer.putLong(0xFEFEFEFEFEFEFEFEL);
-		buffer.putLong(0xFEFEFEFEFEFEFEFEL);
-		buffer.put((byte) 0xFE);
-		buffer.put((byte) 0xFE);
-		buffer.putUnsignedShort(21);
-		buffer.flip();
-		session.write(buffer);
-	}
-	private void sendForwardMessage() throws Exception {
-		IoBuffer buffer = IoBuffer.allocate(2048).setAutoExpand(true);
-		buffer.order(ByteOrder.BIG_ENDIAN);
-		buffer.put((byte) 0xFE);
-		buffer.putLong(0x0101010100000000L);
-		buffer.putLong(0x0000000000000000L);
-		buffer.put((byte) 0x04);
-		buffer.put((byte) 0xFD);
-		buffer.putUnsignedShort(21);
-		buffer.flip();
-		session.write(buffer);
-	}
 
 
 

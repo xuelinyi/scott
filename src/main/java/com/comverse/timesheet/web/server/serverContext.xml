@@ -41,4 +41,28 @@
 	<bean id="sqlExecuter" class="com.comverse.timesheet.web.server.impl.AsynSQLExecuterImpl" init-method="start" destroy-method="stop">		
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="sessionSaver" class="com.comverse.timesheet.web.server.impl.SessionSaver">
+		<property name="sqlExecuter" ref="sqlExecuter" />
+	</bean>
+	<bean id="sessionFileSaver" class="com.comverse.timesheet.web.server.impl.AsynSessionFileSaver"  init-method="start" destroy-method="stop">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<bean id="sessionCache" class="com.comverse.timesheet.web.server.impl.SessionCache"  init-method="start" destroy-method="stop">
+		<property name="sessionSaver" ref="sessionSaver" />		
+	</bean>
+	<bean id="sessionServer" class="com.comverse.timesheet.web.server.impl.SessionServer"  init-method="start" destroy-method="stop">
+		<property name="dataSource" ref="dataSource" />
+		<property name="sessionCache" ref="sessionCache" />
+		<property name="sessionFileSaver" ref="sessionFileSaver" />
+		<property name="port" value="19020" />
+	</bean>
+	
+	
+	<task:scheduled-tasks>
+		<task:scheduled ref="sessionCache" method="timeout" cron="0 0/1 * * * ?" />
+		<task:scheduled ref="sessionFileSaver" method="timeout" cron="0 0/1 * * * ?" />
+	</task:scheduled-tasks>
+	
+
 </beans>
