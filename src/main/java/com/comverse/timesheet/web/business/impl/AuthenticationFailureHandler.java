@@ -48,7 +48,7 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
 						jdbcTemplate.execute(sql);
 					}
 				SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-				String LoginSql = "INSERT INTO ADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','96','"+username+"','"+clientIp+"','用户:"+username+"登陆失败�?);";
+				String LoginSql = "INSERT INTO ADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','96','"+username+"','"+clientIp+"','用户:"+username+"登陆失败')";
 				jdbcTemplate.execute(LoginSql);
 			}catch(Exception e){
 				log.error(e,e);

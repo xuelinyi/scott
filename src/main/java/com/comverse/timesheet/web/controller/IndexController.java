@@ -1,6 +1,10 @@
 package com.comverse.timesheet.web.controller;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -12,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,12 +30,12 @@ public class IndexController{
 	
 	@RequestMapping(value = {"/"})
 	public ModelAndView root() {
-		return new ModelAndView("redirect:/result");
+		return new ModelAndView("redirect:/login");
 	}
 	
 	@RequestMapping(value = {"/*"})
 	public ModelAndView error() {
-		return new ModelAndView("redirect:/result");
+		return new ModelAndView("redirect:/login");
 	}
 	
 	@RequestMapping(value = "/PermissionDenied")
@@ -66,7 +71,12 @@ public class IndexController{
 		}
        return "login";
     }
-    
+    @RequestMapping(value = "/index")
+	public String index(Model model,HttpServletRequest request) {
+		log.debug("#index");
+		
+		return "index";
+	}
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
