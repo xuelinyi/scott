@@ -432,7 +432,7 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="boxed_page.html">
+                  <a href="system/userList">
                     用户管理
                   </a>
                 </li>
@@ -1329,6 +1329,7 @@
     <script src="js/sparkline-chart.js"></script><!-- SPARKLINE CHART JS -->
     <script src="js/common-scripts.js"></script><!-- BASIC COMMON JS -->
     <script src="js/count.js"></script><!-- COUNT JS -->
+    <script src="js/index.js"></script><!-- COUNT JS -->
     <!--Morris-->
     <script src="assets/morris.js-0.4.3/morris.min.js" ></script><!-- MORRIS JS -->
     <script src="assets/morris.js-0.4.3/raphael-min.js" ></script><!-- MORRIS  JS -->

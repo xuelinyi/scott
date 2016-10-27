@@ -16,3 +16,17 @@ var southRegion = {
  ]
  
 };
+function jumpPage(url) {
+	$.ajax({
+		type : "get",
+		url : url,
+		data : {
+		},
+		success : function(data, textStatus) {
+
+		},
+		error : function(XMLHttpRequest, textStatus, errorThrown) {
+
+		}
+	});
+}
