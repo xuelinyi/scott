@@ -55,7 +55,7 @@
 	<mvc:resources mapping="/js/**" location="/views/js/" />
 	<mvc:resources mapping="/extjs5.0/**" location="/views/extjs5.0/" />
 	<mvc:resources mapping="/images/**" location="/views/images/" />
-
+	<mvc:resources mapping="/assets/**" location="/views/assets/" />
 	
 
 
