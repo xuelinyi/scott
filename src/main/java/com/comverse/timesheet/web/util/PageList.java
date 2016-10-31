@@ -17,7 +17,7 @@ public class PageList implements PaginatedList {
 	    /** 
 	     * 每页记录数 pagesize 
 	     */  
-	    private int objectsPerPage = 15;  
+	    private int objectsPerPage = 10;  
 	    /** 
 	     * 总记录数 
 	     */  

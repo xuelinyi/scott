@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -173,7 +173,7 @@
                 <li>
                   <a href="#">
                     <span class="photo">
-                      <img alt="avatar" src="views/img/avatar-mini.jpg">
+                      <img alt="avatar" src="../views/img/avatar-mini.jpg">
                     </span>
                     <span class="subject">
                       <span class="from">
@@ -191,7 +191,7 @@
                 <li>
                   <a href="#">
                     <span class="photo">
-                      <img alt="avatar" src="views/img/avatar-mini2.jpg">
+                      <img alt="avatar" src="../views/img/avatar-mini2.jpg">
                     </span>
                     <span class="subject">
                       <span class="from">
@@ -209,7 +209,7 @@
                 <li>
                   <a href="#">
                     <span class="photo">
-                      <img alt="avatar" src="views/img/avatar-mini3.jpg">
+                      <img alt="avatar" src="../views/img/avatar-mini3.jpg">
                     </span>
                     <span class="subject">
                       <span class="from">
@@ -227,7 +227,7 @@
                 <li>
                   <a href="#">
                     <span class="photo">
-                      <img alt="avatar" src="views/img/avatar-mini4.jpg">
+                      <img alt="avatar" src="../views/img/avatar-mini4.jpg">
                     </span>
                     <span class="subject">
                       <span class="from">
@@ -353,7 +353,7 @@
             </li>
             <li class="dropdown">
               <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <img alt="" src="views/img/avatar1_small.jpg">
+                <img alt="" src="../views/img/avatar1_small.jpg">
                 <span class="username">
                   Pruthvi
                 </span>

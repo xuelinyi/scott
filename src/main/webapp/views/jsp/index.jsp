@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+    pageEncoding="utf-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,15 +7,15 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="Olive Enterprise">
-    <link rel="shortcut icon" href="img/favicon.ico">
+    <link rel="shortcut icon" href="../img/favicon.ico">
     <title>欢迎光临综合系统</title>
- 	<link href="css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
-	<link href="css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
-	<link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet"><!-- FONT AWESOME ICON CSS -->
-	<link href="css/style.css" rel="stylesheet"><!-- THEME BASIC CSS -->
-	<link href="css/style-responsive.css" rel="stylesheet"><!-- THEME RESPONSIVE CSS -->
-	<link href="assets/morris.js-0.4.3/morris.css" rel="stylesheet"><!-- MORRIS CHART CSS -->
-   <link href="css/clndr.css" rel="stylesheet"><!-- CALENDER CSS -->
+ 	<link href="../css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
+	<link href="../css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
+	<link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet"><!-- FONT AWESOME ICON CSS -->
+	<link href="../css/style.css" rel="stylesheet"><!-- THEME BASIC CSS -->
+	<link href="../css/style-responsive.css" rel="stylesheet"><!-- THEME RESPONSIVE CSS -->
+	<link href="../assets/morris.js-0.4.3/morris.css" rel="stylesheet"><!-- MORRIS CHART CSS -->
+   <link href="../css/clndr.css" rel="stylesheet"><!-- CALENDER CSS -->
 </head>
 <body>
     <!-- BEGIN SECTION -->
@@ -482,27 +482,27 @@
     </section>
     <!-- END SECTION -->
     <!-- BEGIN JS -->
-    <script src="js/jquery-1.8.3.min.js" ></script><!-- BASIC JQUERY 1.8.3 LIB. JS -->
-    <script src="js/bootstrap.min.js" ></script><!-- BOOTSTRAP JS -->
-    <script src="js/jquery.dcjqaccordion.2.7.js"></script><!-- ACCORDIN JS -->
-    <script src="js/jquery.scrollTo.min.js" ></script><!-- SCROLLTO JS -->
-    <script src="js/jquery.nicescroll.js" ></script><!-- NICESCROLL JS -->
-    <script src="js/respond.min.js" ></script><!-- RESPOND JS -->
-    <script src="js/jquery.sparkline.js"></script><!-- SPARKLINE JS -->
-    <script src="js/sparkline-chart.js"></script><!-- SPARKLINE CHART JS -->
-    <script src="js/common-scripts.js"></script><!-- BASIC COMMON JS -->
-    <script src="js/count.js"></script><!-- COUNT JS -->
-    <script src="js/index.js"></script><!-- COUNT JS -->
+    <script src="../js/jquery-1.8.3.min.js" ></script><!-- BASIC JQUERY 1.8.3 LIB. JS -->
+    <script src="../js/bootstrap.min.js" ></script><!-- BOOTSTRAP JS -->
+    <script src="../js/jquery.dcjqaccordion.2.7.js"></script><!-- ACCORDIN JS -->
+    <script src="../js/jquery.scrollTo.min.js" ></script><!-- SCROLLTO JS -->
+    <script src="../js/jquery.nicescroll.js" ></script><!-- NICESCROLL JS -->
+    <script src="../js/respond.min.js" ></script><!-- RESPOND JS -->
+    <script src="../js/jquery.sparkline.js"></script><!-- SPARKLINE JS -->
+    <script src="../js/sparkline-chart.js"></script><!-- SPARKLINE CHART JS -->
+    <script src="../js/common-scripts.js"></script><!-- BASIC COMMON JS -->
+    <script src="../js/count.js"></script><!-- COUNT JS -->
+    <script src="../js/index.js"></script><!-- COUNT JS -->
     <!--Morris-->
-    <script src="assets/morris.js-0.4.3/morris.min.js" ></script><!-- MORRIS JS -->
-    <script src="assets/morris.js-0.4.3/raphael-min.js" ></script><!-- MORRIS  JS -->
-    <script src="js/chart.js" ></script><!-- CHART JS -->
+    <script src="../assets/morris.js-0.4.3/morris.min.js" ></script><!-- MORRIS JS -->
+    <script src="../assets/morris.js-0.4.3/raphael-min.js" ></script><!-- MORRIS  JS -->
+    <script src="../js/chart.js" ></script><!-- CHART JS -->
     <!--Calendar-->
-    <script src="js/calendar/clndr.js"></script><!-- CALENDER JS -->
-    <script src="js/calendar/evnt.calendar.init.js"></script><!-- CALENDER EVENT JS -->
-    <script src="js/calendar/moment-2.2.1.js"></script><!-- CALENDER MOMENT JS -->
+    <script src="../js/calendar/clndr.js"></script><!-- CALENDER JS -->
+    <script src="../js/calendar/evnt.calendar.init.js"></script><!-- CALENDER EVENT JS -->
+    <script src="../js/calendar/moment-2.2.1.js"></script><!-- CALENDER MOMENT JS -->
     <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script><!-- UNDERSCORE JS -->
-    <script src="assets/jquery-knob/js/jquery.knob.js" ></script><!-- JQUERY KNOB JS -->
+    <script src="../assets/jquery-knob/js/jquery.knob.js" ></script><!-- JQUERY KNOB JS -->
     <script >
       //knob
       $(".knob").knob();

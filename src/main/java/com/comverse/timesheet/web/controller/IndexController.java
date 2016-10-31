@@ -71,7 +71,7 @@ public class IndexController{
 		}
        return "login";
     }
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/system/index")
 	public String index(Model model,HttpServletRequest request) {
 		log.debug("#index");
 		

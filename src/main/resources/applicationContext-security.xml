@@ -77,7 +77,7 @@
 		
 		<intercept-url pattern="/**" access="hasRole('ROLE_ACCOUNT') or hasRole('ROLE_CONFIG') or hasRole('ROLE_BACKUP_SESSION') or hasRole('ROLE_AUDIT')" />
 		<access-denied-handler error-page="/PermissionDenied"/>
-		<form-login login-page="/login"  login-processing-url="/security_check" username-parameter="username"  password-parameter="password" default-target-url="/index" always-use-default-target="true" authentication-failure-url="/login" authentication-failure-handler-ref="authenticationFailureHandler"  />				 
+		<form-login login-page="/login"  login-processing-url="/security_check" username-parameter="username"  password-parameter="password" default-target-url="/system/index" always-use-default-target="true" authentication-failure-url="/login" authentication-failure-handler-ref="authenticationFailureHandler"  />				 
 	</http>
 
 	<authentication-manager>
