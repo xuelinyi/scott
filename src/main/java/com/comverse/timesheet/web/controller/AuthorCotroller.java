@@ -28,6 +28,7 @@ public class AuthorCotroller {
 		modelMap.addAttribute("authorList", authorBusiness.findAuthor());
 		return "authorList";
 	}
+	
 	@RequestMapping("author/getAuthor")
 	@ResponseBody
 	public Author getAuthor(@RequestParam(value = "authorId", required = true)int authorId,ModelMap modelMap) {

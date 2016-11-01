@@ -22,7 +22,8 @@
 <link href="../css/style-responsive.css" rel="stylesheet"><!-- THEME BASIC RESPONSIVE  CSS --></head>
 <link rel="stylesheet" type="text/css" href="../extjs5.0/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css">  
 <script type="text/javascript" src="../extjs5.0/ext-all.js"></script>  
-<script type="text/javascript" src="../extjs5.0/packages/ext-theme-crisp/build/ext-theme-crisp.js"></script>  
+<script type="text/javascript" src="../extjs5.0/packages/ext-theme-crisp/build/ext-theme-crisp.js"></script>
+<script type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>  
 <body>
 <!-- BEGIN SECTION --> 
       <section id="container" class="">
@@ -63,20 +64,23 @@
 							<display:column property="sex" title="性别" />
 							<display:column property="birthday" title="生日" />
 							<display:column property="createTime" title="创建时间" />
-							<display:column title="操作"><a href="javascript:void(0)" onclick="getBook(<c:out value="${author.id}"/>)">编辑</a></display:column>
+							<display:column title="操作">
+								<a href="javascript:void(0)" onclick="getAuthor(<c:out value="${author.id}"/>)">编辑</a>
+								<a href="javascript:void(0)" onclick="delAuthor(<c:out value="${author.id}"/>)">删除</a>
+							</display:column>
 						</display:table>
                         </table>
                      </div>
                      <div id="addAndUpdateAuthor" style="display: none;">
 							<input id="authorId" style="display: none;">
-							名字:<input id=name/><br/>
-							年龄:<input id=age/><br/>
+							名字:<input id="name"/><br/>
+							年龄:<input id="age"/><br/>
 							性别:<select id="sex">
 										<option value="10000">男</option>
 										<option value="10001">女</option>
 									</select><br/>
-							生日:
-							<button onclick="updateBook();">保存</button>
+							生日:<input id="birthDate" value="" class="Wdate" type="text" onClick="WdatePicker()"><br/>
+							<button id="saveAuthorId">保存</button>
 					</div>
                   </div>
                </section>

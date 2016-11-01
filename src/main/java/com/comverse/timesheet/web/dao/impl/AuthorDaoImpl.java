@@ -1,15 +1,14 @@
 package com.comverse.timesheet.web.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.mortbay.log.Log;
 import org.springframework.stereotype.Repository;
 
 import com.comverse.timesheet.web.bean.author.Author;
-import com.comverse.timesheet.web.bean.book.BookTemporary;
 import com.comverse.timesheet.web.dao.IAuthorDao;
-import com.comverse.timesheet.web.dao.IBookDao;
-import com.comverse.timesheet.web.dao.ITestTableDAO;
 import com.comverse.timesheet.web.util.BasicSqlSupport;
 
 @Repository
@@ -24,6 +23,9 @@ public class AuthorDaoImpl extends BasicSqlSupport implements IAuthorDao {
 		Log.debug("增加作者信息。author ： " + author);
 		boolean flag=false;
 		if((null!=author)) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			author.setCreateTime(formatter.format(new Date()));
+			author.setModifyTime(formatter.format(new Date()));
 	        int count=session.insert("mybatis.mapper.Author.addAuthor",author); 
 	        if(count>0){ 
 	            flag=true; 
@@ -45,6 +47,8 @@ public class AuthorDaoImpl extends BasicSqlSupport implements IAuthorDao {
 			throws Exception {
 		Log.debug("编辑作者信息。author："+author);
 		if(null != author) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			author.setModifyTime(formatter.format(new Date()));
 			int count = session.update("mybatis.mapper.Author.updateAuthor", author);
 			if(count>0){ 
 	            return true; 

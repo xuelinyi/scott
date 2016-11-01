@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>  
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="mybatis.mapper.Author">  
-    <insert id="addAuthor" parameterType="Test" useGeneratedKeys="true" keyProperty="id"> 
+    <insert id="addAuthor" parameterType="com.comverse.timesheet.web.bean.author.Author" useGeneratedKeys="true" keyProperty="IID"> 
         INSERT INTO AAUTHOR (NNAME,AAGE,SSEX,BBIRTHDAY,CCREATE_TIME,MMODIFY_TIME) 
         VALUES(#{name},#{age},#{sex},#{birthday},#{createTime},#{modifyTime}) 
     </insert>
@@ -29,9 +29,15 @@
     		<if test="name!=null">
 	   			NNAME=#{name}
 	   		</if>
-	   		<if test="AAGE!=0">
+	   		<if test="age!=0">
 	   			, AAGE=#{age}
+	   		</if>
+	   		<if test="sex!=0">
+	   			, SSEX=#{sex}
 	   		</if> 
+	   		<if test="birthday!=null">
+	   			, BBIRTHDAY=#{birthday}
+	   		</if>  
    		</set>
    		<where>IID=#{id}</where>
     </update>
