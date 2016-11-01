@@ -20,24 +20,24 @@ public class BookCotroller {
 	 *  跳转图书管理首页
 	 * @return
 	 */
-	@RequestMapping("book/bookList")
-	public String jumpBook(ModelMap modelMap) {
+	@RequestMapping("book/temporaryBookList")
+	public String jumpgetTemporaryBook(ModelMap modelMap) {
 		log.debug("跳转到图书管理首页。");
 		modelMap.addAttribute("bookList", bookBusiness.findTemporaryBook());
 		return "bookList";
 	}
-	@RequestMapping("book/getBook")
+	@RequestMapping("book/getTemporaryBook")
 	@ResponseBody
-	public BookTemporary getBook(@RequestParam(value = "bookId", required = true)int bookId,ModelMap modelMap) {
+	public BookTemporary getTemporaryBook(@RequestParam(value = "bookId", required = true)int bookId,ModelMap modelMap) {
 		log.debug("根据书籍ID查找对应的书籍信息id:" +bookId);
 		if(0!=bookId) {
 			return bookBusiness.getTemporaryBook(bookId);
 		}
 		return null;
 	}
-	@RequestMapping("book/updateBook")
+	@RequestMapping("book/updateTemporaryBook")
 	@ResponseBody
-	public boolean updateBook(BookTemporary book) {
+	public boolean updateTemporaryBook(BookTemporary book) {
 		log.debug("编辑书籍信息为book:" + book);
 		if(null != book) {
 			return bookBusiness.updateTemporaryBook(book);

@@ -68,7 +68,7 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="../book/bookList">
+                  <a href="../book/temporaryBookList">
                     书籍管理
                   </a>
                 </li>
@@ -109,7 +109,7 @@
                 <i class="fa fa-cogs">
                 </i>
                 <span>
-                  Components
+                  	作者管理
                 </span>
                 <span class="label label-primary span-sidebar">
                   5
@@ -117,8 +117,8 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="grids.html">
-                    Grids
+                  <a href="../author/authorList">
+                    	作者管理
                   </a>
                 </li>
                 <li>
