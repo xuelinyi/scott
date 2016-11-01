@@ -2,11 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="mybatis.mapper.Book">      
     <insert id="addBook" parameterType="Test" useGeneratedKeys="true" keyProperty="id"> 
-        INSERT INTO testtable (BBOOK_NAME,AAUTHOR_ID,BBOOK_TYPE,BBOOK_SYNOPSIS,BBOOK_FILE,CCREATE_TIME,MMODIFY_TIME) 
-        VALUES(#{bookName},#{authorId},#{bookType},#{bookSynopsis},#{bookFile},#{createFile},#{modifyTime}) 
-    </insert>
-    <insert id="updateBook" parameterType="Test" useGeneratedKeys="true" keyProperty="id"> 
-        INSERT INTO testtable (BBOOK_NAME,AAUTHOR_ID,BBOOK_TYPE,BBOOK_SYNOPSIS,BBOOK_FILE,CCREATE_TIME,MMODIFY_TIME) 
+        INSERT INTO BBOOK_TEMPORARY (BBOOK_NAME,AAUTHOR_ID,BBOOK_TYPE,BBOOK_SYNOPSIS,BBOOK_FILE,CCREATE_TIME,MMODIFY_TIME) 
         VALUES(#{bookName},#{authorId},#{bookType},#{bookSynopsis},#{bookFile},#{createFile},#{modifyTime}) 
     </insert>
     <resultMap id="BookTemporary" type="com.comverse.timesheet.web.bean.book.BookTemporary">

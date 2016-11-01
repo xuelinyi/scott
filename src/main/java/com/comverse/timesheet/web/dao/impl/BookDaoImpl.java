@@ -13,12 +13,12 @@ import com.comverse.timesheet.web.util.BasicSqlSupport;
 @Repository
 public class BookDaoImpl extends BasicSqlSupport implements IBookDao {
 
-	public List<BookTemporary> find() throws Exception {
+	public List<BookTemporary> findTemporaryBook() throws Exception {
 		Log.debug("查询所有的书籍信息");
 		return session.selectList("mybatis.mapper.Book.selectBookByNull");
 	}
 
-	public boolean add(BookTemporary bookTemporary) throws Exception {
+	public boolean addTemporaryBook(BookTemporary bookTemporary) throws Exception {
 		Log.debug("增加书籍信息。bookTemporary ： " + bookTemporary);
 		boolean flag=false;
 		if((null!=bookTemporary)) {

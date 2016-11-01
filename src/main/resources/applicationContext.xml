@@ -188,7 +188,7 @@
     </bean>   
     <bean id="TestBusiness" class="com.comverse.timesheet.web.business.TestBusiness"> 
     </bean> 
-    <bean id="bookBusiness" class="com.comverse.timesheet.web.business.BookBusiness"> 
+    <bean id="bookBusiness" class="com.comverse.timesheet.web.business.impl.BookBusinessImpl"> 
     </bean> 
      <bean id="ruleImpl" class="com.comverse.timesheet.web.business.impl.RuleImpl"> 
     </bean> 

@@ -8,7 +8,8 @@
     </typeAliases> 
     <mappers> 
         <mapper resource="/mybatis/mapper/Test.xml" /> 
-        <mapper resource="/mybatis/mapper/Book.xml" /> 
+        <mapper resource="/mybatis/mapper/Book.xml" />
+        <mapper resource="/mybatis/mapper/Author.xml" /> 
     </mappers> 
        
 </configuration>
