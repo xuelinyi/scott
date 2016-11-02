@@ -61,7 +61,7 @@
 	                        <display:column property="id" title="标识" sortable="true" />
 							<display:column property="name" title="名字" sortable="true"/>
 							<display:column property="age" title="年龄" />
-							<display:column property="sex" title="性别" />
+							<display:column property="sexStr" title="性别" />
 							<display:column property="birthday" title="生日" />
 							<display:column property="createTime" title="创建时间" />
 							<display:column title="操作">

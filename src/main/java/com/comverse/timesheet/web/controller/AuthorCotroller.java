@@ -14,7 +14,7 @@ import com.comverse.timesheet.web.business.IAuthorBusiness;
 import com.comverse.timesheet.web.business.IBookBusiness;
 
 @Controller
-public class AuthorCotroller {
+public class AuthorCotroller extends BaseController{
 	private static final Logger log = Logger.getLogger(AuthorCotroller.class);
 	@Autowired
     private IAuthorBusiness authorBusiness; 
@@ -42,27 +42,42 @@ public class AuthorCotroller {
 	@ResponseBody
 	public boolean addAuthor(Author author) {
 		log.debug("添加作者信息为author:" + author);
+		boolean addResult = false;
 		if(null != author) {
-			return authorBusiness.addAuthor(author);
+			addResult = authorBusiness.addAuthor(author);
+			if(addResult)
+				success("增加作者信息成功。author:"+author);
+			else
+				fail("增加作者信息失败。author:"+author);
 		}
-		return false;
+		return addResult;
 	}
 	@RequestMapping("author/updateAuthor")
 	@ResponseBody
 	public boolean updateAuthor(Author author) {
 		log.debug("编辑作者信息为author:" + author);
+		boolean updateResult = false;
 		if(null != author) {
-			return authorBusiness.updateAuthor(author);
+			updateResult = authorBusiness.updateAuthor(author);
+			if(updateResult) 
+				success("编辑作者信息成功。author:"+author);
+			else
+				fail("编辑作者信息失败。author:"+author);
 		}
-		return false;
+		return updateResult;
 	}
 	@RequestMapping("author/deleteAuthor")
 	@ResponseBody
 	public boolean deleteAuthor(@RequestParam(value = "authorId", required = true)int authorId,ModelMap modelMap) {
 		log.debug("根据ID删除作者信息。");
+		boolean deleteResult = false;
 		if(0!=authorId) {
-			return authorBusiness.deleteAuthor(authorId);
+			deleteResult = authorBusiness.deleteAuthor(authorId);
+			if(deleteResult)
+				success("删除作者信息成功。authorId:"+authorId);
+			else
+				fail("删除作者信息失败。authorId:"+authorId);
 		}
-		return false;
+		return deleteResult;
 	}
 }

@@ -1,13 +1,20 @@
 function getBook(bookId) {
 	$.ajax({	
-		url:'../book/getBook',
+		url:'../book/getTemporaryBook',
 		type:"GET",
 		data:{'bookId': bookId},
 		success:function(result){
 			$("#addAndUpdateBook").show();
-			$("#bookId").val(result.id);
-			$("#bookName").val(result.bookName);
-			$("#bookType").val(result.bookType);
+			if(null != result.bookTemporary) {
+				$("#bookId").val(result.bookTemporary.id);
+				$("#bookName").val(result.bookTemporary.bookName);
+				$("#bookType").val(result.bookTemporary.bookType);
+			}
+			if(null != result.authorList) {
+				$.each(result.authorList, function (i, item) { 
+					jQuery("#authorId").append("<option value="+ item.id+">"+ item.name+"</option>"); 
+				}); 
+			}
 		},
 		error:function(){
 			 console.log("根据ID获取书籍失败");
@@ -18,12 +25,14 @@ function updateBook() {
 	var id = $("#bookId").val();
 	var bookName = $("#bookName").val();
 	var bookType = $("#bookType").val();
+	var authorId = $("#authorId").val();
 	$.ajax({	
-		url:'../book/updateBook',
+		url:'../book/updateTemporaryBook',
 		type:"POST",
-		data:{"id":id,'bookName': bookName,'bookType': bookType},
+		data:{"id":id,'bookName': bookName,'bookType': bookType,'author.id':authorId},
 		success:function(result){
 			$("#addAndUpdateBook").hide();
+			location.reload();
 		},
 		error:function(){
 			 console.log("根据ID获取书籍失败");

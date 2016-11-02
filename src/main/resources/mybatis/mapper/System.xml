@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="mybatis.mapper.System">     
+	<!--     account management start -->
+    <insert id="addAccount" parameterType="com.comverse.timesheet.web.bean.system.Account" useGeneratedKeys="true" keyProperty="IID"> 
+        INSERT INTO AACCOUNT (NNAME,PPASSWORD,LLOCKENDTIME,LLOGINNUMBER,PPHONENUMBER,EEMAIL,DDESC,CCREATETIME) 
+        VALUES(#{name},#{password},#{lockEndTime},#{loginNumber},#{phoneNumber},#{email},#{desc},#{createTime}) 
+    </insert>
+    <resultMap id="Account" type="com.comverse.timesheet.web.bean.system.Account">
+	     <id column="IID" property="id" />
+	     <result column="NNAME" property="name" />
+	     <result column="PPASSWORD" property="password" />
+	     <result column="LLOCKENDTIME" property="lockEndTime" />
+	     <result column="LLOGINNUMBER" property="loginNumber" />
+	     <result column="PPHONENUMBER" property="phoneNumber" />
+	     <result column="EEMAIL" property="email" />
+	     <result column="DDESC" property="desc" />
+	     <result column="CCREATETIME" property="createTime" />
+	</resultMap>
+    <select id="selectAccountByNull" resultMap="Account">
+        SELECT * FROM AACCOUNT
+    </select>
+    <select id="selectAccountById" resultMap="Account">
+        SELECT * FROM AACCOUNT WHERE IID=#{accountId}
+    </select>
+    <delete id="deleteAccount">
+    	  DELETE FROM AACCOUNT WHERE IID=#{accountId}
+    </delete> 
+    <update id="updateAccount"  parameterType="com.comverse.timesheet.web.bean.system.Account" >
+    	UPDATE AACCOUNT
+    	<set>
+    		<if test="name!=null">
+	   			NNAME=#{name}
+	   		</if>
+	   		<if test="password!=null">
+	   			, PPASSWORD=#{password}
+	   		</if>
+	   		<if test="phoneNumber!=0">
+	   			, PPHONENUMBER=#{phoneNumber}
+	   		</if> 
+	   		<if test="email!=null">
+	   			, EEMAIL=#{email}
+	   		</if>  
+	   		<if test="desc!=null">
+	   			, DDESC=#{desc}
+	   		</if>  
+   		</set>
+   		<where>IID=#{id}</where>
+    </update>
+    <!--     account management end -->
+    <!--     role management start -->
+    <insert id="addRole" parameterType="com.comverse.timesheet.web.bean.system.Role" useGeneratedKeys="true" keyProperty="IID"> 
+        INSERT INTO RROLE (NNAME,DDESC) VALUES(#{name},#{desc}) 
+    </insert>
+    <resultMap id="Role" type="com.comverse.timesheet.web.bean.system.Role">
+	     <id column="IID" property="id" />
+	     <result column="NNAME" property="name" />
+	     <result column="DDESC" property="desc" />
+	</resultMap>
+    <select id="selectRoleByNull" resultMap="Role">
+        SELECT * FROM RROLE
+    </select>
+    <select id="selectRoleById" resultMap="Role">
+        SELECT * FROM RROLE WHERE IID=#{roleId}
+    </select>
+    <delete id="deleteRole">
+    	  DELETE FROM RROLE WHERE IID=#{roleId}
+    </delete> 
+    <update id="updateRole"  parameterType="com.comverse.timesheet.web.bean.system.Role" >
+    	UPDATE RROLE
+    	<set>
+    		<if test="name!=null">
+	   			NNAME=#{name}
+	   		</if>
+	   		<if test="desc!=null">
+	   			, DESC=#{desc}
+	   		</if>
+   		</set>
+   		<where>IID=#{id}</where>
+    </update>
+    <!--     role management end -->
+    <!--     Permission management start -->
+    <insert id="addPermission" parameterType="com.comverse.timesheet.web.bean.system.Permission" useGeneratedKeys="true" keyProperty="IID"> 
+        INSERT INTO PPERMISSION (NNAME,DDESC,CCODE) VALUES(#{name},#{desc},#{code}) 
+    </insert>
+    <resultMap id="Permission" type="com.comverse.timesheet.web.bean.system.Permission">
+	     <id column="IID" property="id" />
+	     <result column="NNAME" property="name" />
+	     <result column="DDESC" property="desc" />
+	     <result column="CCODE" property="code" />
+	</resultMap>
+    <select id="selectPermissionByNull" resultMap="Permission">
+        SELECT * FROM PPERMISSION
+    </select>
+    <select id="selectPermissionById" resultMap="Permission">
+        SELECT * FROM PPERMISSION WHERE IID=#{id}
+    </select>
+    <delete id="deletePermission">
+    	  DELETE FROM PPERMISSION WHERE IID=#{id}
+    </delete> 
+    <update id="updatePermission"  parameterType="com.comverse.timesheet.web.bean.system.Permission" >
+    	UPDATE RROLE
+    	<set>
+    		<if test="name!=null">
+	   			NNAME=#{name}
+	   		</if>
+	   		<if test="desc!=null">
+	   			, DDESC=#{desc}
+	   		</if>
+	   		<if test="code!=null">
+	   			, CCODE=#{code}
+	   		</if>
+   		</set>
+   		<where>IID=#{id}</where>
+    </update>
+    <!--     Permission management end -->
+    <!--     IP address management start -->
+    <insert id="addAccountIp" parameterType="com.comverse.timesheet.web.bean.system.AccountIp" useGeneratedKeys="true" keyProperty="IID"> 
+        INSERT INTO AACCOUNTIP (NNAME,DDESC,CCODE) VALUES(#{name},#{desc},#{code}) 
+    </insert>
+    <resultMap id="AccountIp" type="com.comverse.timesheet.web.bean.system.AccountIp">
+	     <id column="IID" property="id" />
+	     <result column="IIP" property="ip" />
+	     <result column="NNETMASK" property="netmask" />
+	     <result column="AACCOUNTNAME" property="accountName" />
+	</resultMap>
+    <select id="selectAccountIpByNull" resultMap="AccountIp">
+        SELECT * FROM AACCOUNTIP
+    </select>
+    <select id="selectAccountIpById" resultMap="AccountIp">
+        SELECT * FROM AACCOUNTIP WHERE IID=#{accountIpId}
+    </select>
+    <delete id="deleteAccountIp">
+    	  DELETE FROM AACCOUNTIP WHERE IID=#{accountIpId}
+    </delete> 
+    <update id="updateAccountIp"  parameterType="com.comverse.timesheet.web.bean.system.AccountIp" >
+    	UPDATE RROLE
+    	<set>
+    		<if test="ip!=null">
+	   			IIP=#{ip}
+	   		</if>
+	   		<if test="netmask!=null">
+	   			, NNETMASK=#{netmask}
+	   		</if>
+	   		<if test="accountName!=null">
+	   			, AACCOUNTNAME=#{accountName}
+	   		</if>
+   		</set>
+   		<where>IID=#{id}</where>
+    </update>
+    <!--     IP address management end -->
+    <!--     log management start -->
+    <insert id="addAdminLog" parameterType="com.comverse.timesheet.web.bean.system.AdminLog" useGeneratedKeys="true" keyProperty="IID"> 
+        INSERT INTO AACCOUNTIP (TTIME,LLEVEL,AACCOUNT,IIP,DDESCRITION) VALUES(#{time},#{level},#{account},#{ip},#{descrition}) 
+    </insert>
+    <!--     log management end -->
+</mapper>  

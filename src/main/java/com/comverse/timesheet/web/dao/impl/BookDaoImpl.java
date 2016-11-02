@@ -1,5 +1,6 @@
 package com.comverse.timesheet.web.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mortbay.log.Log;
@@ -8,14 +9,22 @@ import org.springframework.stereotype.Repository;
 import com.comverse.timesheet.web.bean.book.BookTemporary;
 import com.comverse.timesheet.web.dao.IBookDao;
 import com.comverse.timesheet.web.dao.ITestTableDAO;
+import com.comverse.timesheet.web.dto.BookTemporaryDTO;
 import com.comverse.timesheet.web.util.BasicSqlSupport;
 
 @Repository
 public class BookDaoImpl extends BasicSqlSupport implements IBookDao {
 
-	public List<BookTemporary> findTemporaryBook() throws Exception {
+	public List<BookTemporaryDTO> findTemporaryBook() throws Exception {
 		Log.debug("查询所有的书籍信息");
-		return session.selectList("mybatis.mapper.Book.selectBookByNull");
+		List<BookTemporary>bookTemporaryList = session.selectList("mybatis.mapper.Book.selectBookByNull");
+		List<BookTemporaryDTO>bookTemporaryDTOList = new ArrayList<BookTemporaryDTO>();
+		if((null != bookTemporaryList)&&(0!=bookTemporaryList.size())) {
+			for (BookTemporary bookTemporary : bookTemporaryList) {
+				bookTemporaryDTOList.add(BookTemporary.conversionBookTemporary(bookTemporary));
+			}
+		}
+		return bookTemporaryDTOList;
 	}
 
 	public boolean addTemporaryBook(BookTemporary bookTemporary) throws Exception {

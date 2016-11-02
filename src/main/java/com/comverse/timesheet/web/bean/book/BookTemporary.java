@@ -1,13 +1,18 @@
 package com.comverse.timesheet.web.bean.book;
 
+import com.comverse.timesheet.web.BookEnum;
+import com.comverse.timesheet.web.bean.author.Author;
+import com.comverse.timesheet.web.dto.BookTemporaryDTO;
+
 public class BookTemporary {
 	private int id;
 	private String bookName;
-	private int authorId;
+//	private int authorId;
+	private Author author;
 	private int bookType;
 	private String bookSynopsis;
 	private String bookFile;
-	private String createFile;
+	private String createTime;
 	private String modifyTime;
 	public int getId() {
 		return id;
@@ -21,12 +26,18 @@ public class BookTemporary {
 	public void setBookName(String bookName) {
 		this.bookName = bookName;
 	}
-	public int getAuthorId() {
-		return authorId;
+	public Author getAuthor() {
+		return author;
 	}
-	public void setAuthorId(int authorId) {
-		this.authorId = authorId;
+	public void setAuthor(Author author) {
+		this.author = author;
 	}
+	//	public int getAuthorId() {
+//		return authorId;
+//	}
+//	public void setAuthorId(int authorId) {
+//		this.authorId = authorId;
+//	}
 	public int getBookType() {
 		return bookType;
 	}
@@ -45,11 +56,11 @@ public class BookTemporary {
 	public void setBookFile(String bookFile) {
 		this.bookFile = bookFile;
 	}
-	public String getCreateFile() {
-		return createFile;
+	public String getCreateTime() {
+		return createTime;
 	}
-	public void setCreateFile(String createFile) {
-		this.createFile = createFile;
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
 	}
 	public String getModifyTime() {
 		return modifyTime;
@@ -60,12 +71,12 @@ public class BookTemporary {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Book [id=");
+		builder.append("BookTemporary [id=");
 		builder.append(id);
 		builder.append(", bookName=");
 		builder.append(bookName);
-		builder.append(", authorId=");
-		builder.append(authorId);
+		builder.append(", author=");
+		builder.append(author);
 		builder.append(", bookType=");
 		builder.append(bookType);
 		builder.append(", bookSynopsis=");
@@ -73,10 +84,23 @@ public class BookTemporary {
 		builder.append(", bookFile=");
 		builder.append(bookFile);
 		builder.append(", createFile=");
-		builder.append(createFile);
+		builder.append(createTime);
 		builder.append(", modifyTime=");
 		builder.append(modifyTime);
 		builder.append("]");
 		return builder.toString();
+	}
+	public static BookTemporaryDTO conversionBookTemporary(BookTemporary bookTemporary) {
+		BookTemporaryDTO bookTemporaryDTO = new BookTemporaryDTO();
+		bookTemporaryDTO.setId(bookTemporary.getId());
+		bookTemporaryDTO.setBookName(bookTemporary.getBookName());
+		bookTemporaryDTO.setAuthor(bookTemporary.getAuthor());
+		bookTemporaryDTO.setBookType(bookTemporary.getBookType());
+		bookTemporaryDTO.setBookTypeStr(BookEnum.getValue(bookTemporary.getBookType()));
+		bookTemporaryDTO.setBookSynopsis(bookTemporary.getBookSynopsis());
+		bookTemporaryDTO.setBookFile(bookTemporary.getBookFile());
+		bookTemporaryDTO.setCreateTime(bookTemporary.getCreateTime());
+		bookTemporaryDTO.setModifyTime(bookTemporary.getModifyTime());
+		return bookTemporaryDTO;
 	}
 }

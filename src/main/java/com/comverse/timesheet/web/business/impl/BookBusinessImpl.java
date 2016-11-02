@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.comverse.timesheet.web.bean.book.BookTemporary;
 import com.comverse.timesheet.web.business.IBookBusiness;
 import com.comverse.timesheet.web.dao.IBookDao;
+import com.comverse.timesheet.web.dto.BookTemporaryDTO;
 @Component
 public class BookBusinessImpl implements IBookBusiness{
 	private static final Logger log = Logger.getLogger(BookBusinessImpl.class);
@@ -29,7 +30,7 @@ public class BookBusinessImpl implements IBookBusiness{
 		}
 		return addResult;
 	}
-	public List<BookTemporary> findTemporaryBook(){
+	public List<BookTemporaryDTO> findTemporaryBook(){
 		Log.debug("查询所有书籍。");
 		try {
 			return bookDao.findTemporaryBook();

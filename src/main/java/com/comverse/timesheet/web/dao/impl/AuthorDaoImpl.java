@@ -1,6 +1,7 @@
 package com.comverse.timesheet.web.dao.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,14 +10,22 @@ import org.springframework.stereotype.Repository;
 
 import com.comverse.timesheet.web.bean.author.Author;
 import com.comverse.timesheet.web.dao.IAuthorDao;
+import com.comverse.timesheet.web.dto.AuthorDTO;
 import com.comverse.timesheet.web.util.BasicSqlSupport;
 
 @Repository
 public class AuthorDaoImpl extends BasicSqlSupport implements IAuthorDao {
 
-	public List<Author> findAuthor() throws Exception {
+	public List<AuthorDTO> findAuthor() throws Exception {
 		Log.debug("查询所有的作者信息");
-		return session.selectList("mybatis.mapper.Author.selectAuthorByNull");
+		List<Author> authorList = session.selectList("mybatis.mapper.Author.selectAuthorByNull");
+		List<AuthorDTO> authorDTOList = new ArrayList<AuthorDTO>();
+		if((null != authorList)&&(0!=authorList.size())) {
+			for (Author author : authorList) {
+				authorDTOList.add(Author.conversionAutho(author));
+			}
+		}
+		return authorDTOList;
 	}
 
 	public boolean addAuthor(Author author) throws Exception {

@@ -15,6 +15,7 @@ import com.comverse.timesheet.web.business.IAuthorBusiness;
 import com.comverse.timesheet.web.business.IBookBusiness;
 import com.comverse.timesheet.web.dao.IAuthorDao;
 import com.comverse.timesheet.web.dao.IBookDao;
+import com.comverse.timesheet.web.dto.AuthorDTO;
 @Component
 public class AuthorBusinessImpl implements IAuthorBusiness{
 	private static final Logger log = Logger.getLogger(AuthorBusinessImpl.class);
@@ -32,7 +33,7 @@ public class AuthorBusinessImpl implements IAuthorBusiness{
 		}
 		return addResult;
 	}
-	public List<Author> findAuthor(){
+	public List<AuthorDTO> findAuthor(){
 		Log.debug("查询所有作者。");
 		try {
 			return authorDao.findAuthor();

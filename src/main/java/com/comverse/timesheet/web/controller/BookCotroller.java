@@ -9,13 +9,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.comverse.timesheet.web.bean.book.BookTemporary;
+import com.comverse.timesheet.web.business.IAuthorBusiness;
 import com.comverse.timesheet.web.business.IBookBusiness;
+import com.comverse.timesheet.web.dto.AuthorAndBookDTO;
 
 @Controller
-public class BookCotroller {
+public class BookCotroller  extends BaseController{
 	private static final Logger log = Logger.getLogger(BookCotroller.class);
 	@Autowired
     private IBookBusiness bookBusiness; 
+	@Autowired
+	private IAuthorBusiness authorBusiness;
 	/**
 	 *  跳转图书管理首页
 	 * @return
@@ -28,10 +32,13 @@ public class BookCotroller {
 	}
 	@RequestMapping("book/getTemporaryBook")
 	@ResponseBody
-	public BookTemporary getTemporaryBook(@RequestParam(value = "bookId", required = true)int bookId,ModelMap modelMap) {
+	public AuthorAndBookDTO getTemporaryBook(@RequestParam(value = "bookId", required = true)int bookId,ModelMap modelMap) {
 		log.debug("根据书籍ID查找对应的书籍信息id:" +bookId);
+		AuthorAndBookDTO authorAndBookDTO = new AuthorAndBookDTO();
 		if(0!=bookId) {
-			return bookBusiness.getTemporaryBook(bookId);
+			authorAndBookDTO.setBookTemporary(bookBusiness.getTemporaryBook(bookId));
+			authorAndBookDTO.setAuthorList(authorBusiness.findAuthor());
+			return authorAndBookDTO;
 		}
 		return null;
 	}
@@ -39,9 +46,14 @@ public class BookCotroller {
 	@ResponseBody
 	public boolean updateTemporaryBook(BookTemporary book) {
 		log.debug("编辑书籍信息为book:" + book);
+		boolean updateResult = false;
 		if(null != book) {
-			return bookBusiness.updateTemporaryBook(book);
+			updateResult = bookBusiness.updateTemporaryBook(book);
+			if(updateResult) 
+				success("编辑书籍信息成功。book:"+book);
+			else
+				fail("编辑书籍信息失败。book:"+book);
 		}
-		return false;
+		return updateResult;
 	}
 }

@@ -3,82 +3,106 @@ package com.comverse.timesheet.web.bean.system;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
 
-public class Role {
-	private long id;					//标识
-	private String name;				//名称
-	private long type;					//类型	Int	组织角色 1020,业务角色 1030,安全角色 1040,其他角色 1050
-	private String desc;				//备注
-	private String createTime;
-	
-	private List<Menus> menusList = new ArrayList<Menus>(); //角色和菜单关联实体（中间实体）
+
+/**
+ * Aaccount entity. @author MyEclipse Persistence Tools
+ */
+@Entity
+@Table(name = "RROLE")
+public class Role{
+
+
+	private long id;		//角色ID
+	private String name;	//角色名称
+	private String desc;	//角色备注
+	private List<Permission> permissionList = new ArrayList<Permission>();//对应权限   
+
+
+	/** default constructor */
+	public Role() {
+	}
+
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Role [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", desc=");
+		builder.append(desc);
+		builder.append(", permissionList=");
+		builder.append(permissionList);
+		builder.append("]");
+		return builder.toString();
+	}
+
+
 
 	public long getId() {
 		return id;
 	}
 
+
+
 	public void setId(long id) {
 		this.id = id;
 	}
+
+
 
 	public String getName() {
 		return name;
 	}
 
+
+
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public long getType() {
-		return type;
-	}
 
-	public void setType(long type) {
-		this.type = type;
-	}
 
 	public String getDesc() {
 		return desc;
 	}
 
+
+
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
 
-	public String getCreateTime() {
-		return createTime;
+
+
+	public List<Permission> getPermissionList() {
+		return permissionList;
 	}
 
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
+
+
+	public void setPermissionList(List<Permission> permissionList) {
+		this.permissionList = permissionList;
 	}
 
-	public List<Menus> getMenusList() {
-		return menusList;
-	}
 
-	public void setMenusList(List<Menus> menusList) {
-		this.menusList = menusList;
-	}
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("RoleBean [id=");
-		builder.append(id);
-		builder.append(", name=");
-		builder.append(name);
-		builder.append(", type=");
-		builder.append(type);
-		builder.append(", desc=");
-		builder.append(desc);
-		builder.append(", createTime=");
-		builder.append(createTime);
-		builder.append(", menusList=");
-		builder.append(menusList);
-		builder.append("]");
-		return builder.toString();
+	public static Role updateRole(Role oldRole,Role role){
+		oldRole.setName(role.getName());
+		oldRole.setDesc(role.getDesc());
+		return oldRole;
 	}
-
-	
 }

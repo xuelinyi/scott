@@ -4,9 +4,10 @@ import java.util.List;
 
 import com.comverse.timesheet.web.bean.author.Author;
 import com.comverse.timesheet.web.bean.book.BookTemporary;
+import com.comverse.timesheet.web.dto.AuthorDTO;
 
 public interface IAuthorBusiness {
-	public List<Author> findAuthor();
+	public List<AuthorDTO> findAuthor();
 	public boolean addAuthor(Author author);
 	public Author getAuthor(int authorId);
 	public boolean updateAuthor(Author author);

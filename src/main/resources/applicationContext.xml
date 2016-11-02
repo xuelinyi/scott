@@ -193,5 +193,7 @@
      <bean id="ruleImpl" class="com.comverse.timesheet.web.business.impl.RuleImpl"> 
     </bean> 
     <bean id="luceneDemoBusiness" class="com.comverse.timesheet.web.business.impl.LuceneDemoBusinessImpl"> 
-    </bean> 
+    </bean>
+    <bean id="systemBusiness" class="com.comverse.timesheet.web.business.impl.SystemBusinessImpl"> 
+    </bean>  
 </beans>

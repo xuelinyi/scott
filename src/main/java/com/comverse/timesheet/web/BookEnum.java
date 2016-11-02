@@ -1,9 +1,9 @@
 package com.comverse.timesheet.web;
 
-public enum AuthorEnum {
-	MAN(10000,"男"){
+public enum BookEnum {
+	ROMANCE(10000,"言情"){
 		
-	},WOMAN(10001,"女");
+	},MOTION (10001,"动作");
 	
 	private int sexFlag;
 	private String value;
@@ -19,13 +19,13 @@ public enum AuthorEnum {
 		this.value = value;
 	}
 
-	private AuthorEnum(int sexFlag,String value) {
+	private BookEnum(int sexFlag,String value) {
         this.sexFlag = sexFlag;
         this.value = value;
     }
 	
 	public static String getValue(int sexFlag) {
-		for (AuthorEnum c : AuthorEnum.values()) {  
+		for (BookEnum c : BookEnum.values()) {  
             if (c.getSexFlag() == sexFlag) {  
                 return c.value;  
             }  
@@ -34,6 +34,6 @@ public enum AuthorEnum {
 		
 	}
 	public static void main(String[] args) {
-		System.out.println(AuthorEnum.getValue(10000));
+		System.out.println(BookEnum.getValue(10000));
 	}
 }

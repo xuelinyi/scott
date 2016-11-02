@@ -38,7 +38,7 @@
             <section class="wrapper site-min-height">
                <section class="panel">
                   <header class="panel-heading">
-                     <span class="label label-primary">Editable Table</span>
+                     <span class="label label-primary">书籍管理</span>
                      <span class="tools pull-right">
                      <a href="javascript:;" class="fa fa-chevron-down"></a>
                      <a href="javascript:;" class="fa fa-times"></a>
@@ -59,10 +59,10 @@
 	                        <display:setProperty name="sort.amount" value="list"></display:setProperty>
 	                        <display:column property="id" title="标识" sortable="true" />
 							<display:column property="bookName" title="书籍名称" sortable="true"/>
-							<display:column property="authorId" title="作者" />
-							<display:column property="bookType" title="书籍类型" />
+							<display:column property="author.name" title="作者" />
+							<display:column property="bookTypeStr" title="书籍类型" />
 							<display:column property="bookSynopsis" title="书籍简介" />
-							<display:column property="createFile" title="创建时间" />
+							<display:column property="createTime" title="创建时间" />
 							<display:column title="操作"><a href="javascript:void(0)" onclick="getBook(<c:out value="${book.id}"/>)">编辑</a></display:column>
 						</display:table>
                         </table>
@@ -70,6 +70,8 @@
                      <div id="addAndUpdateBook" style="display: none;">
 							<input id="bookId" style="display: none;">
 							书籍名称:<input id="bookName"/><br/>
+							作者:<select id="authorId">
+							   </select><br/>
 							书籍类型:<select id="bookType">
 										<option value="10000">言情</option>
 										<option value="10001">动作</option>

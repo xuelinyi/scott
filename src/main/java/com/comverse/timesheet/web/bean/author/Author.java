@@ -1,5 +1,6 @@
 package com.comverse.timesheet.web.bean.author;
 
+import com.comverse.timesheet.web.AuthorEnum;
 import com.comverse.timesheet.web.dto.AuthorDTO;
 
 public class Author {
@@ -72,13 +73,13 @@ public class Author {
 		builder.append("]");
 		return builder.toString();
 	}
-	public AuthorDTO conversionAutho(Author author){
+	public static AuthorDTO conversionAutho(Author author){
 		AuthorDTO authorDTO = new AuthorDTO();
 		authorDTO.setId(author.getId());
 		authorDTO.setName(author.getName());
 		authorDTO.setAge(author.getAge());
 		authorDTO.setSex(author.getSex());
-		authorDTO.setSexStr();
+		authorDTO.setSexStr(AuthorEnum.getValue(author.getSex()));
 		authorDTO.setBirthday(author.getBirthday());
 		authorDTO.setCreateTime(author.getCreateTime());
 		authorDTO.setModifyTime(author.getModifyTime());
