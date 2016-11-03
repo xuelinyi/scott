@@ -34,7 +34,7 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="../system/userList">
+                  <a href="../system/accountList">
                     用户管理
                   </a>
                 </li>

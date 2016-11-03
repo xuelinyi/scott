@@ -7,9 +7,10 @@ import com.comverse.timesheet.web.bean.system.AccountIp;
 import com.comverse.timesheet.web.bean.system.AdminLog;
 import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
+import com.comverse.timesheet.web.dto.AccountDTO;
 
 public interface ISystemBusiness {
-	List<Account> findAccount();
+	List<AccountDTO> findAccount();
 	Account getAccount(int accountId);
 	boolean addAccount(Account account);
 	boolean updateAccount(Account account);
@@ -22,7 +23,7 @@ public interface ISystemBusiness {
 	boolean deleteRole(int roleId);
 	
 	List<AccountIp> findAccountIp();
-	Role getAccountIp(int accountIpId);
+	AccountIp getAccountIp(int accountIpId);
 	boolean addAccountIp(AccountIp accountIp);
 	boolean updateAccountIp(AccountIp accountIp);
 	boolean deleteAccountIp(int accountIpId);

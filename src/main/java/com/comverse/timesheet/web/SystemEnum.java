@@ -2,14 +2,17 @@ package com.comverse.timesheet.web;
 
 public enum SystemEnum {
 	DEBUG(0x10,"调试"),INFO (0x20,"信息"),WARN (0x30,"告警"),
-	ERROR (0x40,"错误"),SUCCESS (0x50,"成功"),FAIL (0x60,"失败");
+	ERROR (0x40,"错误"),SUCCESS (0x50,"成功"),FAIL (0x60,"失败"),
+	LOGIN_NORMAL(10000,"正常"),LOGIN_ABNORMAL(10001,"异常");
 	
 	private int logFlag;
 	private String value;
 	public int getLogFlag() {
 		return logFlag;
 	}
-
+	public String getValue() {
+		return value;
+	}
 	public void setLogFlag(int logFlag) {
 		this.logFlag = logFlag;
 	}
@@ -33,6 +36,6 @@ public enum SystemEnum {
 		
 	}
 	public static void main(String[] args) {
-		System.out.println(SystemEnum.DEBUG.logFlag);
+		System.out.println(SystemEnum.LOGIN_NORMAL.getValue());
 	}
 }

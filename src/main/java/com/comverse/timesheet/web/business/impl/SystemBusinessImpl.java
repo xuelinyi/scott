@@ -15,12 +15,13 @@ import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
 import com.comverse.timesheet.web.business.ISystemBusiness;
 import com.comverse.timesheet.web.dao.ISystemDao;
+import com.comverse.timesheet.web.dto.AccountDTO;
 @Component
 public class SystemBusinessImpl implements ISystemBusiness{
 	private static final Logger log = Logger.getLogger(SystemBusinessImpl.class);
 	@Resource
 	private ISystemDao systemDao;
-	public List<Account> findAccount() {
+	public List<AccountDTO> findAccount() {
 		log.debug("查询所有的账户信息");
 		try {
 			return systemDao.findAccount();
@@ -146,7 +147,7 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		return Collections.EMPTY_LIST;
 	}
 
-	public Role getAccountIp(int accountIpId) {
+	public AccountIp getAccountIp(int accountIpId) {
 		log.debug("根据账户IP的ID查找对应的IP信息.accountId:" + accountIpId);
 		try {
 			return systemDao.getAccountIp(accountIpId);

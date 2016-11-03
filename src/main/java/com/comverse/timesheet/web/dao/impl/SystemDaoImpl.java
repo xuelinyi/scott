@@ -1,23 +1,36 @@
 package com.comverse.timesheet.web.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Repository;
 
 import com.comverse.timesheet.web.bean.system.Account;
 import com.comverse.timesheet.web.bean.system.AccountIp;
+import com.comverse.timesheet.web.bean.system.AccountRoleRelation;
 import com.comverse.timesheet.web.bean.system.AdminLog;
 import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
 import com.comverse.timesheet.web.dao.ISystemDao;
+import com.comverse.timesheet.web.dto.AccountDTO;
 import com.comverse.timesheet.web.util.BasicSqlSupport;
-
+@Repository
 public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	private static final Logger log = Logger.getLogger(SystemDaoImpl.class);
 
-	public List<Account> findAccount() throws Exception {
+	public List<AccountDTO> findAccount() throws Exception {
 		log.debug("查询所有的用户信息");
-		return session.selectList("mybatis.mapper.System.selectAccountByNull");
+		List<Account> accountList = session.selectList("mybatis.mapper.System.selectAccountByNull");
+		List<AccountDTO> accountDTOList = new ArrayList<AccountDTO>();
+		if((null != accountList)&&(0!=accountList.size())) {
+			for (Account account : accountList) {
+				accountDTOList.add(Account.conversionAccount(account));
+			}
+		}
+		return accountDTOList;
 	}
 
 	public Account getAccount(int accountId) throws Exception {
@@ -31,9 +44,22 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean addAccount(Account account) throws Exception {
 		log.debug("增加账户信息.account:" + account);
 		if((null != account)&&(0==account.getId())) {
-			int result = session.insert("mybatis.mapper.System.addAccount", account);
-			if(result > 0) {
-				return true;
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			account.setCreateTime(formatter.format(new Date()));
+			int addAccountResult = session.insert("mybatis.mapper.System.addAccount", account);
+			if(addAccountResult > 0) {
+				List<Role>  roleList = account.getRoleList();
+				List<AccountRoleRelation> accountRoleRelationList = new ArrayList<AccountRoleRelation>();
+				if(null != roleList) {
+					for (Role role : roleList) {
+						AccountRoleRelation AccountRoleRelation = new AccountRoleRelation(account, role);
+						accountRoleRelationList.add(AccountRoleRelation);
+					}
+				}
+				int addAccountRoleRelaResult = session.insert("mybatis.mapper.System.addAccountRoleRelation", accountRoleRelationList);
+				if(addAccountRoleRelaResult > 0) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -112,7 +138,7 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 		return session.selectList("mybatis.mapper.System.selectAccountIpByNull");
 	}
 
-	public Role getAccountIp(int accountIpId) throws Exception {
+	public AccountIp getAccountIp(int accountIpId) throws Exception {
 		log.debug("根据账户ID查询对应的用户IP信息accountIpId:"+accountIpId);
 		if(0 != accountIpId) {
 			return session.selectOne("mybatis.mapper.System.selectAccountIpById",accountIpId);

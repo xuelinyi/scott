@@ -7,9 +7,10 @@ import com.comverse.timesheet.web.bean.system.AccountIp;
 import com.comverse.timesheet.web.bean.system.AdminLog;
 import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
+import com.comverse.timesheet.web.dto.AccountDTO;
 
 public interface ISystemDao {
-	List<Account> findAccount() throws Exception;
+	List<AccountDTO> findAccount() throws Exception;
 	Account getAccount(int accountId) throws Exception;
 	boolean addAccount(Account account) throws Exception;
 	boolean updateAccount(Account account) throws Exception;
@@ -22,7 +23,7 @@ public interface ISystemDao {
 	boolean deleteRole(int roleId) throws Exception;
 	
 	List<AccountIp> findAccountIp() throws Exception;
-	Role getAccountIp(int accountIpId) throws Exception;
+	AccountIp getAccountIp(int accountIpId) throws Exception;
 	boolean addAccountIp(AccountIp accountIp) throws Exception;
 	boolean updateAccountIp(AccountIp accountIp) throws Exception;
 	boolean deleteAccountIp(int accountIpId) throws Exception;
