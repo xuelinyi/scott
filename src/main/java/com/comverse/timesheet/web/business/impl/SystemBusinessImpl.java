@@ -1,5 +1,6 @@
 package com.comverse.timesheet.web.business.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,12 +11,17 @@ import org.springframework.stereotype.Component;
 
 import com.comverse.timesheet.web.bean.system.Account;
 import com.comverse.timesheet.web.bean.system.AccountIp;
+import com.comverse.timesheet.web.bean.system.AccountRoleRelation;
 import com.comverse.timesheet.web.bean.system.AdminLog;
 import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
+import com.comverse.timesheet.web.bean.system.RolePermissionRelation;
+import com.comverse.timesheet.web.bean.system.SysConfigure;
 import com.comverse.timesheet.web.business.ISystemBusiness;
 import com.comverse.timesheet.web.dao.ISystemDao;
 import com.comverse.timesheet.web.dto.AccountDTO;
+import com.comverse.timesheet.web.dto.AdminLogDTO;
+import com.comverse.timesheet.web.dto.RoleDTO;
 @Component
 public class SystemBusinessImpl implements ISystemBusiness{
 	private static final Logger log = Logger.getLogger(SystemBusinessImpl.class);
@@ -42,24 +48,52 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		}
 		return null;
 	}
-
+	
 	public boolean addAccount(Account account) {
-		log.debug("增加角色信息。account:" + account);
+		log.debug("增加账户信息。account:" + account);
 		if((null != account)&&(0 == account.getId())) {
 			try {
-				return systemDao.addAccount(account);
+				boolean addAccountResult = systemDao.addAccount(account);
+				if(addAccountResult){
+					boolean addAccountRoleRelaResult = systemDao.addAccountRoleRelation(accountToAccountRoleRelation(account));
+					if(addAccountRoleRelaResult) {
+						return true;
+					}
+				}
 			} catch (Exception e) {
-				log.error("增加角色信息产生异常e:"+e);
+				log.error("增加账户信息产生异常e:"+e);
 			}
 		}
 		return false;
 	}
-
+	private List<AccountRoleRelation> accountToAccountRoleRelation(Account account) {
+		log.debug("将account转化为与role的关联关系。account:"+account);
+		List<AccountRoleRelation> accountRoleRelationList = new ArrayList<AccountRoleRelation>();
+		if(null != account) {
+			List<Role>  roleList = account.getRoleList();
+			if(null != roleList) {
+				for (Role role : roleList) {
+					AccountRoleRelation AccountRoleRelation = new AccountRoleRelation(account, role);
+					accountRoleRelationList.add(AccountRoleRelation);
+				}
+			}
+		}
+		return accountRoleRelationList;
+	}
 	public boolean updateAccount(Account account) {
 		log.debug("编辑角色信息。account:"+account);
 		if((null != account)&&(0 != account.getId())) {
 			try {
-				return systemDao.updateAccount(account);
+				boolean updateAccountResult = systemDao.updateAccount(account);
+				if(updateAccountResult) {
+					boolean deleteAccountRoleRelationResult = systemDao.deleteAccountRoleRelation(account.getId());
+					if(deleteAccountRoleRelationResult) {
+						boolean addAccountRoleRelaResult = systemDao.addAccountRoleRelation(accountToAccountRoleRelation(account));
+						if(addAccountRoleRelaResult) {
+							return true;
+						}
+					}
+				}
 			} catch (Exception e) {
 				log.error("编辑角色信息产生异常e:"+e);
 			}
@@ -71,7 +105,13 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		log.debug("根据账户ID删除账户信息。accountID:"+accountId);
 		if(0!=accountId) {
 			try {
-				return systemDao.deleteAccount(accountId);
+				boolean deleteAccountResult = systemDao.deleteAccount(accountId);
+				if(deleteAccountResult) {
+					boolean deleteAccountRoleRelationResult = systemDao.deleteAccountRoleRelation(accountId);
+					if(deleteAccountRoleRelationResult) {
+						return true;
+					}
+				}
 			} catch (Exception e) {
 				log.error("根据账户ID删除账户信息产生异常e:"+e);
 			}
@@ -79,7 +119,7 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		return false;
 	}
 
-	public List<Role> findRole() {
+	public List<RoleDTO> findRole() {
 		log.debug("查询所有的角色信息");
 		try {
 			return systemDao.findRole();
@@ -105,7 +145,13 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		log.debug("增加角色信息role:"+role);
 		if((null != role)&&(0==role.getId())){
 			try {
-				return systemDao.addRole(role);
+				boolean addRoleResult = systemDao.addRole(role);
+				if(addRoleResult) {
+					boolean addRoleRoleRelaResult = systemDao.addRolePermissionRelation(roleToRolePermissionRelation(role));
+					if(addRoleRoleRelaResult) {
+						return true;
+					}
+				}
 			} catch (Exception e) {
 				log.error("增加角色信息产生异常e:"+e);
 			}
@@ -117,7 +163,15 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		log.debug("编辑角色信息。role:"+role);
 		if((null != role)&&(0!=role.getId())) {
 			try {
-				return systemDao.updateRole(role);
+				boolean updateRoleResult = systemDao.updateRole(role);
+				if(updateRoleResult) {
+					boolean deleteRoleRoleRelationResult = systemDao.deleteRolePermissionRelation(role.getId());
+					if(deleteRoleRoleRelationResult) {
+						if(systemDao.addRolePermissionRelation(roleToRolePermissionRelation(role))){
+							return true;
+						}
+					}
+				}
 			} catch (Exception e) {
 				log.error("编辑角色信息产生异常e:"+e);
 			}
@@ -136,7 +190,20 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		}
 		return false;
 	}
-
+	private List<RolePermissionRelation> roleToRolePermissionRelation(Role role) {
+		log.debug("将role转化为与Permission的关联关系。role:"+role);
+		List<RolePermissionRelation> rolePermissionRelationList = new ArrayList<RolePermissionRelation>();
+		if(null != role) {
+			List<Permission>  permissionList = role.getPermissionList();
+			if(null != permissionList) {
+				for (Permission permission : permissionList) {
+					RolePermissionRelation rolePermissionRelation = new RolePermissionRelation(role, permission);
+					rolePermissionRelationList.add(rolePermissionRelation);
+				}
+			}
+		}
+		return rolePermissionRelationList;
+	}
 	public List<AccountIp> findAccountIp() {
 		log.debug("查询所有的账户IP信息");
 		try {
@@ -215,4 +282,35 @@ public class SystemBusinessImpl implements ISystemBusiness{
 		
 	}
 
+	public List<AdminLogDTO> findAdminLog() {
+		log.debug("查询所有的日志信息");
+		try {
+			return systemDao.findAdminLog();
+		}catch(Exception e) {
+			log.error("查询日志信息失败e:"+e);	
+		}
+		return Collections.EMPTY_LIST;
+	}
+
+	public boolean updateSysconfigure(SysConfigure sysConfigure) {
+		log.debug("修改系统配置信息。sysConfigure：" +sysConfigure);
+		if(null != sysConfigure){
+			try {
+				return systemDao.updateSysconfigure(sysConfigure);
+			}catch(Exception e) {
+				log.error("修改配置信息失败e:"+e);
+			}
+		}
+		return false;
+	}
+
+	public List<SysConfigure> findSysConfigureList() {
+		log.debug("查询所有的系统配置信息。");
+		try {
+			return systemDao.findSysConfigureList();
+		}catch(Exception e) {
+			log.error("查询所有的系统配置信息失败e:"+e);
+		}
+		return Collections.EMPTY_LIST;
+	}
 }

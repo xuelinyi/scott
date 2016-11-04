@@ -14,8 +14,12 @@ import com.comverse.timesheet.web.bean.system.AccountRoleRelation;
 import com.comverse.timesheet.web.bean.system.AdminLog;
 import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
+import com.comverse.timesheet.web.bean.system.RolePermissionRelation;
+import com.comverse.timesheet.web.bean.system.SysConfigure;
 import com.comverse.timesheet.web.dao.ISystemDao;
 import com.comverse.timesheet.web.dto.AccountDTO;
+import com.comverse.timesheet.web.dto.AdminLogDTO;
+import com.comverse.timesheet.web.dto.RoleDTO;
 import com.comverse.timesheet.web.util.BasicSqlSupport;
 @Repository
 public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
@@ -48,18 +52,7 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 			account.setCreateTime(formatter.format(new Date()));
 			int addAccountResult = session.insert("mybatis.mapper.System.addAccount", account);
 			if(addAccountResult > 0) {
-				List<Role>  roleList = account.getRoleList();
-				List<AccountRoleRelation> accountRoleRelationList = new ArrayList<AccountRoleRelation>();
-				if(null != roleList) {
-					for (Role role : roleList) {
-						AccountRoleRelation AccountRoleRelation = new AccountRoleRelation(account, role);
-						accountRoleRelationList.add(AccountRoleRelation);
-					}
-				}
-				int addAccountRoleRelaResult = session.insert("mybatis.mapper.System.addAccountRoleRelation", accountRoleRelationList);
-				if(addAccountRoleRelaResult > 0) {
-					return true;
-				}
+				return true;
 			}
 		}
 		return false;
@@ -68,6 +61,8 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean updateAccount(Account account) throws Exception {
 		log.debug("修改账户信息account:"+account);
 		if((null != account)&&(0!=account.getId())) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			account.setCreateTime(formatter.format(new Date()));
 			int result = session.update("mybatis.mapper.System.updateAccount", account);
 			if(result > 0) {
 				return true;
@@ -76,6 +71,28 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 		return false;
 	}
 
+	public boolean deleteAccountRoleRelation(int accountId) throws Exception  {
+		log.debug("根据账户ID删除对应的角色信息accountId ： " +accountId);
+		if(0!=accountId) {
+			int result = session.delete("mybatis.mapper.System.deleteAccountRoleRelation",accountId);
+			if(result > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean addAccountRoleRelation(List<AccountRoleRelation> accountRoleRelationList) throws Exception  {
+		log.debug("给账户增加角色信息。accountRoleRelationList ：" + accountRoleRelationList);
+		if((null != accountRoleRelationList)&&(0 != accountRoleRelationList.size())) {
+			int addAccountRoleRelaResult = session.insert("mybatis.mapper.System.addAccountRoleRelation", accountRoleRelationList);
+			if(addAccountRoleRelaResult > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean deleteAccount(int accountId) throws Exception {
 		log.debug("根据账户ID删除对应的账户信息accountID:"+accountId);
 		if(0!=accountId) {
@@ -87,9 +104,16 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 		return false;
 	}
 
-	public List<Role> findRole() throws Exception {
+	public List<RoleDTO> findRole() throws Exception {
 		log.debug("查询所有的角色信息");
-		return session.selectList("mybatis.mapper.System.selectRoleByNull");
+		List<Role> roleList = session.selectList("mybatis.mapper.System.selectRoleByNull");
+		List<RoleDTO> roleDTOList = new ArrayList<RoleDTO>();
+		if((null != roleList)&&(0!=roleList.size())) {
+			for (Role role : roleList) {
+				roleDTOList.add(Role.conversionRole(role));
+			}
+		}
+		return roleDTOList;
 	}
 
 	public Role getRole(int roleId) throws Exception {
@@ -103,6 +127,8 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean addRole(Role role) throws Exception {
 		log.debug("增加角色信息.role:" + role);
 		if((null != role)&&(0==role.getId())) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			role.setCreateTime(formatter.format(new Date()));
 			int result = session.insert("mybatis.mapper.System.addRole", role);
 			if(result > 0) {
 				return true;
@@ -114,6 +140,8 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean updateRole(Role role) throws Exception {
 		log.debug("修改角色信息role:"+role);
 		if((null != role)&&(0!=role.getId())) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			role.setCreateTime(formatter.format(new Date()));
 			int result = session.update("mybatis.mapper.System.updateRole", role);
 			if(result > 0) {
 				return true;
@@ -133,6 +161,28 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 		return false;
 	}
 
+	public boolean deleteRolePermissionRelation(int roleId) throws Exception  {
+		log.debug("根据账户ID删除对应的权限关联信息roleId ： " +roleId);
+		if(0!=roleId) {
+			int result = session.delete("mybatis.mapper.System.deleteRolePermissionRelation",roleId);
+			if(result > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean addRolePermissionRelation(List<RolePermissionRelation> rolePermissionRelationList) throws Exception  {
+		log.debug("给角色增加权限信息。rolePermissionRelationList ：" + rolePermissionRelationList);
+		if((null != rolePermissionRelationList)&&(0 != rolePermissionRelationList.size())) {
+			int addAccountRoleRelaResult = session.insert("mybatis.mapper.System.addRolePermissionRelation", rolePermissionRelationList);
+			if(addAccountRoleRelaResult > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public List<AccountIp> findAccountIp() throws Exception {
 		log.debug("查询所有的用户IP信息");
 		return session.selectList("mybatis.mapper.System.selectAccountIpByNull");
@@ -149,6 +199,8 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean addAccountIp(AccountIp accountIp) throws Exception {
 		log.debug("增加用户IP信息.accountIp:" + accountIp);
 		if((null != accountIp)&&(0==accountIp.getId())) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			accountIp.setCreateTime(formatter.format(new Date()));
 			int result = session.insert("mybatis.mapper.System.addAccountIp", accountIp);
 			if(result > 0) {
 				return true;
@@ -160,6 +212,8 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean updateAccountIp(AccountIp accountIp) throws Exception {
 		log.debug("修改用户IP信息accountIp:"+accountIp);
 		if((null != accountIp)&&(0!=accountIp.getId())) {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			accountIp.setCreateTime(formatter.format(new Date()));
 			int result = session.update("mybatis.mapper.System.updateAccountIp", accountIp);
 			if(result > 0) {
 				return true;
@@ -189,5 +243,34 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 		if(null != adminLog) {
 			session.insert("mybatis.mapper.System.addAdminLog",adminLog);
 		}
+	}
+
+	public List<AdminLogDTO> findAdminLog() throws Exception {
+		log.debug("查询所有的日志信息");
+		List<AdminLog> adminLogList = session.selectList("mybatis.mapper.System.selectAdminLogByNull");
+		List<AdminLogDTO> adminLogDTOList = new ArrayList<AdminLogDTO>();
+		if((null != adminLogList)&&(0 != adminLogList.size())){
+			for (AdminLog adminLog : adminLogList) {
+				adminLogDTOList.add(AdminLog.conversionAdminLog(adminLog));
+			}
+		}
+		return adminLogDTOList;
+	}
+
+	public boolean updateSysconfigure(SysConfigure sysConfigure)
+			throws Exception {
+		log.debug("修改系统配置信息。sysConfigure：" +sysConfigure);
+		if((null != sysConfigure)&&(null!=sysConfigure.getId())) {
+			int count = session.update("mybatis.mapper.System.updateAdminLog", sysConfigure);
+			if(count>0) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public List<SysConfigure> findSysConfigureList() throws Exception {
+		log.debug("查询所有的系统配置信息。");
+		return session.selectList("mybatis.mapper.System.selectAdminLogByNull");
 	}
 }

@@ -18,11 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.comverse.timesheet.web.bean.TestTable;
 import com.comverse.timesheet.web.bean.system.Account;
 import com.comverse.timesheet.web.bean.system.AccountIp;
+import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
+import com.comverse.timesheet.web.bean.system.SysConfigure;
 import com.comverse.timesheet.web.business.ISystemBusiness;
 import com.comverse.timesheet.web.business.TestBusiness;
 import com.comverse.timesheet.web.dto.AccountDTO;
+import com.comverse.timesheet.web.dto.AdminLogDTO;
 import com.comverse.timesheet.web.dto.AuthorAndBookDTO;
+import com.comverse.timesheet.web.dto.RoleDTO;
 import com.comverse.timesheet.web.util.PageList;
 
 @Controller
@@ -60,9 +64,9 @@ public class SystemController extends BaseController{
 		}
 		return addResult;
 	}
-	@RequestMapping("/system/updateAccount")
+	@RequestMapping(value="/system/updateAccount", method = RequestMethod.POST, consumes = {"application/json"})
 	@ResponseBody
-	public boolean updateAccount(Account account) {
+	public boolean updateAccount(@RequestBody Account account) {
 		log.debug("编辑账户信息。" +account);
 		boolean updateResult = false;
 		if((null!=account)&&(0!=account.getId())) {
@@ -91,13 +95,13 @@ public class SystemController extends BaseController{
 	@RequestMapping("/system/roleList")
 	public String jumpRolePage(ModelMap modelMap) {
 		log.debug("跳转角色管理页面。");
-		List<Role> roleList = systemBusiness.findRole();
+		List<RoleDTO> roleList = systemBusiness.findRole();
 		modelMap.addAttribute("roleList", roleList);
 		return "roleList";
 	}
 	@RequestMapping("/system/findRoleList")
 	@ResponseBody
-	public List<Role> findRoleList() {
+	public List<RoleDTO> findRoleList() {
 		log.debug("查询所有的角色信息");
 		return systemBusiness.findRole();
 	}
@@ -110,9 +114,9 @@ public class SystemController extends BaseController{
 		}
 		return null;
 	}
-	@RequestMapping("/system/addRole")
+	@RequestMapping(value="/system/addRole", method = RequestMethod.POST, consumes = {"application/json"})
 	@ResponseBody
-	public boolean addRole(Role role) {
+	public boolean addRole(@RequestBody Role role) {
 		log.debug("增加角色信息。" +role);
 		boolean addResult = false;
 		if((null!=role)&&(0==role.getId())) {
@@ -124,9 +128,9 @@ public class SystemController extends BaseController{
 		}
 		return addResult;
 	}
-	@RequestMapping("/system/updateRole")
+	@RequestMapping(value="/system/updateRole", method = RequestMethod.POST, consumes = {"application/json"})
 	@ResponseBody
-	public boolean updateRole(Role role) {
+	public boolean updateRole(@RequestBody Role role) {
 		log.debug("编辑角色信息。" +role);
 		boolean updateResult = false;
 		if((null!=role)&&(0!=role.getId())) {
@@ -168,9 +172,9 @@ public class SystemController extends BaseController{
 		}
 		return null;
 	}
-	@RequestMapping("/system/addAccountIp")
+	@RequestMapping(value="/system/addAccountIp", method = RequestMethod.POST, consumes = {"application/json"})
 	@ResponseBody
-	public boolean addAccountIp(AccountIp accountIp) {
+	public boolean addAccountIp(@RequestBody AccountIp accountIp) {
 		log.debug("增加账户Ip信息。" +accountIp);
 		boolean addResult = false;
 		if((null!=accountIp)&&(0==accountIp.getId())) {
@@ -182,9 +186,9 @@ public class SystemController extends BaseController{
 		}
 		return addResult;
 	}
-	@RequestMapping("/system/updateAccountIp")
+	@RequestMapping(value="/system/updateAccountIp", method = RequestMethod.POST, consumes = {"application/json"})
 	@ResponseBody
-	public boolean updateAccountIp(AccountIp accountIp) {
+	public boolean updateAccountIp(@RequestBody AccountIp accountIp) {
 		log.debug("编辑账户信息。" +accountIp);
 		boolean updateResult = false;
 		if((null!=accountIp)&&(0!=accountIp.getId())) {
@@ -210,5 +214,41 @@ public class SystemController extends BaseController{
 		}
 		return deleteResult;
 	}
+	@RequestMapping("/system/findAccountDTO")
+	@ResponseBody
+	public List<AccountDTO> findAccountDTO() {
+		log.debug("ajax查询所有的用户信息");
+		return systemBusiness.findAccount();
+	}
 	
+	@RequestMapping("/system/findPermissionList")
+	@ResponseBody
+	public List<Permission> findPermissionList() {
+		log.debug("查询所有的权限信息");
+		return systemBusiness.findPermission();
+	}
+	@RequestMapping("/system/findAdminLogList")
+	public String findAdminLogList(HttpServletRequest request, ModelMap modelMap) throws Exception {
+		log.debug("跳转系统日志界面");
+		List<AdminLogDTO> adminLogList=systemBusiness.findAdminLog();
+	    modelMap.addAttribute("adminLogList", adminLogList);
+		return "adminLogList";
+	}
+	
+	@RequestMapping("/system/findSysConfigureList")
+	public String findSysConfigureList(HttpServletRequest request, ModelMap modelMap) throws Exception {
+		log.debug("跳转系统参数配置界面");
+		List<SysConfigure> sysConfigureList=systemBusiness.findSysConfigureList();
+	    modelMap.addAttribute("sysConfigureList", sysConfigureList);
+		return "sysConfigureList";
+	}
+	@RequestMapping(value="/system/updateSysConfigure", method = RequestMethod.POST, consumes = {"application/json"})
+	public boolean updateSysConfigure(@RequestBody SysConfigure sysConfigure) throws Exception {
+		log.debug("编辑系统参数配置");
+		boolean result = false;
+		if(null != sysConfigure) {
+			result = systemBusiness.updateSysconfigure(sysConfigure);
+		}
+		return result;
+	}
 }

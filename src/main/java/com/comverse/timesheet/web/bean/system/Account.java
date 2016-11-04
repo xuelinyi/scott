@@ -3,6 +3,7 @@ package com.comverse.timesheet.web.bean.system;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class Account{
 
-	private long id;				//用户ID
+	private int id;				//用户ID
 	private String name;			//用户名
 	private String password;		//密码
 	private String lockEndTime;		//锁定时间
@@ -40,12 +41,12 @@ public class Account{
 	}
 
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -203,7 +204,7 @@ public class Account{
 		return accountDTO;
 	}
 	public static void main(String[] args) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		System.out.println(new Date().compareTo(formatter.parse("2016-11-03 14:51:25"))<0);
+		List<Account> a = new ArrayList<Account>();
+		List<Account> b = new ArrayList<Account>();
 	}
 }

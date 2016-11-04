@@ -16,7 +16,7 @@ public class AccountIp{
 	private String ip;				//IP地址
 	private String netmask;			//掩码
 	private String accountName;		//用户名 
-
+	private String createTime;
 
 	public AccountIp() {
 	}
@@ -61,6 +61,15 @@ public class AccountIp{
 		this.accountName = accountName;
 	}
 
+	public String getCreateTime() {
+		return createTime;
+	}
+
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
 
 	@Override
 	public String toString() {
@@ -71,6 +80,8 @@ public class AccountIp{
 		builder.append(ip);
 		builder.append(", netmask=");
 		builder.append(netmask);
+		builder.append(", createTime=");
+		builder.append(createTime);
 		builder.append(", accountName=");
 		builder.append(accountName);
 		builder.append("]");

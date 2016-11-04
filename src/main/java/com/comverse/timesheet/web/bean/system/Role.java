@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import com.comverse.timesheet.web.dto.RoleDTO;
+
 
 /**
  * Aaccount entity. @author MyEclipse Persistence Tools
@@ -21,7 +23,7 @@ import javax.persistence.Table;
 public class Role{
 
 
-	private long id;		//角色ID
+	private int id;		//角色ID
 	private String name;	//角色名称
 	private String desc;	//角色备注
 	private int code;
@@ -32,10 +34,10 @@ public class Role{
 	/** default constructor */
 	public Role() {
 	}
-	public long getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -69,9 +71,24 @@ public class Role{
 		this.permissionList = permissionList;
 	}
 
-	public static Role updateRole(Role oldRole,Role role){
-		oldRole.setName(role.getName());
-		oldRole.setDesc(role.getDesc());
-		return oldRole;
+	public static RoleDTO conversionRole(Role role){
+		RoleDTO roleDTO = new RoleDTO();
+		roleDTO.setId(role.getId());
+		roleDTO.setDesc(role.getDesc());
+		roleDTO.setName(role.getName());
+		roleDTO.setCreateTime(role.getCreateTime());
+		List<Permission> permissionList = role.getPermissionList();
+		if((null != permissionList)&&(0!=permissionList.size())) {
+			roleDTO.setPermissionList(permissionList);
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < permissionList.size(); i++) {
+				if(i>0) {
+					sb.append(",");
+				}
+				sb.append(permissionList.get(i).getName());
+			}
+			roleDTO.setPermissionListName(sb.toString());
+		}
+		return roleDTO;
 	}
 }

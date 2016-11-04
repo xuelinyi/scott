@@ -7,7 +7,10 @@ import com.comverse.timesheet.web.bean.system.AccountIp;
 import com.comverse.timesheet.web.bean.system.AdminLog;
 import com.comverse.timesheet.web.bean.system.Permission;
 import com.comverse.timesheet.web.bean.system.Role;
+import com.comverse.timesheet.web.bean.system.SysConfigure;
 import com.comverse.timesheet.web.dto.AccountDTO;
+import com.comverse.timesheet.web.dto.AdminLogDTO;
+import com.comverse.timesheet.web.dto.RoleDTO;
 
 public interface ISystemBusiness {
 	List<AccountDTO> findAccount();
@@ -16,7 +19,7 @@ public interface ISystemBusiness {
 	boolean updateAccount(Account account);
 	boolean deleteAccount(int accountId);
 	
-	List<Role> findRole();
+	List<RoleDTO> findRole();
 	Role getRole(int roleId);
 	boolean addRole(Role role);
 	boolean updateRole(Role role);
@@ -31,4 +34,8 @@ public interface ISystemBusiness {
 	List<Permission> findPermission();
 	
 	void addAdminLog(AdminLog adminlog);
+	List<AdminLogDTO> findAdminLog();
+	
+	boolean updateSysconfigure(SysConfigure sysConfigure);
+	List<SysConfigure> findSysConfigureList();
 }

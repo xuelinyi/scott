@@ -5,6 +5,9 @@
     <insert id="addAccount" parameterType="com.comverse.timesheet.web.bean.system.Account" useGeneratedKeys="true" keyProperty="IID"> 
         INSERT INTO AACCOUNT (NNAME,PPASSWORD,LLOCKEND_TIME,LLOGIN_NUMBER,PPHONENUMBER,EEMAIL,DDESC,CCREATE_TIME) 
         VALUES(#{name},#{password},#{lockEndTime},#{loginNumber},#{phoneNumber},#{email},#{desc},#{createTime}) 
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">  
+             SELECT LAST_INSERT_ID() AS id  
+        </selectKey>  
     </insert>
     <resultMap id="Account" type="com.comverse.timesheet.web.bean.system.Account">
 	     <id column="IID" property="id" />
@@ -27,10 +30,11 @@
 	</resultMap>
     <select id="selectAccountByNull" resultMap="AccountRoleMap">
         SELECT  A.IID,A.NNAME,A.PPASSWORD,A.LLOCKEND_TIME,A.LLOGIN_NUMBER,A.PPHONENUMBER,A.EEMAIL,A.DDESC,A.CCREATE_TIME,R.IID AS RR_ID ,R.DDESC AS RR_DESC,R.NNAME AS RR_NAME
-		  FROM AACCOUNT A LEFT JOIN ACCOUNT_RROLE_RELATION ARR ON A.IID = ARR.AACCOUNT_ID LEFT JOIN RROLE R  ON ARR.RROLE_ID = R.IID
+		  FROM AACCOUNT A LEFT JOIN ACCOUNT_RROLE_RELATION ARR ON A.IID = ARR.AACCOUNT_ID LEFT JOIN RROLE R  ON ARR.RROLE_ID = R.IID ORDER BY A.CCREATE_TIME DESC
     </select>
-    <select id="selectAccountById" resultMap="Account">
-        SELECT * FROM AACCOUNT WHERE IID=#{accountId}
+    <select id="selectAccountById" resultMap="AccountRoleMap">
+        SELECT  A.IID,A.NNAME,A.PPASSWORD,A.LLOCKEND_TIME,A.LLOGIN_NUMBER,A.PPHONENUMBER,A.EEMAIL,A.DDESC,A.CCREATE_TIME,R.IID AS RR_ID ,R.DDESC AS RR_DESC,R.NNAME AS RR_NAME
+		  FROM AACCOUNT A LEFT JOIN ACCOUNT_RROLE_RELATION ARR ON A.IID = ARR.AACCOUNT_ID LEFT JOIN RROLE R  ON ARR.RROLE_ID = R.IID WHERE A.IID=#{accountId}
     </select>
     <delete id="deleteAccount">
     	  DELETE FROM AACCOUNT WHERE IID=#{accountId}
@@ -56,17 +60,22 @@
    		</set>
    		<where>IID=#{id}</where>
     </update>
-    <insert id="addAccountRoleRelation" parameterType="com.comverse.timesheet.web.bean.system.AccountRoleRelation" useGeneratedKeys="true" keyProperty="IID"> 
+    <insert id="addAccountRoleRelation" useGeneratedKeys="true" parameterType="java.util.List"> 
         INSERT INTO ACCOUNT_RROLE_RELATION (AACCOUNT_ID,RROLE_ID) VALUES
          <foreach collection="list" item="item" index="index" separator="," >  
         (#{item.account.id},#{item.role.id})   
     	</foreach>  
-         
     </insert>
+    <delete id="deleteAccountRoleRelation">
+    	  DELETE FROM ACCOUNT_RROLE_RELATION WHERE AACCOUNT_ID=#{accountId}
+    </delete> 
     <!--     account management end -->
     <!--     role management start -->
     <insert id="addRole" parameterType="com.comverse.timesheet.web.bean.system.Role" useGeneratedKeys="true" keyProperty="IID"> 
         INSERT INTO RROLE (NNAME,DDESC,CCODE,CCREATE_TIME) VALUES(#{name},#{desc},#{code},#{createTime}) 
+         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">  
+             SELECT LAST_INSERT_ID() AS id  
+        </selectKey>  
     </insert>
     <resultMap id="Role" type="com.comverse.timesheet.web.bean.system.Role">
 	     <id column="IID" property="id" />
@@ -75,11 +84,21 @@
 	     <result column="CCODE" property="code" />
 	     <result column="CCREATE_TIME" property="createTime" />
 	</resultMap>
-    <select id="selectRoleByNull" resultMap="Role">
-        SELECT * FROM RROLE
+	<resultMap type="com.comverse.timesheet.web.bean.system.Role" id="RolePermissionMap" extends="Role">
+	 	<collection property="permissionList" ofType="com.comverse.timesheet.web.bean.system.Permission">
+	 		<id column="PP_ID" property="id" />
+	     	<result column="PP_NAME" property="name" />
+	     	<result column="PP_DESC" property="desc" />
+	 		<result column="PP_CODE" property="code" />
+	 	</collection>
+	</resultMap>
+    <select id="selectRoleByNull" resultMap="RolePermissionMap">
+   		SELECT  R.IID , R.NNAME,R.DDESC,R.CCODE,R.CCREATE_TIME,P.IID AS PP_ID,P.NNAME AS PP_NAME, P.DDESC AS PP_DESC,P.CCODE AS PP_CODE FROM RROLE R LEFT JOIN RROLE_PERMISSION_RELATION RPR 
+   			ON R.IID = RPR.RROLE_ID LEFT JOIN PPERMISSION P  ON RPR.PPERMISSION_ID = P.IID ORDER BY R.CCREATE_TIME DESC
     </select>
-    <select id="selectRoleById" resultMap="Role">
-        SELECT * FROM RROLE WHERE IID=#{roleId}
+    <select id="selectRoleById" resultMap="RolePermissionMap">
+   		 SELECT  R.IID , R.NNAME,R.DDESC,R.CCODE,R.CCREATE_TIME,P.IID AS PP_ID,P.NNAME AS PP_NAME, P.DDESC AS PP_DESC,P.CCODE AS PP_CODE FROM RROLE R LEFT JOIN RROLE_PERMISSION_RELATION RPR 
+   			ON R.IID = RPR.RROLE_ID LEFT JOIN PPERMISSION P  ON RPR.PPERMISSION_ID = P.IID WHERE R.IID=#{roleId}
     </select>
     <delete id="deleteRole">
     	  DELETE FROM RROLE WHERE IID=#{roleId}
@@ -99,11 +118,17 @@
    		</set>
    		<where>IID=#{id}</where>
     </update>
+    <insert id="addRolePermissionRelation" useGeneratedKeys="true" parameterType="java.util.List"> 
+        INSERT INTO RROLE_PERMISSION_RELATION (RROLE_ID,PPERMISSION_ID) VALUES
+         <foreach collection="list" item="item" index="index" separator="," >  
+        (#{item.role.id},#{item.permission.id})   
+    	</foreach>  
+    </insert>
+    <delete id="deleteRolePermissionRelation">
+    	  DELETE FROM RROLE_PERMISSION_RELATION WHERE RROLE_ID=#{roleId}
+    </delete> 
     <!--     role management end -->
     <!--     Permission management start -->
-    <insert id="addPermission" parameterType="com.comverse.timesheet.web.bean.system.Permission" useGeneratedKeys="true" keyProperty="IID"> 
-        INSERT INTO PPERMISSION (NNAME,DDESC,CCODE) VALUES(#{name},#{desc},#{code}) 
-    </insert>
     <resultMap id="Permission" type="com.comverse.timesheet.web.bean.system.Permission">
 	     <id column="IID" property="id" />
 	     <result column="NNAME" property="name" />
@@ -113,49 +138,29 @@
     <select id="selectPermissionByNull" resultMap="Permission">
         SELECT * FROM PPERMISSION
     </select>
-    <select id="selectPermissionById" resultMap="Permission">
-        SELECT * FROM PPERMISSION WHERE IID=#{id}
-    </select>
-    <delete id="deletePermission">
-    	  DELETE FROM PPERMISSION WHERE IID=#{id}
-    </delete> 
-    <update id="updatePermission"  parameterType="com.comverse.timesheet.web.bean.system.Permission" >
-    	UPDATE RROLE
-    	<set>
-    		<if test="name!=null">
-	   			NNAME=#{name}
-	   		</if>
-	   		<if test="desc!=null">
-	   			, DDESC=#{desc}
-	   		</if>
-	   		<if test="code!=null">
-	   			, CCODE=#{code}
-	   		</if>
-   		</set>
-   		<where>IID=#{id}</where>
-    </update>
     <!--     Permission management end -->
     <!--     IP address management start -->
     <insert id="addAccountIp" parameterType="com.comverse.timesheet.web.bean.system.AccountIp" useGeneratedKeys="true" keyProperty="IID"> 
-        INSERT INTO AACCOUNTIP (NNAME,DDESC,CCODE) VALUES(#{name},#{desc},#{code}) 
+        INSERT INTO IP_MANAGEMENT (AACCOUNT_NAME,IIP,NNETMASK,CCREATE_TIME) VALUES(#{accountName},#{ip},#{netmask},#{createTime}) 
     </insert>
     <resultMap id="AccountIp" type="com.comverse.timesheet.web.bean.system.AccountIp">
 	     <id column="IID" property="id" />
 	     <result column="IIP" property="ip" />
 	     <result column="NNETMASK" property="netmask" />
-	     <result column="AACCOUNTNAME" property="accountName" />
+	     <result column="AACCOUNT_NAME" property="accountName" />
+	     <result column="CCREATE_TIME" property="createTime" />
 	</resultMap>
     <select id="selectAccountIpByNull" resultMap="AccountIp">
-        SELECT * FROM AACCOUNTIP
+        SELECT * FROM IP_MANAGEMENT ORDER BY CCREATE_TIME DESC
     </select>
     <select id="selectAccountIpById" resultMap="AccountIp">
-        SELECT * FROM AACCOUNTIP WHERE IID=#{accountIpId}
+        SELECT * FROM IP_MANAGEMENT WHERE IID=#{accountIpId}
     </select>
     <delete id="deleteAccountIp">
-    	  DELETE FROM AACCOUNTIP WHERE IID=#{accountIpId}
+    	  DELETE FROM IP_MANAGEMENT WHERE IID=#{accountIpId}
     </delete> 
     <update id="updateAccountIp"  parameterType="com.comverse.timesheet.web.bean.system.AccountIp" >
-    	UPDATE RROLE
+    	UPDATE IP_MANAGEMENT
     	<set>
     		<if test="ip!=null">
 	   			IIP=#{ip}
@@ -164,7 +169,7 @@
 	   			, NNETMASK=#{netmask}
 	   		</if>
 	   		<if test="accountName!=null">
-	   			, AACCOUNTNAME=#{accountName}
+	   			, AACCOUNT_NAME=#{accountName}
 	   		</if>
    		</set>
    		<where>IID=#{id}</where>
@@ -172,7 +177,38 @@
     <!--     IP address management end -->
     <!--     log management start -->
     <insert id="addAdminLog" parameterType="com.comverse.timesheet.web.bean.system.AdminLog" useGeneratedKeys="true" keyProperty="IID"> 
-        INSERT INTO AACCOUNTIP (TTIME,LLEVEL,AACCOUNT,IIP,DDESCRITION) VALUES(#{time},#{level},#{account},#{ip},#{descrition}) 
+        INSERT INTO AADMIN_LOG (TTIME,LLEVEL,AACCOUNT,IIP,DDESC) VALUES(#{time},#{level},#{account},#{ip},#{descrition}) 
     </insert>
+     <resultMap id="AdminLog" type="com.comverse.timesheet.web.bean.system.AdminLog">
+	     <id column="IID" property="id" />
+	     <result column="TTIME" property="time" />
+	     <result column="LLEVEL" property="level" />
+	     <result column="AACCOUNT" property="account" />
+	     <result column="IIP" property="ip" />
+	     <result column="DDESC" property="descrition" />
+	</resultMap>
+    <select id="selectAdminLogByNull" resultMap="AdminLog">
+        SELECT * FROM AADMIN_LOG ORDER BY TTIME DESC
+    </select>
     <!--     log management end -->
+    <!--     system config start -->
+     <resultMap id="SysConfigure" type="com.comverse.timesheet.web.bean.system.SysConfigure">
+	     <id column="IID" property="id" />
+	     <result column="NNAME" property="name" />
+	     <result column="VVALUE" property="value" />
+	     <result column="UUPDATE_TIME" property="updateTime" />
+	</resultMap>
+    <select id="selectAdminLogByNull" resultMap="AdminLog">
+        SELECT * FROM SSYSCONFIG ORDER BY UUPDATE_TIME DESC
+    </select>
+    <update id="updateAdminLog"  parameterType="com.comverse.timesheet.web.bean.system.SysConfigure" >
+    	UPDATE SSYSCONFIG
+    	<set>
+    		<if test="value!=null">
+	   			VVALUE=#{value}
+	   		</if>
+   		</set>
+   		<where>IID=#{id}</where>
+    </update>
+    <!--     system config end -->
 </mapper>  

@@ -39,17 +39,17 @@
                   </a>
                 </li>
                 <li>
-                  <a href="horizontal_menu.html">
+                  <a href="../system/roleList">
                     角色管理
                   </a>
                 </li>
                 <li>
-                  <a href="language_switch_bar.html">
-                    组织管理
+                  <a href="../system/findAdminLogList">
+                   系统日志
                   </a>
                 </li>
                 <li>
-                  <a href="email_template.html" target="_blank">
+                  <a href="../system/accountIpList">
                     IP地址管理
                   </a>
                 </li>

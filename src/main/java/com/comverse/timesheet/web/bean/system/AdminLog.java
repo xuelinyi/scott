@@ -1,5 +1,8 @@
 package com.comverse.timesheet.web.bean.system;
 
+import com.comverse.timesheet.web.SystemEnum;
+import com.comverse.timesheet.web.dto.AdminLogDTO;
+
 public class AdminLog {
 	
 	private int id;		//标识
@@ -8,7 +11,7 @@ public class AdminLog {
 	private String account;	//用户
 	private String ip;		//ip地址
 	private String descrition;	//描述
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -20,7 +23,7 @@ public class AdminLog {
 	public void setTime(String time) {
 		this.time = time;
 	}
-	public long getLevel() {
+	public int getLevel() {
 		return level;
 	}
 	public void setLevel(int level) {
@@ -70,5 +73,16 @@ public class AdminLog {
 		this.ip = ip;
 		this.descrition = descrition;
 		this.level = level;
+	}
+	public static AdminLogDTO conversionAdminLog(AdminLog adminLog) {
+		AdminLogDTO adminLogDTO = new AdminLogDTO();
+		adminLogDTO.setId(adminLog.getId());
+		adminLogDTO.setTime(adminLog.getTime());
+		adminLogDTO.setLevelStr(SystemEnum.getValue(adminLog.getLevel()));
+		adminLogDTO.setLevel(adminLog.getLevel());
+		adminLogDTO.setAccount(adminLog.getAccount());
+		adminLogDTO.setIp(adminLog.getIp());
+		adminLogDTO.setDescrition(adminLog.getDescrition());
+		return adminLogDTO;
 	}
 }
