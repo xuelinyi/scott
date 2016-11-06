@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+<%@page pageEncoding="UTF-8" language="java" contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -16,7 +17,7 @@
 			  </div>
 			</div>
         <!-- SIDEBAR TOGGLE BUTTON  END-->
-        <a href="index.html" class="logo">
+        <a href="../system/index" class="logo">
           Olive
           <span>
             Admin
@@ -355,7 +356,7 @@
               <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                 <img alt="" src="../views/img/avatar1_small.jpg">
                 <span class="username">
-                  Pruthvi
+                  <sec:authentication property="name"/>
                 </span>
                 <b class="caret">
                 </b>
@@ -385,7 +386,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="login.html">
+                  <a href="../logout">
                     <i class="fa fa-key">
                     </i>
                     Log Out

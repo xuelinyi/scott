@@ -37,5 +37,7 @@ public interface ISystemBusiness {
 	List<AdminLogDTO> findAdminLog();
 	
 	boolean updateSysconfigure(SysConfigure sysConfigure);
+	SysConfigure getSysConfigure(String sysConfigureId);
 	List<SysConfigure> findSysConfigureList();
+	int forgotPassword(String email);
 }

@@ -1,4 +1,7 @@
 function getAuthor(authorId) {
+	showdiv();
+	cleanDivInfo();
+	$("#myModalTitle").html("编辑作者");
 	$.ajax({	
 		url:'../author/getAuthor',
 		type:"GET",
@@ -28,8 +31,6 @@ function updateAuthror() {
 		type:"POST",
 		data:{"id":id,'name': name,'age': age,'sex': sex,'birthday': birthday},
 		success:function(result){
-			$("#addAndUpdateAuthor").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -37,11 +38,10 @@ function updateAuthror() {
 		}
 	});		
 }
-function cleanDivInfo() {
-	$("#addAndUpdateAuthor input").val("");
-}
 function addAuthor() {
-	$("#addAndUpdateAuthor").show();
+	showdiv();
+	cleanDivInfo();
+	$("#myModalTitle").html("增加作者");
 	$("#saveAuthorId").bind("click",function(){addAuthror();}); 
 }
 function addAuthror() {
@@ -54,8 +54,6 @@ function addAuthror() {
 		type:"POST",
 		data:{'name': name,'age': age,'sex': sex,'birthday': birthDate},
 		success:function(result){
-			$("#addAndUpdateAuthor").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){

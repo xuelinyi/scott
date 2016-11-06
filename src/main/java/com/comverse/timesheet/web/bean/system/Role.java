@@ -73,6 +73,7 @@ public class Role{
 
 	public static RoleDTO conversionRole(Role role){
 		RoleDTO roleDTO = new RoleDTO();
+		roleDTO.setCode(role.getCode());
 		roleDTO.setId(role.getId());
 		roleDTO.setDesc(role.getDesc());
 		roleDTO.setName(role.getName());

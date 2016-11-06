@@ -71,14 +71,6 @@
 						</display:table>
                         </table>
                      </div>
-                     <div id="addAndUpdateRole" style="display: none;">
-							<input id="roleId" style="display: none;">
-							角色名:<input id="name"/><br/>
-							角色编码:<input id="code"/><br/>
-							权限:<div id="permissionListListId"></div><br/>
-							备注:<input id="desc"><br/>
-							<button id="saveRoleId">保存</button>
-					</div>
                   </div>
                </section>
             </section>
@@ -90,7 +82,56 @@
 		 <!-- END FOOTER --> 
       </section>
 	  <!-- END SECTION -->
-		
+	 <!-- END SECTION -->
+  	<!-- MODAL -->
+       <div  id="myModal" class="modal fade" style="display: none;margin-top: 100px;">
+         <div class="modal-dialog">
+           <div class="modal-content">
+             <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="cancleDiv()">
+                 &times;
+               </button>
+               <h4 class="modal-title" id="myModalTitle">
+               </h4>
+             </div>
+             <div class="panel-body">
+             		<input id="roleId" style="display: none;" />
+                  <div class="form-group ">
+                     <label for="cname" class="control-label col-lg-2">角色名:</label>
+                     <div class="col-lg-10">
+                        <input class=" form-control" id="name" name="name" type="text" required="">
+                     </div>
+                  </div>
+                  <div class="form-group ">
+                     <label for="cname" class="control-label col-lg-2">角色编码:</label>
+                     <div class="col-lg-10">
+                        <input class=" form-control" id="code" name="code" type="text" required="">
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label col-lg-2">权限:</label>
+                      <div class="col-lg-10" id="permissionListListId">
+                 	  </div>
+                  </div>
+                  <div class="form-group ">
+                     <label for="cemail" class="control-label col-lg-2">备注:</label>
+                     <div class="col-lg-10">
+                        <input class="form-control " id="desc" name="desc" required="">
+                     </div>
+                  </div>
+             </div>
+             <div class="modal-footer">
+               <button data-dismiss="modal" class="btn btn-default" type="button" id="cancelForGot" onclick="cancleDiv()">
+                 Cancel
+               </button>
+               <button class="btn btn-success" type="button"  id="saveRoleId">
+                 Submit
+               </button>
+             </div>
+           </div>
+         </div>
+       </div>
+	<!-- END MODAL -->
 <!-- BEGIN JS --> 	  
 		<script src="../js/jquery-1.8.3.min.js" ></script><!-- BASIC JS LIABRARY 1.8.3 -->
 		<script src="../js/bootstrap.min.js" ></script><!-- BOOTSTRAP JS  -->
@@ -104,5 +145,6 @@
 		<script src="../js/editable-table.js" ></script><!-- EDITABLE TABLE JS  -->
 		<script src="../js/system.js" ></script>
 	  <!-- END JS --> 
+	  <div class="modal-backdrop fade in" style="display: none;" id="zhezhaocengId"></div>
 </body>
 </html>

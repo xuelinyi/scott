@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import com.comverse.timesheet.web.SystemEnum;
 import com.comverse.timesheet.web.bean.system.Account;
 import com.comverse.timesheet.web.bean.system.AccountIp;
 import com.comverse.timesheet.web.bean.system.AccountRoleRelation;
@@ -22,6 +23,8 @@ import com.comverse.timesheet.web.dao.ISystemDao;
 import com.comverse.timesheet.web.dto.AccountDTO;
 import com.comverse.timesheet.web.dto.AdminLogDTO;
 import com.comverse.timesheet.web.dto.RoleDTO;
+import com.comverse.timesheet.web.util.MD5Util;
+import com.comverse.timesheet.web.util.MailUtil;
 @Component
 public class SystemBusinessImpl implements ISystemBusiness{
 	private static final Logger log = Logger.getLogger(SystemBusinessImpl.class);
@@ -312,5 +315,59 @@ public class SystemBusinessImpl implements ISystemBusiness{
 			log.error("查询所有的系统配置信息失败e:"+e);
 		}
 		return Collections.EMPTY_LIST;
+	}
+	
+	public SysConfigure getSysConfigure(String sysConfigureId){
+		log.debug("根据ID获取系统参数信息sysConfigureId : " + sysConfigureId);
+		if(null!=sysConfigureId) {
+			try{
+				return systemDao.getSysConfigure(sysConfigureId);
+			}catch(Exception e) {
+				log.error("根据ID获取系统参数信息产生异常", e);
+			}
+		}
+		return null;
+	}
+	private String RandomUsage() {
+		log.debug("生成随机数");
+		StringBuffer sb = new StringBuffer();
+        for(int i = 0;i < 6;i++){
+            sb.append((int)(Math.random()*10));
+        }
+        return sb.toString();
+	}
+	/**
+	 * 10001：邮箱不存在。
+	 * 10002：邮箱错误
+	 * 10003：重置成功
+	 */
+	public int forgotPassword(String email) {
+		log.debug("忘记密码，密码重置。email:" + email);
+		int result = 10002;
+		if((null != email)&&(MailUtil.checkEmail(email))) {
+			try {
+				List<Account> accountList = systemDao.findAccountByEmail(email);
+				if(null != accountList) {
+					if(1 == accountList.size()) {
+						Account account = accountList.get(0);
+						String newPassword = RandomUsage();
+						account.setPassword(MD5Util.getMD5(newPassword));
+						boolean updateAccount = systemDao.updateAccount(account);
+						if(updateAccount) {
+							result = 10003;
+						}
+						String mailHost = systemDao.getSysConfigure("MAIL_SERVER_HOST").getValue();
+						String userName = systemDao.getSysConfigure("MAIL_SERVER_ACCOUNT").getValue();
+						String password = systemDao.getSysConfigure("MAIL_SERVER_PASSWORD").getValue();
+						MailUtil.sendMail(mailHost, userName, password, userName, email, userName, SystemEnum.MAIL_SUBJECT.getValue(), SystemEnum.MAIL_CONTENT.getValue()+newPassword);
+					}else if(0 == accountList.size()){
+						result = 10001;  
+					}
+				}
+			}catch(Exception e) {
+				log.error("重置账户异常e:" + e);
+			}
+		}
+		return result;
 	}
 }

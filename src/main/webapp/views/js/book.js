@@ -1,4 +1,5 @@
 function getBook(bookId) {
+	showdiv();
 	$.ajax({	
 		url:'../book/getTemporaryBook',
 		type:"GET",
@@ -31,7 +32,6 @@ function updateBook() {
 		type:"POST",
 		data:{"id":id,'bookName': bookName,'bookType': bookType,'author.id':authorId},
 		success:function(result){
-			$("#addAndUpdateBook").hide();
 			location.reload();
 		},
 		error:function(){

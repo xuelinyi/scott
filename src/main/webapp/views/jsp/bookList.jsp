@@ -47,11 +47,6 @@
                   <div class="panel-body">
                      <div class="adv-table editable-table ">
                         <div class="clearfix">
-                           <div class="btn-group">
-                              <button id="editable-sample_new" class="btn btn-success green">
-                              Add New <i class="fa fa-plus"></i>
-                              </button>
-                           </div>
                         </div>
                         <div class="space15"></div>
                         <table class="table table-striped table-hover table-bordered" id="editable-sample">
@@ -67,17 +62,6 @@
 						</display:table>
                         </table>
                      </div>
-                     <div id="addAndUpdateBook" style="display: none;">
-							<input id="bookId" style="display: none;">
-							书籍名称:<input id="bookName"/><br/>
-							作者:<select id="authorId">
-							   </select><br/>
-							书籍类型:<select id="bookType">
-										<option value="10000">言情</option>
-										<option value="10001">动作</option>
-									</select><br/>
-							<button onclick="updateBook();">保存</button>
-					</div>
                   </div>
                </section>
             </section>
@@ -89,7 +73,56 @@
 		 <!-- END FOOTER --> 
       </section>
 	  <!-- END SECTION -->
-		
+	  <!-- MODAL -->
+        <div  id="myModal" class="modal fade" style="display: none;margin-top: 100px;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="cancleDiv()">
+                  &times;
+                </button>
+                <h4 class="modal-title" id="myModalTitle">
+                  		编辑书籍信息
+                </h4>
+              </div>
+              <div class="panel-body">
+              		<input id="bookId" style="display: none;" />
+                   <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-2">书籍名称:</label>
+                      <div class="col-lg-10">
+                         <input class=" form-control" id="bookName" name="bookName" type="text" required="">
+                      </div>
+                   </div>
+                   <br/>
+                   <div class="form-group ">
+                      <label for="cemail" class="control-label col-lg-2">作者:</label>
+                      <div class="col-lg-10">
+                         <select class="form-control m-bot15"  id="authorId">
+                         </select>
+                      </div>
+                   </div>
+                   <div class="form-group ">
+                      <label for="curl" class="control-label col-lg-2">书籍类型:</label>
+                      <div class="col-lg-10">
+                         <select class="form-control m-bot15"  id="bookType">
+                         		<option value="10000">言情</option>
+								<option value="10001">动作</option>
+                         </select>
+                      </div>
+                   </div>
+              </div>
+              <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" id="cancelForGot" onclick="cancleDiv()">
+                  Cancel
+                </button>
+                <button class="btn btn-success" type="button"  onclick="updateBook();">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+		<!-- END MODAL -->
 <!-- BEGIN JS --> 	  
 		<script src="../js/jquery-1.8.3.min.js" ></script><!-- BASIC JS LIABRARY 1.8.3 -->
 		<script src="../js/bootstrap.min.js" ></script><!-- BOOTSTRAP JS  -->
@@ -103,5 +136,6 @@
 		<script src="../js/editable-table.js" ></script><!-- EDITABLE TABLE JS  -->
 		<script src="../js/book.js" ></script>
 	  <!-- END JS --> 
+	  <div class="modal-backdrop fade in" style="display: none;" id="zhezhaocengId"></div>
 </body>
 </html>

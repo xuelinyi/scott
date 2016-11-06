@@ -29,7 +29,7 @@
                   系统管理
                 </span>
                 <span class="label label-success span-sidebar">
-                  4
+                  5
                 </span>
               </a>
               <ul class="sub">
@@ -46,6 +46,11 @@
                 <li>
                   <a href="../system/findAdminLogList">
                    系统日志
+                  </a>
+                </li>
+                <li>
+                  <a href="../system/findSysConfigureList">
+                   系统参数配置
                   </a>
                 </li>
                 <li>

@@ -243,11 +243,31 @@ public class SystemController extends BaseController{
 		return "sysConfigureList";
 	}
 	@RequestMapping(value="/system/updateSysConfigure", method = RequestMethod.POST, consumes = {"application/json"})
+	@ResponseBody
 	public boolean updateSysConfigure(@RequestBody SysConfigure sysConfigure) throws Exception {
 		log.debug("编辑系统参数配置");
 		boolean result = false;
 		if(null != sysConfigure) {
 			result = systemBusiness.updateSysconfigure(sysConfigure);
+		}
+		return result;
+	}
+	@RequestMapping(value="/system/getSysConfigure")
+	@ResponseBody
+	public SysConfigure getSysConfigure(String sysConfigureId) throws Exception {
+		log.debug("根据ID获取系统参数信息sysConfigureId : " + sysConfigureId);
+		if(null != sysConfigureId) {
+			return systemBusiness.getSysConfigure(sysConfigureId);
+		}
+		return null;
+	}
+    @RequestMapping(value = "/system/forgotPassword")
+    @ResponseBody
+	public int forgotPassword(String email) {
+		log.debug("#index");
+		int result = 10001;
+		if(null != email) {
+			result = systemBusiness.forgotPassword(email);
 		}
 		return result;
 	}

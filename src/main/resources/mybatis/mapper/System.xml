@@ -32,6 +32,9 @@
         SELECT  A.IID,A.NNAME,A.PPASSWORD,A.LLOCKEND_TIME,A.LLOGIN_NUMBER,A.PPHONENUMBER,A.EEMAIL,A.DDESC,A.CCREATE_TIME,R.IID AS RR_ID ,R.DDESC AS RR_DESC,R.NNAME AS RR_NAME
 		  FROM AACCOUNT A LEFT JOIN ACCOUNT_RROLE_RELATION ARR ON A.IID = ARR.AACCOUNT_ID LEFT JOIN RROLE R  ON ARR.RROLE_ID = R.IID ORDER BY A.CCREATE_TIME DESC
     </select>
+        <select id="selectAccountByEmail" resultMap="Account">
+        SELECT * FROM AACCOUNT WHERE EEMAIL=#{email}
+    </select>
     <select id="selectAccountById" resultMap="AccountRoleMap">
         SELECT  A.IID,A.NNAME,A.PPASSWORD,A.LLOCKEND_TIME,A.LLOGIN_NUMBER,A.PPHONENUMBER,A.EEMAIL,A.DDESC,A.CCREATE_TIME,R.IID AS RR_ID ,R.DDESC AS RR_DESC,R.NNAME AS RR_NAME
 		  FROM AACCOUNT A LEFT JOIN ACCOUNT_RROLE_RELATION ARR ON A.IID = ARR.AACCOUNT_ID LEFT JOIN RROLE R  ON ARR.RROLE_ID = R.IID WHERE A.IID=#{accountId}
@@ -198,15 +201,19 @@
 	     <result column="VVALUE" property="value" />
 	     <result column="UUPDATE_TIME" property="updateTime" />
 	</resultMap>
-    <select id="selectAdminLogByNull" resultMap="AdminLog">
+    <select id="selectSysconfigByNull" resultMap="SysConfigure">
         SELECT * FROM SSYSCONFIG ORDER BY UUPDATE_TIME DESC
     </select>
-    <update id="updateAdminLog"  parameterType="com.comverse.timesheet.web.bean.system.SysConfigure" >
+    <select id="selectSysconfigById" resultMap="SysConfigure">
+        SELECT * FROM SSYSCONFIG WHERE IID=#{sysConfigureId}
+    </select>
+    <update id="updateSysconfig"  parameterType="com.comverse.timesheet.web.bean.system.SysConfigure" >
     	UPDATE SSYSCONFIG
     	<set>
     		<if test="value!=null">
 	   			VVALUE=#{value}
 	   		</if>
+	   		,UUPDATE_TIME=#{updateTime}
    		</set>
    		<where>IID=#{id}</where>
     </update>

@@ -103,3 +103,20 @@ var Script = function () {
         })
     }
 }();
+function cancleDiv(){
+	$("#myModal").hide();
+	$("#myModal").attr("aria-hidden","true");
+	$("#myModal").removeClass("in");
+	$("#zhezhaocengId").hide();
+}
+function showdiv() {
+	$("#myModal").show();
+	$("#myModal").attr("aria-hidden","false");
+	$("#myModal").addClass("in");
+	$("#zhezhaocengId").show();
+}
+function cleanDivInfo() {
+	$("#myModal :input").each(function () {
+        $(this).val("");
+	});
+}

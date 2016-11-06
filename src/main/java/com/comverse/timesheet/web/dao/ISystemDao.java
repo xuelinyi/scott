@@ -17,6 +17,7 @@ import com.comverse.timesheet.web.dto.RoleDTO;
 public interface ISystemDao {
 	List<AccountDTO> findAccount() throws Exception;
 	Account getAccount(int accountId) throws Exception;
+	List<Account> findAccountByEmail(String email) throws Exception;
 	boolean addAccount(Account account) throws Exception;
 	boolean updateAccount(Account account) throws Exception;
 	boolean deleteAccount(int accountId) throws Exception;
@@ -44,5 +45,7 @@ public interface ISystemDao {
 	List<AdminLogDTO> findAdminLog() throws Exception;
 	
 	boolean updateSysconfigure(SysConfigure sysConfigure) throws Exception;
+	SysConfigure getSysConfigure(String sysConfigureId)throws Exception;
 	List<SysConfigure> findSysConfigureList() throws Exception;
+	
 }

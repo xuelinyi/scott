@@ -2,6 +2,7 @@ package com.comverse.timesheet.web.dao.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +37,13 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 		}
 		return accountDTOList;
 	}
-
+	public List<Account> findAccountByEmail(String email) throws Exception {
+		log.debug("根据邮箱查找对应的用户信息email:"+email);
+		if(null != email) {
+			return session.selectList("mybatis.mapper.System.selectAccountByEmail",email);
+		}
+		return Collections.EMPTY_LIST;
+	}
 	public Account getAccount(int accountId) throws Exception {
 		log.debug("根据账户ID查询对应的账户信息accountId:"+accountId);
 		if(0 != accountId) {
@@ -261,7 +268,9 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 			throws Exception {
 		log.debug("修改系统配置信息。sysConfigure：" +sysConfigure);
 		if((null != sysConfigure)&&(null!=sysConfigure.getId())) {
-			int count = session.update("mybatis.mapper.System.updateAdminLog", sysConfigure);
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			sysConfigure.setUpdateTime(formatter.format(new Date()));
+			int count = session.update("mybatis.mapper.System.updateSysconfig", sysConfigure);
 			if(count>0) {
 				return true;
 			}
@@ -271,6 +280,13 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 
 	public List<SysConfigure> findSysConfigureList() throws Exception {
 		log.debug("查询所有的系统配置信息。");
-		return session.selectList("mybatis.mapper.System.selectAdminLogByNull");
+		return session.selectList("mybatis.mapper.System.selectSysconfigByNull");
+	}
+	public SysConfigure getSysConfigure(String sysConfigureId) throws Exception {
+		log.debug("根据ID获取系统参数信息sysConfigureId : " + sysConfigureId);
+		if(null!=sysConfigureId) {
+			return session.selectOne("mybatis.mapper.System.selectSysconfigById", sysConfigureId);
+		}
+		return null;
 	}
 }

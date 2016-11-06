@@ -70,13 +70,6 @@
 						</display:table>
                         </table>
                      </div>
-                     <div id="addAndUpdateAccountIp" style="display: none;">
-							<input id="accountIpId" style="display: none;">
-							用户名:<select id="accountId"></select><br/>
-							IP地址:<input id="ip" /><br/>
-							网关:<input id="netmask"/><br/>
-							<button id="saveAccountIpId">保存</button>
-					</div>
                   </div>
                </section>
             </section>
@@ -88,7 +81,52 @@
 		 <!-- END FOOTER --> 
       </section>
 	  <!-- END SECTION -->
-		
+	  <!-- MODAL -->
+        <div  id="myModal" class="modal fade" style="display: none;margin-top: 100px;">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="cancleDiv()">
+                  &times;
+                </button>
+                <h4 class="modal-title" id="myModalTitle">
+                  		增加作者
+                </h4>
+              </div>
+              <div class="panel-body">
+              		<input id="accountIpId" style="display: none;" />
+                   <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-2">用户名:</label>
+                      <div class="col-lg-10">
+                      	<select class="form-control m-bot15"  id="accountId">
+                      	</select>
+                      </div>
+                   </div>
+                   <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-2">IP地址:</label>
+                      <div class="col-lg-10">
+                         <input class=" form-control" id="ip" name="ip" type="text" required="">
+                      </div>
+                   </div>
+                    <div class="form-group ">
+                      <label for="cname" class="control-label col-lg-2">网关:</label>
+                      <div class="col-lg-10">
+                         <input class=" form-control" id="netmask" name="netmask" type="text" required="">
+                      </div>
+                   </div>
+              </div>
+              <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-default" type="button" id="cancelForGot" onclick="cancleDiv()">
+                  Cancel
+                </button>
+                <button class="btn btn-success" type="button"  id="saveAccountIpId">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+		<!-- END MODAL -->
 <!-- BEGIN JS --> 	  
 		<script src="../js/jquery-1.8.3.min.js" ></script><!-- BASIC JS LIABRARY 1.8.3 -->
 		<script src="../js/bootstrap.min.js" ></script><!-- BOOTSTRAP JS  -->
@@ -102,5 +140,6 @@
 		<script src="../js/editable-table.js" ></script><!-- EDITABLE TABLE JS  -->
 		<script src="../js/system.js" ></script>
 	  <!-- END JS --> 
+	  <div class="modal-backdrop fade in" style="display: none;" id="zhezhaocengId"></div>
 </body>
 </html>

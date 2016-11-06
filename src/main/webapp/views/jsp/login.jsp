@@ -51,22 +51,11 @@
           <p>
             or you can sign in via social network
           </p>
-          <div class="login-social-link">
-            <a href="index.html" class="facebook">
+          <div class="login-social-link" style="margin-left: 89px;">
+            <a href="https://xuelinyi.github.io/" class="facebook"  target="_blank">
               <i class="fa fa-facebook">
               </i>
-              Facebook
-            </a>
-            <a href="index.html" class="twitter">
-              <i class="fa fa-twitter">
-              </i>
-              Twitter
-            </a>
-          </div>
-          <div class="registration">
-            Don't have an account yet?
-            <a class="" href="registration.html">
-              Create an account
+              GitHub
             </a>
           </div>
         </div>
@@ -90,10 +79,10 @@
                 <input type="text" name="email" placeholder="Email" autocomplete="off" class="form-control placeholder-no-fix">
               </div>
               <div class="modal-footer">
-                <button data-dismiss="modal" class="btn btn-default" type="button">
+                <button data-dismiss="modal" class="btn btn-default" type="button" id="cancelForGot">
                   Cancel
                 </button>
-                <button class="btn btn-success" type="button">
+                <button class="btn btn-success" type="button" onclick="forgotPassword()">
                   Submit
                 </button>
               </div>
@@ -118,6 +107,29 @@
 		});
 		function toPwdMD5(){
 			$("#password").val(hex_md5($("#password").val()));
+		}
+		function forgotPassword() {
+			var email = $("input[name='email']").val();
+			$.ajax({	
+				url:'system/forgotPassword',
+				type:"GET",
+				async:false,
+				data:{'email': email},
+				success:function(result){
+ 					if(result == 10001) {
+						alert("邮箱不存在！！"); 
+					 }else if(result == 10002) {
+						 alert("邮箱错误！！"); 
+					 }else{
+						 $("#cancelForGot").trigger('click');
+						 $("input[name='email']").val("");
+						 alert("密码修改成功。请在邮件中查看新密码"); 
+					 }
+				},
+				error:function(){
+					
+				}
+			});	
 		}
 	</script>
 </html>

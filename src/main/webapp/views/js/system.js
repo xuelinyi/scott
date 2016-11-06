@@ -3,6 +3,8 @@
  * @param accountId
  */
 function getAccount(accountId) {
+	showdiv();
+	$("#myModalTitle").html("编辑用户");
 	$("#saveAccountId").unbind("click");
 	var roleList = [];
 	$.ajax({	
@@ -27,16 +29,16 @@ function getAccount(accountId) {
 					num = 0;
 					for(var i=0;i<roleList.length;i++){
 						if(roleList[i].id == role.id) {
-							jQuery("#roleListId").append("<span><input type=\"checkbox\" checked=\"checked\" name=\"roleId\" id="+role.id+">"+ role.name+"</span><br/>");
+							jQuery("#roleListId").append("<label class=\"checkbox-inline\"><input type=\"checkbox\" checked=\"checked\" name=\"roleId\" id="+role.id+">"+ role.name+"</label>");
 						}else{
 							num++;
 							if(num==roleList.length) {
-								jQuery("#roleListId").append("<span><input type=\"checkbox\" name=\"roleId\" id="+role.id+">"+ role.name+"</span><br/>");
+								jQuery("#roleListId").append("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"roleId\" id="+role.id+">"+ role.name+"</label>");
 							}
 						}
 					}
 				}else{
-					jQuery("#roleListId").append("<span><input type=\"checkbox\" name=\"roleId\" id="+role.id+">"+ role.name+"</span><br/>");
+					jQuery("#roleListId").append("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"roleId\" id="+role.id+">"+ role.name+"</label>");
 				}
 			});
 			$("#saveAccountId").bind("click",function(){updateAccount();}); 
@@ -75,8 +77,6 @@ function updateAccount() {
 		contentType: "application/json; charset=utf-8",
 		data:'{"id": '+accountId+',"name": "'+name+'","password": "'+password+'","phoneNumber": "'+phoneNumber+'","email": "'+email+'","desc": "'+desc+'","roleList": '+roleList+'}',
 		success:function(result){
-			$("#addAndUpdateAccount").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -84,11 +84,7 @@ function updateAccount() {
 		}
 	});		
 }
-function cleanDivInfo() {
-	$("#addAndUpdateAccount input").val("");
-	$("#addAndUpdateRole input").val("");
-	$("#addAndUpdateAccountIp input").val("");
-}
+
 function findRoleList() {
 	var allRoleList;
 	$.ajax({	
@@ -111,9 +107,11 @@ function showAddAccountDiv() {
 	$("#roleListId").html("");
 	
 	$.each(allRoleList, function (i, role) { 
-		jQuery("#roleListId").append("<span><input type=\"checkbox\" name=\"roleId\" id="+role.id+">"+ role.name+"</span><br/>");
+		jQuery("#roleListId").append("<label class=\"checkbox-inline\"><input type=\"checkbox\" name=\"roleId\" id="+role.id+">"+ role.name+"</label>");
 	});
-	$("#addAndUpdateAccount").show();
+	showdiv();
+	cleanDivInfo();
+	$("#myModalTitle").html("增加用户");
 	$("#saveAccountId").bind("click",function(){addAccount();}); 
 }
 function addAccount() {
@@ -142,10 +140,8 @@ function addAccount() {
 		type:"POST",
 		async:false,
 		contentType: "application/json; charset=utf-8",
-		data:'{"name": "'+name+'","password": "'+password+'","phoneNumber": "'+phoneNumber+'","email": "'+email+'","desc": "'+desc+'","roleList": '+roleList+'}',
+		data:'{"name": "'+name+'","password": "'+hex_md5(password)+'","phoneNumber": "'+phoneNumber+'","email": "'+email+'","desc": "'+desc+'","roleList": '+roleList+'}',
 		success:function(result){
-			$("#addAndUpdateAccount").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -175,6 +171,8 @@ function delAccount(accountId) {
  * @param accountId
  */
 function getRole(roleId) {
+	showdiv();
+	$("#myModalTitle").html("编辑角色");
 	$("#saveRoleId").unbind("click");
 	var permissionList = [];
 	$.ajax({	
@@ -243,8 +241,6 @@ function updateRole() {
 		contentType: "application/json; charset=utf-8",
 		data:'{"id": '+roleId+',"name": "'+name+'","code": "'+code+'","desc": "'+desc+'","permissionList": '+permissionList+'}',
 		success:function(result){
-			$("#addAndUpdateRole").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -269,6 +265,9 @@ function findPermissionList() {
 	return allPermissionList;
 }
 function showAddRoleDiv() {
+	showdiv();
+	$("#myModalTitle").html("增加角色");
+	cleanDivInfo();
 	$("#saveRoleId").unbind("click");
 	var allPermissionList = findPermissionList();
 	$("#permissionListListId").html("");
@@ -305,8 +304,6 @@ function addRole() {
 		contentType: "application/json; charset=utf-8",
 		data:'{"name": "'+name+'","code": "'+code+'","desc": "'+desc+'","permissionList": '+permissionList+'}',
 		success:function(result){
-			$("#addAndUpdateRole").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -336,6 +333,8 @@ function delRole(roleId) {
  * @param accountId
  */
 function getAccountIp(accountIpId) {
+	$("#myModalTitle").html("编辑IP地址");
+	showdiv();
 	$("#saveAccountIpId").unbind("click");
 	$.ajax({	
 		url:'../system/getAccountIp',
@@ -368,7 +367,7 @@ function getAccountIp(accountIpId) {
 }
 function updateAccountIp() {
 	var accountIpId = $("#accountIpId").val();
-	var accountName = $("#accountName").val();
+	var accountName = $("#accountId").val();
 	var ip = $("#ip").val();
 	var netmask = $("#netmask").val();
 	$.ajax({
@@ -378,8 +377,6 @@ function updateAccountIp() {
 		contentType: "application/json; charset=utf-8",
 		data:'{"id": '+accountIpId+',"accountName": "'+accountName+'","ip": "'+ip+'","netmask": "'+netmask+'"}',
 		success:function(result){
-			$("#addAndUpdateAccountIp").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -388,6 +385,9 @@ function updateAccountIp() {
 	});		
 }
 function showAddAccountIpDiv() {
+	$("#myModalTitle").html("增加IP地址");
+	showdiv();
+	cleanDivInfo();
 	$("#saveAccountIpId").unbind("click");
 	$("#addAndUpdateAccountIp").show();
 	$("#saveAccountIpId").bind("click",function(){addAccountIp();}); 
@@ -400,7 +400,6 @@ function showAddAccountIpDiv() {
 	}
 }
 function addAccountIp() {
-	var accountIpId = $("#accountIpId").val();
 	var accountName = $("#accountId").val();
 	var ip = $("#ip").val();
 	var netmask = $("#netmask").val();
@@ -411,8 +410,6 @@ function addAccountIp() {
 		contentType: "application/json; charset=utf-8",
 		data:'{"accountName": "'+accountName+'","ip": "'+ip+'","netmask": "'+netmask+'"}',
 		success:function(result){
-			$("#addAndUpdateAccountIp").hide();
-			cleanDivInfo();
 			location.reload();
 		},
 		error:function(){
@@ -451,5 +448,54 @@ function findAccountDTOList() {
 }
 /**
  * 																	account model  end
+ * @param accountId
+ */
+
+/**
+ * 																	sysConfig model  start
+ * @param accountId
+ */
+function getSysConfigure(sysConfigureId) {
+	showdiv();
+	$("#myModalTitle").html("编辑系统参数");
+	$("#saveSysConfigureId").unbind("click");
+	$.ajax({	
+		url:'../system/getSysConfigure',
+		type:"GET",
+		async:false,
+		data:{'sysConfigureId': sysConfigureId},
+		success:function(result){
+			$("#addAndUpdateSysConfigure").show();
+			$("#id").val(result.id);
+			$("#name").val(result.name);
+			$("#value").val(result.value);
+			$("#saveSysConfigureId").bind("click",function(){updateSysConfigure();}); 
+		},
+		error:function(){
+			 console.log("根据ID获取系统参数失败！！！");
+		}
+	});	
+}
+function updateSysConfigure() {
+	var id = $("#id").val();
+	var name = $("#name").val();
+	var value = $("#value").val();
+	$.ajax({
+		url:'../system/updateSysConfigure',
+		type:"POST",
+		async:false,
+		contentType: "application/json; charset=utf-8",
+		data:'{"id": "'+id+'","name": "'+name+'","value": "'+value+'"}',
+		success:function(result){
+			$("#addAndUpdateSysConfigure").hide();
+			location.reload();
+		},
+		error:function(){
+			 console.log("保存系统参数信息失败");
+		}
+	});		
+}
+/**
+ * 																	sysConfig model  end
  * @param accountId
  */

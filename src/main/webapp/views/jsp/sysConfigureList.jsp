@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>作者管理</title>
+<title>系统参数管理</title>
 <link rel="shortcut icon" href="../img/favicon.ico">
 <link href="../css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
@@ -39,7 +39,7 @@
             <section class="wrapper site-min-height">
                <section class="panel">
                   <header class="panel-heading">
-                     <span class="label label-primary">作者管理</span>
+                     <span class="label label-primary">系统参数管理</span>
                      <span class="tools pull-right">
                      <a href="javascript:;" class="fa fa-chevron-down"></a>
                      <a href="javascript:;" class="fa fa-times"></a>
@@ -48,25 +48,17 @@
                   <div class="panel-body">
                      <div class="adv-table editable-table ">
                         <div class="clearfix">
-                           <div class="btn-group">
-                              <button id="editable-sample_new" class="btn btn-success green" onclick="addAuthor()">
-                              Add New <i class="fa fa-plus"></i>
-                              </button>
-                           </div>
                         </div>
                         <div class="space15"></div>
                         <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                           <display:table id="author" name="authorList" requestURI="/author/authorList" pagesize="5" class="table">
+                           <display:table id="sysConfigure" name="sysConfigureList" requestURI="/system/findSysConfigureList" pagesize="10" class="table">
 	                        <display:setProperty name="sort.amount" value="list"></display:setProperty>
 	                        <display:column property="id" title="标识" sortable="true" />
-							<display:column property="name" title="名字" sortable="true"/>
-							<display:column property="age" title="年龄" />
-							<display:column property="sexStr" title="性别" />
-							<display:column property="birthday" title="生日" />
-							<display:column property="createTime" title="创建时间" />
+							<display:column property="name" title="名称" sortable="true"/>
+							<display:column property="value" title="值" />
+							<display:column property="updateTime" title="创建时间" />
 							<display:column title="操作">
-								<a href="javascript:void(0)" onclick="getAuthor(<c:out value="${author.id}"/>)">编辑</a>
-								<a href="javascript:void(0)" onclick="delAuthor(<c:out value="${author.id}"/>)">删除</a>
+								<a href="javascript:void(0)" onclick="getSysConfigure('<c:out value="${sysConfigure.id}"/>')">编辑</a>
 							</display:column>
 						</display:table>
                         </table>
@@ -95,41 +87,32 @@
                 </h4>
               </div>
               <div class="panel-body">
-              		<input id="authorId" style="display: none;" />
                    <div class="form-group ">
-                      <label for="cname" class="control-label col-lg-2">名字:</label>
+                      <label for="cname" class="control-label col-lg-2">标识:</label>
                       <div class="col-lg-10">
-                         <input class=" form-control" id="name" name="name" type="text" required="">
+                         <input class=" form-control" id="id" name="id" type="text" required=""  readonly="readonly">
                       </div>
                    </div>
                    <br/>
                    <div class="form-group ">
-                      <label for="cemail" class="control-label col-lg-2">年龄:</label>
+                      <label for="cemail" class="control-label col-lg-2">名称:</label>
                       <div class="col-lg-10">
-                         <input class="form-control " id="age" name="age" required="">
+                         <input class="form-control " id="name" name="name" required="" readonly="readonly">
                       </div>
                    </div>
                    <div class="form-group ">
-                      <label for="curl" class="control-label col-lg-2">性别:</label>
+                      <label for="cemail" class="control-label col-lg-2">值:</label>
                       <div class="col-lg-10">
-                         <select class="form-control m-bot15"  id="sex">
-                         		<option value="10000">男</option>
-								<option value="10001">女</option>
-                         </select>
+                         <input class="form-control " id="value" name="value" required="">
                       </div>
                    </div>
-                   <div class="form-group ">
-                      <label for="ccomment" class="control-label col-lg-2">生日:</label>
-                      <div class="col-lg-10">
-                         <input id="birthDate" value="" class="Wdate" type="text" onClick="WdatePicker()" style="width: 445.2px;height:30px;">
-                      </div>
-                   </div>
+                   
               </div>
               <div class="modal-footer">
                 <button data-dismiss="modal" class="btn btn-default" type="button" id="cancelForGot" onclick="cancleDiv()">
                   Cancel
                 </button>
-                <button class="btn btn-success" type="button"  id="saveAuthorId">
+                <button class="btn btn-success" type="button"  id="saveSysConfigureId">
                   Submit
                 </button>
               </div>
@@ -148,7 +131,7 @@
 		<script src="../js/respond.min.js" ></script><!-- RESPOND JS  -->
 		<script src="../js/common-scripts.js" ></script><!-- BASIC COMMON JS  -->
 		<script src="../js/editable-table.js" ></script><!-- EDITABLE TABLE JS  -->
-		<script src="../js/author.js" ></script>
+		<script src="../js/system.js" ></script>
 	  <!-- END JS --> 
 	  <div class="modal-backdrop fade in" style="display: none;" id="zhezhaocengId"></div>
 </body>
