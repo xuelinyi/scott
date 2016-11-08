@@ -112,7 +112,7 @@ public class CustomUserDetailsServiceImpl extends HttpServlet implements UserDet
 					SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					int loginNumber = Integer
 							.parseInt(jdbcTemplate.queryForObject(
-									"SELECT VVALUE FROM SYSCONFIG WHERE IID = ?",
+									"SELECT VVALUE FROM SSYSCONFIG WHERE IID = ?",
 									new Object[] { "MAX_LOGIN_COUNT" },
 									java.lang.String.class));
 					log.debug("系统配置的最大登录次数是" + loginNumber);

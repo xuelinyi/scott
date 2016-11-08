@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="mybatis.mapper.Book">      
     <insert id="addBook" parameterType="Test" useGeneratedKeys="true" keyProperty="id"> 
-        INSERT INTO BBOOK_TEMPORARY (BBOOK_NAME,AAUTHOR_ID,BBOOK_TYPE,BBOOK_SYNOPSIS,BBOOK_FILE,CCREATE_TIME,MMODIFY_TIME) 
-        VALUES(#{bookName},#{authorId},#{bookType},#{bookSynopsis},#{bookFile},#{createTime},#{modifyTime}) 
+        INSERT INTO BBOOK_TEMPORARY (BBOOK_NAME,AAUTHOR_ID,BBOOK_TYPE,BBOOK_SYNOPSIS,BBOOK_FILE,CCREATE_TIME,MMODIFY_TIME,IIS_CHECK) 
+        VALUES(#{bookName},#{author.id},#{bookType},#{bookSynopsis},#{bookFile},#{createTime},#{modifyTime},#{isCheck}) 
     </insert>
     <resultMap id="BookTemporary" type="com.comverse.timesheet.web.bean.book.BookTemporary">
 	     <id column="IID" property="id" />
@@ -12,24 +12,37 @@
 	     <result column="BBOOK_TYPE" property="bookType" />
 	     <result column="BBOOK_SYNOPSIS" property="bookSynopsis" />
 	     <result column="BBOOK_FILE" property="bookFile" />
+	     <result column="IIS_CHECK" property="isCheck" />
+	     <result column="ILLEGAL_CHARACTER" property="IllegalCharacter" />
 	     <result column="CCREATE_TIME" property="createTime" />
 	     <result column="MMODIFY_TIME" property="modifyTime" />
 	     <collection property="author" column="AAUTHOR_ID" select="mybatis.mapper.Author.selectAuthorById" />
 	</resultMap>
     <select id="selectBookByNull" resultMap="BookTemporary">
-        SELECT * FROM BBOOK_TEMPORARY
+        SELECT * FROM BBOOK_TEMPORARY 
+       		<if test="isCheck=null and isCheck!=0">
+        		WHERE IIS_CHECK=#{isCheck}  
+        	</if>
+        	ORDER BY MMODIFY_TIME
+        	<if test="limitCount!=null and limitCount!=0">
+        		LIMIT #{limitCount}
+        	</if>
     </select>
     <select id="selectBookById" resultMap="BookTemporary">
         SELECT * FROM BBOOK_TEMPORARY WHERE IID=#{id}
     </select>
     <update id="updateBookTemporary"  parameterType="Test" >
     	UPDATE BBOOK_TEMPORARY
-    	<set>
+    	<set> 
+    		 ILLEGAL_CHARACTER=#{IllegalCharacter} 
 	    	<if test="bookName!=null">
-	   			BBOOK_NAME=#{bookName}
+	   			,BBOOK_NAME=#{bookName}
 	   		</if>
 	   		<if test="bookType!=0">
 	   			, BBOOK_TYPE=#{bookType}
+	   		</if>
+	   		<if test="isCheck!=0">
+	   			, IIS_CHECK=#{isCheck}
 	   		</if>
 	   		<if test="author!=null and author.id!=0">
 	   			, AAUTHOR_ID=#{author.id}

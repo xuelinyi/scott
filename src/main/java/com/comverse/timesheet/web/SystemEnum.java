@@ -3,7 +3,8 @@ package com.comverse.timesheet.web;
 public enum SystemEnum {
 	DEBUG(0x10,"调试"),INFO (0x20,"信息"),WARN (0x30,"告警"),
 	ERROR (0x40,"错误"),SUCCESS (0x50,"成功"),FAIL (0x60,"失败"),
-	LOGIN_NORMAL(10000,"正常"),LOGIN_ABNORMAL(10001,"异常"),MAIL_SUBJECT(10001,"账户重置"),MAIL_CONTENT(10002,"尊敬的用户，您好：您的密码已重置为：");
+	LOGIN_NORMAL(10000,"正常"),LOGIN_ABNORMAL(10001,"异常"),MAIL_SUBJECT(10001,"账户重置"),
+	MAIL_CONTENT(10002,"尊敬的用户，您好：您的密码已重置为："),CHECK_BOOKCOUNT(100,"检查图书的数量");
 	
 	private int logFlag;
 	private String value;

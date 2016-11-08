@@ -56,6 +56,7 @@
 							<display:column property="bookName" title="书籍名称" sortable="true"/>
 							<display:column property="author.name" title="作者" />
 							<display:column property="bookTypeStr" title="书籍类型" />
+							<display:column property="isCheckedWithStr" title="书籍状态" />
 							<display:column property="bookSynopsis" title="书籍简介" />
 							<display:column property="createTime" title="创建时间" />
 							<display:column title="操作"><a href="javascript:void(0)" onclick="getBook(<c:out value="${book.id}"/>)">编辑</a></display:column>

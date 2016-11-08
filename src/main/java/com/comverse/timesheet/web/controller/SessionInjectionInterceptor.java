@@ -63,7 +63,7 @@ public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 	        	username = principal.toString();
 	        }			
 			if (!"anonymousUser".equals(username)) {
-				List<Map<String, Object>> accountIpManaList = jdbcTemplate.queryForList("SELECT * FROM IP_MANAGEMENT WHERE AACCOUNT_NAME = '"+username+"' || AACCOUNT_NAME='用户'");
+				List<Map<String, Object>> accountIpManaList = jdbcTemplate.queryForList("SELECT * FROM IP_MANAGEMENT WHERE AACCOUNT_NAME = '"+username+"' || AACCOUNT_NAME='所有用户'");
 				boolean loginFlag = false;
 				if(null!=accountIpManaList){
 					for (int i = 0; i < accountIpManaList.size(); i++) {
@@ -81,17 +81,17 @@ public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 				if(username.equals("admin")){
 					session.setAttribute("user",username);
 					SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-					String LoginSuccessSql = "INSERT INTO ADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
+					String LoginSuccessSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
 					jdbcTemplate.execute(LoginSuccessSql);
 				}else{
 					if(loginFlag){
 						session.setAttribute("user",username);
 						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-						String LoginSuccessSql = "INSERT INTO ADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
+						String LoginSuccessSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
 						jdbcTemplate.execute(LoginSuccessSql);
 					}else{
 						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-						String LoginSql = "INSERT INTO ADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','96','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆失败');";
+						String LoginSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','96','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆失败');";
 						jdbcTemplate.execute(LoginSql);
 						Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 						session.setAttribute("user", null);

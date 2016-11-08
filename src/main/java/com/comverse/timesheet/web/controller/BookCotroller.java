@@ -4,14 +4,19 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.comverse.timesheet.web.bean.book.BookTemporary;
 import com.comverse.timesheet.web.business.IAuthorBusiness;
 import com.comverse.timesheet.web.business.IBookBusiness;
+import com.comverse.timesheet.web.business.ISystemBusiness;
 import com.comverse.timesheet.web.dto.AuthorAndBookDTO;
+import com.comverse.timesheet.web.dto.BookTemporaryDTO;
 
 @Controller
 public class BookCotroller  extends BaseController{
@@ -20,6 +25,8 @@ public class BookCotroller  extends BaseController{
     private IBookBusiness bookBusiness; 
 	@Autowired
 	private IAuthorBusiness authorBusiness;
+	@Autowired
+	private ISystemBusiness systemBusiness;
 	/**
 	 *  跳转图书管理首页
 	 * @return
@@ -27,7 +34,7 @@ public class BookCotroller  extends BaseController{
 	@RequestMapping("book/temporaryBookList")
 	public String jumpgetTemporaryBook(ModelMap modelMap) {
 		log.debug("跳转到图书管理首页。");
-		modelMap.addAttribute("bookList", bookBusiness.findTemporaryBook());
+		modelMap.addAttribute("bookList", bookBusiness.findTemporaryBook(new BookTemporaryDTO()));
 		return "bookList";
 	}
 	@RequestMapping("book/getTemporaryBook")
@@ -55,5 +62,27 @@ public class BookCotroller  extends BaseController{
 				fail("编辑书籍信息失败。book:"+book);
 		}
 		return updateResult;
+	}
+	@RequestMapping(value="/book/jumpAddBook")
+	public String jumpAddBook(ModelMap modelMap) {
+		log.debug("跳转上传书籍页面");
+		modelMap.addAttribute("authorList", authorBusiness.findAuthor());
+		return "addBookPage";
+	}
+	
+	@RequestMapping(value="/book/addBookSave", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean getTemporaryBook(@RequestParam(value = "bookFile", required = true)MultipartFile bookFile,@RequestParam(value = "bookName", required = true) String bookName
+			,@RequestParam(value = "authorId", required = true) int authorId,@RequestParam(value = "bookType", required = true) int bookType
+			,@RequestParam(value = "bookSynopsis", required = true) String bookSynopsis) {
+		log.debug("file:"+bookFile);
+		boolean result = false;
+		if((null!=bookFile)&&(0!=bookFile.getSize())) {
+			String bookFilePath = bookBusiness.uploadingBookForm(bookFile);
+			if(null != bookFilePath) {
+				result = bookBusiness.addTemporaryBook(bookName,authorId,bookType,bookSynopsis,bookFilePath);
+			}
+		}
+		return result;
 	}
 }

@@ -12,6 +12,8 @@ public class BookTemporary {
 	private int bookType;
 	private String bookSynopsis;
 	private String bookFile;
+	private int isCheck;
+	private int IllegalCharacter; 
 	private String createTime;
 	private String modifyTime;
 	public int getId() {
@@ -68,6 +70,19 @@ public class BookTemporary {
 	public void setModifyTime(String modifyTime) {
 		this.modifyTime = modifyTime;
 	}
+	public int getIsCheck() {
+		return isCheck;
+	}
+	public void setIsCheck(int isCheck) {
+		this.isCheck = isCheck;
+	}
+	
+	public int getIllegalCharacter() {
+		return IllegalCharacter;
+	}
+	public void setIllegalCharacter(int illegalCharacter) {
+		IllegalCharacter = illegalCharacter;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -83,7 +98,9 @@ public class BookTemporary {
 		builder.append(bookSynopsis);
 		builder.append(", bookFile=");
 		builder.append(bookFile);
-		builder.append(", createFile=");
+		builder.append(", isCheck=");
+		builder.append(isCheck);
+		builder.append(", createTime=");
 		builder.append(createTime);
 		builder.append(", modifyTime=");
 		builder.append(modifyTime);
@@ -93,6 +110,10 @@ public class BookTemporary {
 	public static BookTemporaryDTO conversionBookTemporary(BookTemporary bookTemporary) {
 		BookTemporaryDTO bookTemporaryDTO = new BookTemporaryDTO();
 		bookTemporaryDTO.setId(bookTemporary.getId());
+		int isChecked = bookTemporary.getIsCheck();
+		BookEnum.IS_CHECK_FAIL.getSexFlag();
+		bookTemporaryDTO.setIsCheck(isChecked);
+		bookTemporaryDTO.setIsCheckedWithStr(BookEnum.getValue(isChecked));
 		bookTemporaryDTO.setBookName(bookTemporary.getBookName());
 		bookTemporaryDTO.setAuthor(bookTemporary.getAuthor());
 		bookTemporaryDTO.setBookType(bookTemporary.getBookType());
@@ -101,6 +122,17 @@ public class BookTemporary {
 		bookTemporaryDTO.setBookFile(bookTemporary.getBookFile());
 		bookTemporaryDTO.setCreateTime(bookTemporary.getCreateTime());
 		bookTemporaryDTO.setModifyTime(bookTemporary.getModifyTime());
+		bookTemporaryDTO.setIllegalCharacter(bookTemporary.getIllegalCharacter());
 		return bookTemporaryDTO;
+	}
+	public BookTemporary(){
+		
+	}
+	public BookTemporary(String bookName,Author author,int bookType,String bookSynopsis,String bookFile) {
+		this.bookFile = bookFile;
+		this.bookName = bookName;
+		this.author = author;
+		this.bookType = bookType;
+		this.bookSynopsis = bookSynopsis;
 	}
 }

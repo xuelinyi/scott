@@ -78,8 +78,8 @@
                   </a>
                 </li>
                 <li>
-                  <a href="buttons.html">
-                    Buttons
+                  <a href="../book/jumpAddBook">
+                    	新建书籍
                   </a>
                 </li>
                 <li>

@@ -192,8 +192,24 @@
     </bean> 
      <bean id="ruleImpl" class="com.comverse.timesheet.web.business.impl.RuleImpl"> 
     </bean> 
-    <bean id="luceneDemoBusiness" class="com.comverse.timesheet.web.business.impl.LuceneDemoBusinessImpl"> 
+    <bean id="luceneDemoBusiness" class="com.comverse.timesheet.web.business.impl.LucenusinessImpl"> 
     </bean>
     <bean id="systemBusiness" class="com.comverse.timesheet.web.business.impl.SystemBusinessImpl"> 
     </bean>  
+	    <bean id="checkBookIsLegitimateBusiness" class="com.comverse.timesheet.web.business.impl.CheckBookIsLegitimateBusinessImpl"> 
+    </bean>      
+    <bean id="taskExecutor"  
+        class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">  
+        <property name="corePoolSize" value="2" />  
+        <property name="maxPoolSize" value="5" />  
+        <property name="queueCapacity" value="6" />  
+        <property name="keepAliveSeconds" value="2000" />  
+        <property name="rejectedExecutionHandler">  
+            <bean class="java.util.concurrent.ThreadPoolExecutor$AbortPolicy" />  
+        </property>  
+    </bean>
+    
+<!-- 	<task:scheduled-tasks> -->
+<!-- 		<task:scheduled ref="checkBookIsLegitimateBusiness" method="CheckBookIsLegitimate" cron="* * 0/1 * * ?" /> -->
+<!-- 	</task:scheduled-tasks> -->
 </beans>
