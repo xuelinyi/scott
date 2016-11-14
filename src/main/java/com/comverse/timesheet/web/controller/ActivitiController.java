@@ -58,15 +58,9 @@ import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 public class ActivitiController {
 	 @Resource  
 	    ProcessEngine engine;  
-	  
-	   
-	  
 	    /** 
-	 
 	     * 列出所有流程模板 
-	 
 	     */  
-	  
 	 @RequestMapping(method = RequestMethod.GET)   
 	  
 	    public String list(ModelMap mav) {  

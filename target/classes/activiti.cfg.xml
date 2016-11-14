@@ -23,12 +23,16 @@
           <property name="activityFontName"  value="宋体" />  
   
           <property name="labelFontName"  value="宋体" />  
+<<<<<<< HEAD
    			<!-- 自定义表单字段类型 -->
         <property name="customFormTypes">
             <list>
                 <bean class="com.comverse.timesheet.web.activiti.activiti.form.UsersFormType"/>
             </list>
         </property>
+=======
+  
+>>>>>>> f52fdb647de1813a346772240614dd192af0439b
   </bean>  
   
   <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">  
