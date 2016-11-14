@@ -56,7 +56,7 @@ CREATE TABLE IP_MANAGEMENT(
 	PRIMARY KEY(IID)
 )DEFAULT CHARACTER SET UTF8;
 DROP TABLE IF EXISTS AADMIN_LOG;
-create table  `ADMIN_LOG`(
+create table  `AADMIN_LOG`(
        `IID`            BIGINT not null AUTO_INCREMENT comment '标识',
        `TTIME`     VARCHAR(32) comment '发生时间',
        `LLEVEL` INT comment '级别（成功或失败）',

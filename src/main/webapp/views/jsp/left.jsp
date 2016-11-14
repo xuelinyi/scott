@@ -68,7 +68,7 @@
                   书籍管理
                 </span>
                 <span class="label label-info span-sidebar">
-                  7
+                  2
                 </span>
               </a>
               <ul class="sub">
@@ -82,31 +82,6 @@
                     	新建书籍
                   </a>
                 </li>
-                <li>
-                  <a href="widget.html">
-                    Widget
-                  </a>
-                </li>
-                <li>
-                  <a href="slider.html">
-                    Range Slider
-                  </a>
-                </li>
-                <li>
-                  <a href="nestable.html">
-                    Nestable List
-                  </a>
-                </li>
-                <li>
-                  <a href="tree.html">
-                    Tree View List
-                  </a>
-                </li>
-                <li>
-                  <a href="font_awesome.html">
-                    Font Awesome Icon
-                  </a>
-                </li>
               </ul>
             </li>
             <li class="sub-menu">
@@ -117,33 +92,13 @@
                   	作者管理
                 </span>
                 <span class="label label-primary span-sidebar">
-                  5
+                  1
                 </span>
               </a>
               <ul class="sub">
                 <li>
                   <a href="../author/authorList">
                     	作者管理
-                  </a>
-                </li>
-                <li>
-                  <a href="calendar.html">
-                    Calendar
-                  </a>
-                </li>
-                <li>
-                  <a href="gallery.html">
-                    Gallery
-                  </a>
-                </li>
-                <li>
-                  <a href="todo_list.html">
-                    Todo List
-                  </a>
-                </li>
-                <li>
-                  <a href="draggable_portlet.html">
-                    Draggable Portlets
                   </a>
                 </li>
               </ul>
@@ -153,46 +108,31 @@
                 <i class="fa fa-tasks">
                 </i>
                 <span>
-                  Form Stuff
+                  	请假（普通表单）
                 </span>
                 <span class="label label-info span-sidebar">
-                  7
+                  4
                 </span>
               </a>
               <ul class="sub">
                 <li>
                   <a href="form_component.html">
-                    Form Components
+                    	请假申请（普通表单）
                   </a>
                 </li>
                 <li>
                   <a href="advanced_form_components.html">
-                    Advanced Components
+                    	请假办理（普通表单）
                   </a>
                 </li>
                 <li>
                   <a href="form_wizard.html">
-                    Form Wizards
+                   		运行中流程（普通表单）
                   </a>
                 </li>
                 <li>
                   <a href="form_validation.html">
-                    Form Validation
-                  </a>
-                </li>
-                <li>
-                  <a href="dropzone.html">
-                    Dropzone File Upload
-                  </a>
-                </li>
-                <li>
-                  <a href="inline_editor.html">
-                    Inline Editor
-                  </a>
-                </li>
-                <li>
-                  <a href="file_upload.html">
-                    Multiple File Upload
+                    	已结束流程（普通表单）
                   </a>
                 </li>
               </ul>
@@ -202,36 +142,31 @@
                 <i class="fa fa-th">
                 </i>
                 <span>
-                  Data Tables
+                  	动态表单
                 </span>
                 <span class="label label-inverse span-sidebar">
-                  5
+                  4
                 </span>
               </a>
               <ul class="sub">
                 <li>
                   <a href="basic_table.html">
-                    Basic Table
+                    	流程列表（动态）
                   </a>
                 </li>
                 <li>
                   <a href="responsive_table.html">
-                    Responsive Table
+                    	任务列表（动态）
                   </a>
                 </li>
                 <li>
                   <a href="dynamic_table.html">
-                    Dynamic Table
+                    	运行中的流程表（动态）
                   </a>
                 </li>
                 <li>
                   <a href="advanced_table.html">
-                    Advanced Table
-                  </a>
-                </li>
-                <li>
-                  <a href="editable_table.html">
-                    Editable Table
+                    	已结束流程表（动态）
                   </a>
                 </li>
               </ul>
@@ -241,21 +176,31 @@
                 <i class=" fa fa-envelope">
                 </i>
                 <span>
-                  Mail
+                  	外置表单
                 </span>
                 <span class="label label-danger span-sidebar">
-                  2
+                  4
                 </span>
               </a>
               <ul class="sub">
                 <li>
-                  <a href="inbox.html">
-                    Inbox
+                  <a href="basic_table.html">
+                    	流程列表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="inbox_details.html">
-                    Mail Details
+                  <a href="responsive_table.html">
+                    	任务列表（动态）
+                  </a>
+                </li>
+                <li>
+                  <a href="dynamic_table.html">
+                    	运行中的流程表（动态）
+                  </a>
+                </li>
+                <li>
+                  <a href="advanced_table.html">
+                    	已结束流程表（动态）
                   </a>
                 </li>
               </ul>
@@ -265,31 +210,26 @@
                 <i class=" fa fa-bar-chart-o">
                 </i>
                 <span>
-                  Charts
+                  	流程管理
                 </span>
                 <span class="label label-warning span-sidebar">
-                  4
+                  3
                 </span>
               </a>
               <ul class="sub">
                 <li>
                   <a href="morris.html">
-                    Morris Chart
+                    	流程定义及部署管理
                   </a>
                 </li>
                 <li>
                   <a href="chartjs.html">
-                    Chartjs Chart
+                    	运行中流程
                   </a>
                 </li>
                 <li>
                   <a href="flot_chart.html">
-                    Flot Charts
-                  </a>
-                </li>
-                <li>
-                  <a href="xchart.html">
-                    xChart
+                    	模型工作区
                   </a>
                 </li>
               </ul>

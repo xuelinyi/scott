@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    
+"http://mybatis.org/dtd/mybatis-3-config.dtd">    
+<configuration> 
+    <typeAliases> 
+        <typeAlias type="com.comverse.timesheet.web.bean.TestTable" 
+        alias="Test" /> 
+    </typeAliases> 
+    <mappers> 
+        <mapper resource="/mybatis/mapper/Test.xml" /> 
+        <mapper resource="/mybatis/mapper/Book.xml" />
+        <mapper resource="/mybatis/mapper/Author.xml" />
+        <mapper resource="/mybatis/mapper/System.xml" />  
+    </mappers> 
+       
+</configuration>
