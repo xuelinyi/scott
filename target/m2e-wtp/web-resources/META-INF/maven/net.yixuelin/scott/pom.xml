@@ -10,8 +10,90 @@
   <properties> 
         <org.springframework.version>4.1.6.RELEASE</org.springframework.version>
         <lucene.version>4.4.0</lucene.version> 
+        <hadoop.version>2.6.0</hadoop.version>
     </properties>
    <dependencies> 
+   		<dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-core</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+<groupId>jdk.tools</groupId>
+<artifactId>jdk.tools</artifactId>
+<version>1.8</version>
+<scope>system</scope>
+<systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+</dependency>
+        
+        
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-common</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-hdfs</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-common</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-client-jobclient</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-mapreduce-examples</artifactId>
+            <version>${hadoop.version}</version>
+        </dependency>
+   
+   
+   
+   <dependency>
+            <groupId>org.jfree</groupId>
+            <artifactId>jfreechart</artifactId>
+            <version>1.0.15</version>
+        </dependency>
+        
+         <!-- Jackson -->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+        
+         <!--utils-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0-rc1</version>
+        </dependency>
+         <!-- cxf -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        
+         <!-- ������������������ -->
+        <dependency>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.12.1.GA</version>
+        </dependency>
+        
+        
+        
+        
+        
+        
+        
    	<!-- https://mvnrepository.com/artifact/dnsjava/dnsjava -->
 <dependency>
     <groupId>dnsjava</groupId>
@@ -41,7 +123,7 @@
 			<version>2.2.3</version>
 		</dependency>
 			
-   		 <!-- activiti依赖 -->  
+   		 <!-- activiti������ -->  
   
 	    <dependency>  
 	  
@@ -53,7 +135,7 @@
 	  
 	    </dependency>  
 	  
-	    <!-- activiti 与 Spring 集成 -->  
+	    <!-- activiti ��� Spring ������ -->  
 	  
 	    <dependency>  
 	  
@@ -84,7 +166,7 @@
    		<dependency>
 		    <groupId>com.google.protobuf</groupId>
 		    <artifactId>protobuf-java</artifactId>
-		    <version>2.4.1</version>
+		    <version>2.6.0</version>
 		</dependency>
    		<dependency> 
 			<groupId>com.thoughtworks.xstream</groupId> 
@@ -272,14 +354,14 @@
             <artifactId>spring-orm</artifactId> 
             <version>${org.springframework.version}</version> 
         </dependency>
-        <!-- maven打包编译的异常 ：sun.misc.BASE64Decoder 是 Sun 的专用 API，可能会在未来版本中删除的解决方法 -->
+        <!-- maven��������������������� ���sun.misc.BASE64Decoder ��� Sun ��������� API��������������������������������������������������� -->
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-compiler-javac</artifactId>
             <version>1.8.1</version>
         </dependency>
         
- 		<!-- json-lib是需要区分jdk版本的，pom.xml中的配置应加上<classifier>标签，如用jdk15： -->
+ 		<!-- json-lib���������������jdk������������pom.xml���������������������<classifier>���������������jdk15��� -->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
@@ -309,7 +391,11 @@
             <version>1.9</version>
         </dependency>
 
-
+<dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
+        </dependency>
       
         <dependency> 
             <groupId>org.springframework</groupId> 
@@ -497,7 +583,11 @@
             <artifactId>commons-fileupload</artifactId> 
             <version>1.2.2</version> 
         </dependency> 
-     
+     	 <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>1.4</version>
+        </dependency>
         <dependency> 
             <groupId>org.apache.commons</groupId> 
             <artifactId>commons-io</artifactId> 
@@ -515,6 +605,16 @@
             <artifactId>aspectjweaver</artifactId> 
             <version>1.7.0</version> 
         </dependency> 
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjlib</artifactId>
+            <version>1.6.2</version>
+        </dependency>
         <dependency> 
             <groupId>aopalliance</groupId> 
             <artifactId>aopalliance</artifactId> 
@@ -543,6 +643,11 @@
             <artifactId>commons-collections</artifactId> 
             <version>3.2.1</version> 
         </dependency> 
+         <dependency>
+            <groupId>commons-dbutils</groupId>
+            <artifactId>commons-dbutils</artifactId>
+            <version>1.5</version>
+        </dependency>
         <dependency> 
             <groupId>commons-lang</groupId> 
             <artifactId>commons-lang</artifactId> 
@@ -573,7 +678,7 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <encoding>UTF-8</encoding>  <!-- “编码 GBK 的不可映射字符”问题的解决 -->
+                    <encoding>UTF-8</encoding>  <!-- ��������� GBK ��������������������������������������� -->
                 </configuration>
             </plugin>
 
@@ -582,20 +687,20 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <!--不写匹配默认规则,TestSuit结尾，test开头的方法  -->
-                        <include>**/*TestSuit.java</include>   <!-- 两个星号**用来匹配任意路径，一个星号*用来获取除路径风格符外的0个或多个字符 -->
+                        <!--������������������������,TestSuit���������test���������������  -->
+                        <include>**/*TestSuit.java</include>   <!-- ������������**���������������������������������������*������������������������������������0������������������ -->
                     </includes>
                     <excludes>
                         <exclude>**/CollectionBillTestCase.java</exclude>
                         <exclude>**/PaymentBillTestCase.java</exclude>
                     </excludes>
-                    <skip>false</skip>  <!-- 略过单元测试 -->
-                    <testFailureIgnore>true</testFailureIgnore> <!-- 当Maven 遇到一个测试失败，它默认的行为是停止当前的构建。 如果你希望继续构建项目，即使 Surefire 插件遇到了失败的单元测试，你就需要设置 Surefire 的testFailureIgnore 这个配置属性为 true -->
+                    <skip>false</skip>  <!-- ������������������ -->
+                    <testFailureIgnore>true</testFailureIgnore> <!-- ���Maven ������������������������������������������������������������������������ ������������������������������������������ Surefire ��������������������������������������������������������� Surefire ���testFailureIgnore ��������������������� true -->
                 </configuration>
             </plugin>
 
             
-            <!-- 把依赖的jar包拷到lib目录下 -->
+            <!-- ������������jar���������lib��������� -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -625,12 +730,12 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <addClasspath>true</addClasspath>  <!-- 在jar包中增加依赖jar路径说明 -->
+                            <addClasspath>true</addClasspath>  <!-- ���jar������������������jar������������ -->
                             <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>com.garfield.gui.Main</mainClass>
                         </manifest>
                         
-                        <!-- 用maven在MANIFEST.MF资料中的Class-Path中增加当前目录(.)  -->
+                        <!-- ���maven���MANIFEST.MF������������Class-Path���������������������(.)  -->
                         <manifestEntries>
                            <Class-Path>.</Class-Path>
                         </manifestEntries>
@@ -642,8 +747,8 @@
         </plugins>
         
         
-        <!-- POM文件报错maven-dependency-plugin (goals "copy-dependencies", "unpack") is not supported by m2e.， 
-        在</build>标签前添加如下内容  -->
+        <!-- POM������������maven-dependency-plugin (goals "copy-dependencies", "unpack") is not supported by m2e.��� 
+        ���</build>���������������������������  -->
         
         <pluginManagement>
             <plugins>
@@ -677,7 +782,7 @@
         
         
         <resources>
-            <!--打包进XML等文件，排除java及版本控制文件  -->
+            <!--���������XML������������������java���������������������  -->
             <resource>
                  <directory>src/main/java</directory>
                 <excludes>
