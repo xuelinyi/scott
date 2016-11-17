@@ -149,6 +149,43 @@ public class Leave implements Serializable {
 	public void setProcessDefinition(ProcessDefinition processDefinition) {
 		this.processDefinition = processDefinition;
 	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Leave [id=");
+		builder.append(id);
+		builder.append(", processInstanceId=");
+		builder.append(processInstanceId);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", startTime=");
+		builder.append(startTime);
+		builder.append(", endTime=");
+		builder.append(endTime);
+		builder.append(", realityStartTime=");
+		builder.append(realityStartTime);
+		builder.append(", realityEndTime=");
+		builder.append(realityEndTime);
+		builder.append(", applyTime=");
+		builder.append(applyTime);
+		builder.append(", leaveType=");
+		builder.append(leaveType);
+		builder.append(", reason=");
+		builder.append(reason);
+		builder.append(", task=");
+		builder.append(task);
+		builder.append(", variables=");
+		builder.append(variables);
+		builder.append(", processInstance=");
+		builder.append(processInstance);
+		builder.append(", historicProcessInstance=");
+		builder.append(historicProcessInstance);
+		builder.append(", processDefinition=");
+		builder.append(processDefinition);
+		builder.append("]");
+		return builder.toString();
+	}
 	
 	
 }
