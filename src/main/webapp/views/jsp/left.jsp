@@ -116,7 +116,7 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="form_component.html">
+                  <a href="../leave/apply">
                     	请假申请（普通表单）
                   </a>
                 </li>

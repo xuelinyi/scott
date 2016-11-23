@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.comverse.timesheet.web.bean.leave.Leave;
 
 @Controller
+@RequestMapping(value = "/leave")
 public class LeaveController {
 	private static final Logger log = Logger.getLogger(LeaveController.class);
-	@RequestMapping("/leave/apply")
+	@RequestMapping("apply")
 	public String createForm(Model model) {
 		model.addAttribute("leave", new Leave());
-		return "leaveApply";
+		return "/oa/leave/leaveApply";
 	}
 }

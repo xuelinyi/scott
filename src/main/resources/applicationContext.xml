@@ -208,7 +208,7 @@
             <bean class="java.util.concurrent.ThreadPoolExecutor$AbortPolicy" />  
         </property>  
     </bean>
-	<task:scheduled-tasks>
-		<task:scheduled ref="checkBookIsLegitimateBusiness" method="CheckBookIsLegitimate" cron="* * 0/1 * * ?" />
-	</task:scheduled-tasks> 
+<!-- 	<task:scheduled-tasks> -->
+<!-- 		<task:scheduled ref="checkBookIsLegitimateBusiness" method="CheckBookIsLegitimate" cron="* * 0/1 * * ?" /> -->
+<!-- 	</task:scheduled-tasks>  -->
 </beans>
