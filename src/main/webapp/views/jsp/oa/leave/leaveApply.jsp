@@ -91,7 +91,7 @@
 					                   </div>
 					              </div>
 					              <div class="modal-footer">
-					                <button class="btn btn-success" type="button" id="saveAccountIpId">
+					                <button class="btn btn-success" type="button" id="saveAccountIpId" onclick="saveLeaveApply()">
 					                  Submit
 					                </button>
 					              </div>
@@ -125,7 +125,7 @@
 		<script src="../js/respond.min.js" ></script><!-- RESPOND JS  -->
 		<script src="../js/common-scripts.js" ></script><!-- BASIC COMMON JS  -->
 		<script src="../js/editable-table.js" ></script><!-- EDITABLE TABLE JS  -->
-		<script src="../js/system.js" ></script>
+		<script src="../js/oaLeave.js" ></script>
 	  <!-- END JS --> 
 	  <div class="modal-backdrop fade in" style="display: none;" id="zhezhaocengId"></div>
 </body>
