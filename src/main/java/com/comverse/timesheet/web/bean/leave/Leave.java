@@ -15,11 +15,11 @@ public class Leave implements Serializable {
 	private int id;
 	private String processInstanceId;
 	private String userId;
-	private Date startTime;
-	private Date endTime;
-	private Date realityStartTime;
-	private Date realityEndTime;
-	private Date applyTime;
+	private String startTime;
+	private String endTime;
+	private String realityStartTime;
+	private String realityEndTime;
+	private String applyTime;
 	private String leaveType;
 	private String reason;
 	
@@ -54,43 +54,43 @@ public class Leave implements Serializable {
 		this.userId = userId;
 	}
 
-	public Date getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 
-	public Date getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 
-	public Date getRealityStartTime() {
+	public String getRealityStartTime() {
 		return realityStartTime;
 	}
 
-	public void setRealityStartTime(Date realityStartTime) {
+	public void setRealityStartTime(String realityStartTime) {
 		this.realityStartTime = realityStartTime;
 	}
 
-	public Date getRealityEndTime() {
+	public String getRealityEndTime() {
 		return realityEndTime;
 	}
 
-	public void setRealityEndTime(Date realityEndTime) {
+	public void setRealityEndTime(String realityEndTime) {
 		this.realityEndTime = realityEndTime;
 	}
 
-	public Date getApplyTime() {
+	public String getApplyTime() {
 		return applyTime;
 	}
 
-	public void setApplyTime(Date applyTime) {
+	public void setApplyTime(String applyTime) {
 		this.applyTime = applyTime;
 	}
 

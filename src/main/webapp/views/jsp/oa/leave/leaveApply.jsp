@@ -12,7 +12,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>IP地址管理</title>
+<title>请假管理</title>
 <link rel="shortcut icon" href="../img/favicon.ico">
 <link href="../css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->

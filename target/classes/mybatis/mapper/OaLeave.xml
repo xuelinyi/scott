@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="mybatis.mapper.OaLeave">  
+    <insert id="addOaLeave" parameterType="com.comverse.timesheet.web.bean.leave.Leave" useGeneratedKeys="true" keyProperty="ID"> 
+        INSERT INTO OA_LEAVE (PROCESS_INSTANCE_ID,USER_ID,START_TIME,END_TIME,LEAVE_TYPE,REASON,APPLY_TIME,REALITY_START_TIME,REALITY_END_TIME) 
+        VALUES(#{processInstanceId},#{userId},#{startTime},#{endTime},#{leaveType},#{reason},#{applyTime},#{realityStartTime},#{realityEndTime})
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">  
+             SELECT LAST_INSERT_ID() AS id  
+        </selectKey>   
+    </insert>
+    <update id="updateOaLeaveProcessInstanceId" parameterType="com.comverse.timesheet.web.bean.leave.Leave" >
+    	UPDATE OA_LEAVE SET PROCESS_INSTANCE_ID =#{processInstanceId} WHERE ID=#{id}
+    </update>
+</mapper>   

@@ -10,7 +10,7 @@ function saveLeaveApply() {
 		type:"POST",
 		async:false,
 		contentType: "application/json; charset=utf-8",
-		data:'{"leaveType": "'+$("#leaveType").val()+'","startTime": "'+$("#startTime").val()+'","endTime": "'++$("#endTime").val()++'","reason": "'++$("#reason").val()++'"}',
+		data:'{"leaveType": "'+$("#leaveType").val()+'","startTime": "'+$("#startTime").val()+'","endTime": "'+$("#endTime").val()+'","reason": "'+$("#reason").val()+'"}',
 		success:function(result){
 			
 		},

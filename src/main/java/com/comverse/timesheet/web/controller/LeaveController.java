@@ -31,7 +31,7 @@ public class LeaveController {
 	@Autowired
 	private HttpSession session;
 	@Autowired
-    protected LeaveWorkflowBusiness workflowService;
+    protected LeaveWorkflowBusiness leaveWorkflowService;
 
     @Autowired
     protected RuntimeService runtimeService;
@@ -56,7 +56,7 @@ public class LeaveController {
 	    try {
 	      leave.setUserId(session.getAttribute("user").toString());
 	      Map<String, Object> variables = new HashMap<String, Object>();
-	      ProcessInstance processInstance = workflowService.startWorkflow(leave, variables);
+	      ProcessInstance processInstance = leaveWorkflowService.startWorkflow(leave, variables);
 	      message = "流程已启动，流程ID：" +processInstance.getId();
 	    } catch (ActivitiException e) {
 	      if (e.getMessage().indexOf("no processes deployed with key") != -1) {
