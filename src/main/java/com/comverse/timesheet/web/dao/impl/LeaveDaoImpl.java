@@ -41,4 +41,15 @@ public class LeaveDaoImpl extends BasicSqlSupport implements ILeaveDAO{
 		}
 		return result;
 	}
+	public Leave getLeave(int leaveId) {
+		log.debug("根据请假ID查询其请假信息。leaveId："+leaveId);
+		if(0!=leaveId) {
+			try {
+				return session.selectOne("mybatis.mapper.OaLeave.selectOaLeaveById",leaveId);
+			}catch(Exception e) {
+				log.error("根据ID查询其请假信息失败。"+e);
+			}
+		}
+		return null;
+	}
 }

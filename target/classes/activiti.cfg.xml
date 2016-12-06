@@ -24,12 +24,19 @@
   
           <property name="labelFontName"  value="宋体" />  
    			<!-- 自定义表单字段类型 -->
-<!--         <property name="customFormTypes"> -->
-<!--             <list> -->
-<!--                 <bean class="com.comverse.timesheet.web.activiti.activiti.form.UsersFormType"/> -->
-<!--             </list> -->
-<!--         </property> -->
+        <property name="customFormTypes">
+            <list>
+                <bean class="com.comverse.timesheet.web.activiti.activiti.form.UsersFormType"/>
+            </list>
+        </property>
+        <!-- 自动部署 -->
+        <property name="deploymentResources">
+            <list>
+                <value>classpath*:/deployments/*</value>
+            </list>
+        </property>
   </bean>  
+  
   
   <bean id="processEngine" class="org.activiti.spring.ProcessEngineFactoryBean">  
       <property name="processEngineConfiguration" ref="processEngineConfiguration" />  

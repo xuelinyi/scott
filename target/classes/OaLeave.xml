@@ -8,7 +8,22 @@
              SELECT LAST_INSERT_ID() AS id  
         </selectKey>   
     </insert>
+    <resultMap id="Leave" type="com.comverse.timesheet.web.bean.leave.Leave">
+	     <id column="ID" property="id" />
+	     <result column="PROCESS_INSTANCE_ID" property="processInstanceId" />
+	     <result column="USER_ID" property="userId" />
+	     <result column="START_TIME" property="startTime" />
+	     <result column="END_TIME" property="endTime" />
+	     <result column="LEAVE_TYPE" property="leaveType" />
+	     <result column="REASON" property="reason" />
+	     <result column="APPLY_TIME" property="applyTime" />
+	     <result column="REALITY_START_TIME" property="realityStartTime" />
+	     <result column="REALITY_END_TIME" property="realityEndTime" />
+	</resultMap>
     <update id="updateOaLeaveProcessInstanceId" parameterType="com.comverse.timesheet.web.bean.leave.Leave" >
     	UPDATE OA_LEAVE SET PROCESS_INSTANCE_ID =#{processInstanceId} WHERE ID=#{id}
     </update>
+    <select id="selectOaLeaveById" resultMap="Leave">
+        SELECT * FROM OA_LEAVE WHERE ID=#{leaveId}
+    </select>
 </mapper>   

@@ -12,7 +12,7 @@ function saveLeaveApply() {
 		contentType: "application/json; charset=utf-8",
 		data:'{"leaveType": "'+$("#leaveType").val()+'","startTime": "'+$("#startTime").val()+'","endTime": "'+$("#endTime").val()+'","reason": "'+$("#reason").val()+'"}',
 		success:function(result){
-			
+			alert(result);
 		},
 		error:function(){
 			 console.log("根据ID获取账户失败");

@@ -1,6 +1,7 @@
 package com.comverse.timesheet.web.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
@@ -35,7 +36,6 @@ public class LeaveController {
 
     @Autowired
     protected RuntimeService runtimeService;
-
     @Autowired
     protected TaskService taskService;
 	private static final Logger log = Logger.getLogger(LeaveController.class);
@@ -72,4 +72,27 @@ public class LeaveController {
 	    }
 	    return message;
 	  }
+	  
+	  /**
+	   * 任务列表
+	   * @author xuelinyi
+	   * @return
+	   */
+	  @RequestMapping(value="task")
+	  public String taskList(Model model) {
+		  log.debug("查询当前登录者的任务列表");
+		  String userId = session.getAttribute("user").toString();
+		  List<Leave> leaveList = leaveWorkflowService.findTodoTasks(userId);
+		  model.addAttribute("leaveList", leaveList);
+		  return "/oa/leave/taskList";
+	  }
 }
+
+
+
+
+
+
+
+
+

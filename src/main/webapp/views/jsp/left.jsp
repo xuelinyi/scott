@@ -121,7 +121,7 @@
                   </a>
                 </li>
                 <li>
-                  <a href="advanced_form_components.html">
+                  <a href="../leave/task">
                     	请假办理（普通表单）
                   </a>
                 </li>

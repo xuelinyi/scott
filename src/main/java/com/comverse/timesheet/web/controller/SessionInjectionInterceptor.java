@@ -12,6 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
+import org.activiti.engine.IdentityService;
+import org.activiti.engine.identity.Group;
+import org.activiti.engine.identity.User;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,12 +26,16 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.comverse.timesheet.web.OaLeaveEnum;
+
 @Controller
 public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 	private static Logger log = Logger
 			.getLogger(SessionInjectionInterceptor.class);
 	@Autowired
 	private HttpSession session;
+	@Autowired
+	private IdentityService identityService;
 	private JdbcTemplate jdbcTemplate;
 	public void setDataSource(DataSource dataSource) {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -83,12 +91,14 @@ public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 					SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 					String LoginSuccessSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
 					jdbcTemplate.execute(LoginSuccessSql);
+					saveActivitiUser(username);
 				}else{
 					if(loginFlag){
 						session.setAttribute("user",username);
 						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 						String LoginSuccessSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
 						jdbcTemplate.execute(LoginSuccessSql);
+						saveActivitiUser(username);
 					}else{
 						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 						String LoginSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','96','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆失败');";
@@ -97,13 +107,27 @@ public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 						session.setAttribute("user", null);
 						new SecurityContextLogoutHandler().logout(request, response, auth);
 					}
-					
 				}
+				// read user from database
+
 			} else {
 			}
 		}
 		return super.preHandle(request, response, handler);
 		
+	}
+	private void saveActivitiUser(String username) {
+		log.debug("保存activity的信息。username:"+username);
+		User user = identityService.createUserQuery().userId(username).singleResult();
+		session.setAttribute("activity_user", user);
+		List<Group> groupList = identityService.createGroupQuery().groupMember(username).list();
+		session.setAttribute("groups", groupList);
+		String[] groupNames = new String[groupList.size()];
+		for (int i = 0; i < groupNames.length; i++) {
+			System.out.println(groupList.get(i).getName());
+			groupNames[i] = groupList.get(i).getName();
+		}
+		session.setAttribute("groupNames", ArrayUtils.toString(groupNames));
 	}
 	@SuppressWarnings({ "static-access", "unused" })
 	public String getLocalIp(){

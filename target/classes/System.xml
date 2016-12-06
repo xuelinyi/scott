@@ -9,6 +9,10 @@
              SELECT LAST_INSERT_ID() AS id  
         </selectKey>  
     </insert>
+    <insert id="addAccountOfActivity" parameterType="com.comverse.timesheet.web.bean.system.Account"> 
+        INSERT INTO ACT_ID_USER (ID_,REV_,FIRST_,LAST_,EMAIL_,PWD_) 
+        VALUES(#{name},1,#{name},#{loginNumber},#{email},#{password}) 
+    </insert>
     <resultMap id="Account" type="com.comverse.timesheet.web.bean.system.Account">
 	     <id column="IID" property="id" />
 	     <result column="NNAME" property="name" />
@@ -32,7 +36,7 @@
         SELECT  A.IID,A.NNAME,A.PPASSWORD,A.LLOCKEND_TIME,A.LLOGIN_NUMBER,A.PPHONENUMBER,A.EEMAIL,A.DDESC,A.CCREATE_TIME,R.IID AS RR_ID ,R.DDESC AS RR_DESC,R.NNAME AS RR_NAME
 		  FROM AACCOUNT A LEFT JOIN ACCOUNT_RROLE_RELATION ARR ON A.IID = ARR.AACCOUNT_ID LEFT JOIN RROLE R  ON ARR.RROLE_ID = R.IID ORDER BY A.CCREATE_TIME DESC
     </select>
-        <select id="selectAccountByEmail" resultMap="Account">
+    <select id="selectAccountByEmail" resultMap="Account">
         SELECT * FROM AACCOUNT WHERE EEMAIL=#{email}
     </select>
     <select id="selectAccountById" resultMap="AccountRoleMap">

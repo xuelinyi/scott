@@ -58,7 +58,8 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			account.setCreateTime(formatter.format(new Date()));
 			int addAccountResult = session.insert("mybatis.mapper.System.addAccount", account);
-			if(addAccountResult > 0) {
+			int addAccountActivityResult = session.insert("mybatis.mapper.System.addAccountOfActivity", account);
+			if((addAccountResult > 0)&&(addAccountActivityResult>0)) {
 				return true;
 			}
 		}
@@ -68,11 +69,14 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean updateAccount(Account account) throws Exception {
 		log.debug("修改账户信息account:"+account);
 		if((null != account)&&(0!=account.getId())) {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			account.setCreateTime(formatter.format(new Date()));
-			int result = session.update("mybatis.mapper.System.updateAccount", account);
-			if(result > 0) {
+			try {
+				SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				account.setCreateTime(formatter.format(new Date()));
+				session.update("mybatis.mapper.System.updateAccount", account);
 				return true;
+			}catch(Exception e) {
+				log.error("修改账户信息e:"+e);
+				return false;
 			}
 		}
 		return false;
@@ -81,9 +85,12 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean deleteAccountRoleRelation(int accountId) throws Exception  {
 		log.debug("根据账户ID删除对应的角色信息accountId ： " +accountId);
 		if(0!=accountId) {
-			int result = session.delete("mybatis.mapper.System.deleteAccountRoleRelation",accountId);
-			if(result > 0) {
+			try {
+				session.delete("mybatis.mapper.System.deleteAccountRoleRelation",accountId);
 				return true;
+			}catch(Exception e) {
+				log.error("根据账户ID删除对应的角色信息失败e:"+e);
+				return false;
 			}
 		}
 		return false;
@@ -171,9 +178,12 @@ public class SystemDaoImpl extends BasicSqlSupport implements ISystemDao{
 	public boolean deleteRolePermissionRelation(int roleId) throws Exception  {
 		log.debug("根据账户ID删除对应的权限关联信息roleId ： " +roleId);
 		if(0!=roleId) {
-			int result = session.delete("mybatis.mapper.System.deleteRolePermissionRelation",roleId);
-			if(result > 0) {
+			try{
+				session.delete("mybatis.mapper.System.deleteRolePermissionRelation",roleId);
 				return true;
+			}catch(Exception e) {
+				log.error("删除权限信息失败。e:"+e);
+				return false;
 			}
 		}
 		return false;

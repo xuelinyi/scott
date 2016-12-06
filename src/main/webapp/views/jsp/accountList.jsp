@@ -124,7 +124,7 @@
                    </div>
                    <div class="form-group">
                       <label class="col-sm-2 control-label col-lg-2">角色:</label>
-                       <div class="col-lg-10" id="roleListId">
+                       <div class="col-lg-10" id="roleListId" style="height: 31px;">
                   		</div>
                    </div>
                    <div class="form-group ">
