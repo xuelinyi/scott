@@ -74,7 +74,7 @@ public class LeaveWorkflowBusinessImpl implements LeaveWorkflowBusiness{
 				tasks.addAll(todoList);
 				tasks.addAll(unsignedTasks);
 				for (Task task : tasks) {
-					String processInstanceId = task.getProcessDefinitionId();
+					String processInstanceId = task.getProcessInstanceId();
 					ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processInstanceId).active().singleResult();
 					String businessKey = processInstance.getBusinessKey();
 					Leave leave = leaveDAO.getLeave(Integer.parseInt(businessKey));

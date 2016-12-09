@@ -52,12 +52,27 @@
                         <table class="table table-striped table-hover table-bordered" id="editable-sample">
                            <display:table id="leave" name="leaveList" pagesize="5" class="table">
 	                        <display:setProperty name="sort.amount" value="list"></display:setProperty>
-	                        <display:column property="id" title="标识" sortable="true" />
-							<display:column property="processInstanceId" title="流程ID" sortable="true"/>
+	                        <display:column property="leaveType" title="假种" sortable="true" />
+							<display:column property="userId" title="申请人" sortable="true"/>
+							<display:column property="applyTime" title="申请时间" />
 							<display:column property="startTime" title="开始时间" />
 							<display:column property="endTime" title="结束时间" />
-							<display:column property="leaveType" title="请假类型" />
-							<display:column property="reason" title="原因" />
+							<display:column title="当前节点">
+								<a class="trace" href='#' pid="${leave.processInstance.id }" title="点击查看流程图"><c:out value="${leave.task.name }"/></a>
+							</display:column>
+							<display:column property="task.createTime" title="任务创建时间" />
+							<display:column title="流程状态">
+								${leave.processInstance.suspended ? "已挂起" : "正常" }；<b title='流程版本号'>V: ${leave.processDefinition.version }</b>
+							</display:column>
+							<display:column title="操作">
+								<c:if test="${empty task.assignee }">
+									<a class="claim" href="${ctx }/oa/leave/task/claim/${task.id}">签收</a>
+								</c:if>
+								<c:if test="${not empty task.assignee }">
+									<%-- 此处用tkey记录当前节点的名称 --%>
+									<a class="handle" tkey='${task.taskDefinitionKey }' tname='${task.name }' href="#">办理</a>
+								</c:if>
+							</display:column>
 						</display:table>
                         </table>
                      </div>

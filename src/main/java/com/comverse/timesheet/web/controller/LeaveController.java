@@ -54,7 +54,7 @@ public class LeaveController {
 	  public String startWorkflow(@RequestBody Leave leave) {
 		String message = "没有部署流程，请在[工作流]->[流程管理]页面点击<重新部署流程>";
 	    try {
-	      leave.setUserId(session.getAttribute("user").toString());
+	      leave.setUserId(((User)session.getAttribute("activity_user")).getId());
 	      Map<String, Object> variables = new HashMap<String, Object>();
 	      ProcessInstance processInstance = leaveWorkflowService.startWorkflow(leave, variables);
 	      message = "流程已启动，流程ID：" +processInstance.getId();
@@ -81,7 +81,7 @@ public class LeaveController {
 	  @RequestMapping(value="task")
 	  public String taskList(Model model) {
 		  log.debug("查询当前登录者的任务列表");
-		  String userId = session.getAttribute("user").toString();
+		  String userId = ((User)session.getAttribute("activity_user")).getId();
 		  List<Leave> leaveList = leaveWorkflowService.findTodoTasks(userId);
 		  model.addAttribute("leaveList", leaveList);
 		  return "/oa/leave/taskList";
