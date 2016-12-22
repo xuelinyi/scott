@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -85,6 +86,31 @@ public class LeaveController {
 		  List<Leave> leaveList = leaveWorkflowService.findTodoTasks(userId);
 		  model.addAttribute("leaveList", leaveList);
 		  return "/oa/leave/taskList";
+	  }
+	  /**
+	   * 签收任务
+	   * @author Administrator
+	   */
+	  @RequestMapping(value="claim/{id}")
+	  public String claim(@PathVariable("id") String taskId, HttpSession session, RedirectAttributes redirectAttributes) {
+		 log.debug("签收任务taskId："+taskId);
+		 if(null != taskId) {
+			String userId = ((User)session.getAttribute("activity_user")).getId();
+			taskService.claim(taskId, userId);
+		 }
+		 return "redirect:/leave/task";
+	  }
+	  /**
+	   * 读取详细数据
+	   * @author xuelinyi
+	   */
+	  @RequestMapping(value="detail/{id}")
+	  @ResponseBody
+	  public Leave detail(@PathVariable("id")Long taskId) {
+		  log.debug("读取任务的详细信息。taskId"+taskId);
+		  if(null != taskId) {
+			  leaveWorkflowService
+		  }
 	  }
 }
 

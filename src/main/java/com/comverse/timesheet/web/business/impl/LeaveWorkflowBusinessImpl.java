@@ -105,6 +105,10 @@ public class LeaveWorkflowBusinessImpl implements LeaveWorkflowBusiness{
 		}
 		return null;
 	}
+
+	public Leave getLeave() {
+		return null;
+	}
 }
 
 

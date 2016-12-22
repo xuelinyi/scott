@@ -22,7 +22,8 @@
 <link href="../css/style-responsive.css" rel="stylesheet"><!-- THEME BASIC RESPONSIVE  CSS --></head>
 <link rel="stylesheet" type="text/css" href="../extjs5.0/packages/ext-theme-crisp/build/resources/ext-theme-crisp-all.css">  
 <script type="text/javascript" src="../extjs5.0/ext-all.js"></script>  
-<script type="text/javascript" src="../extjs5.0/packages/ext-theme-crisp/build/ext-theme-crisp.js"></script>  
+<script type="text/javascript" src="../extjs5.0/packages/ext-theme-crisp/build/ext-theme-crisp.js"></script>
+<link href="../js/common/plugins/jui/themes/redmond/jquery-ui-1.9.2.custom.css" type="text/css" rel="stylesheet" />
 <body>
 <!-- BEGIN SECTION --> 
       <section id="container" class="">
@@ -58,19 +59,19 @@
 							<display:column property="startTime" title="开始时间" />
 							<display:column property="endTime" title="结束时间" />
 							<display:column title="当前节点">
-								<a class="trace" href='#' pid="${leave.processInstance.id }" title="点击查看流程图"><c:out value="${leave.task.name }"/></a>
+								<a class="trace" href='#' pid="${leave.processInstance.id }" title="点击查看流程图">${leave.task.name }</a>
 							</display:column>
 							<display:column property="task.createTime" title="任务创建时间" />
 							<display:column title="流程状态">
 								${leave.processInstance.suspended ? "已挂起" : "正常" }；<b title='流程版本号'>V: ${leave.processDefinition.version }</b>
 							</display:column>
 							<display:column title="操作">
-								<c:if test="${empty task.assignee }">
-									<a class="claim" href="${ctx }/oa/leave/task/claim/${task.id}">签收</a>
+								<c:if test="${empty leave.task.assignee }">
+									<a class="claim" href="../leave/claim/${leave.task.id}">签收</a>
 								</c:if>
-								<c:if test="${not empty task.assignee }">
+								<c:if test="${not empty leave.task.assignee }">
 									<%-- 此处用tkey记录当前节点的名称 --%>
-									<a class="handle" tkey='${task.taskDefinitionKey }' tname='${task.name }' href="#">办理</a>
+									<a class="handle" tkey='${leave.task.taskDefinitionKey }' tname='${leave.task.name }' href="#">办理</a>
 								</c:if>
 							</display:column>
 						</display:table>
@@ -80,6 +81,19 @@
                </section>
             </section>
 			<!-- END WRAPPER  -->
+			<!-- 部门领导审批 -->
+			<div id="deptLeaderAudit" style="display: none">
+		
+				<!-- table用来显示信息，方便办理任务 -->
+				<%@include file="view-form.jsp" %>
+			</div>
+		
+			<!-- HR审批 -->
+			<div id="hrAudit" style="display: none">
+		
+				<!-- table用来显示信息，方便办理任务 -->
+				<%@include file="view-form.jsp" %>
+			</div>
          </section>
 		 <!-- END MAIN CONTENT --> 
 		 <!-- BEGIN FOOTER --> 
@@ -98,6 +112,14 @@
 		<script src="../js/respond.min.js" ></script><!-- RESPOND JS  -->
 		<script src="../js/common-scripts.js" ></script><!-- BASIC COMMON JS  -->
 		<script src="../js/editable-table.js" ></script><!-- EDITABLE TABLE JS  -->
+		<script src="../js/common/plugins/jui/jquery-ui-1.9.2.min.js" type="text/javascript"></script>
+		<script src="../js/common/plugins/jui/extends/timepicker/jquery-ui-timepicker-addon.js" type="text/javascript"></script>
+		<script src="../js/common/plugins/jui/extends/i18n/jquery-ui-date_time-picker-zh-CN.js" type="text/javascript"></script>
+		<script src="../js/common/plugins/qtip/jquery.qtip.pack.js" type="text/javascript"></script>
+		<script src="../js/common/plugins/html/jquery.outerhtml.js" type="text/javascript"></script>
+		<script src="../js/common/plugins/blockui/jquery.blockUI.js" type="text/javascript"></script>
+		<script src="../js/module/activiti/workflow.js" type="text/javascript"></script>
+		<script src="../js/module/oa/leave/leave-todo.js" type="text/javascript"></script> 
 		<script src="../js/book.js" ></script>
 	  <!-- END JS --> 
 	  <div class="modal-backdrop fade in" style="display: none;" id="zhezhaocengId"></div>

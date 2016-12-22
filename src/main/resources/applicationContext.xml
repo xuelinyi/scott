@@ -197,7 +197,9 @@
     <bean id="systemBusiness" class="com.comverse.timesheet.web.business.impl.SystemBusinessImpl"> 
     </bean>
     <bean id="leaveWorkflowService" class="com.comverse.timesheet.web.business.impl.LeaveWorkflowBusinessImpl"> 
-    </bean>    
+    </bean>  
+    <bean id="traceService" class="com.comverse.timesheet.web.business.impl.WorkflowTraceBusinessImpl"> 
+    </bean>      
 	    <bean id="checkBookIsLegitimateBusiness" class="com.comverse.timesheet.web.business.impl.CheckBookIsLegitimateBusinessImpl"> 
     </bean>      
     <bean id="taskExecutor"  
