@@ -106,12 +106,34 @@ public class LeaveController {
 	   */
 	  @RequestMapping(value="detail/{id}")
 	  @ResponseBody
-	  public Leave detail(@PathVariable("id")Long taskId) {
-		  log.debug("读取任务的详细信息。taskId"+taskId);
-		  if(null != taskId) {
-			  leaveWorkflowService
+	  public Leave detail(@PathVariable("id")int id) {
+		  log.debug("读取任务的详细信息。taskId"+id);
+		  if(0 != id) {
+			  return leaveWorkflowService.getLeave(id);
 		  }
+		  return new Leave();
 	  }
+	  /**
+	   * 读取详细数据
+	   * @author xuelinyi
+	   */
+	  @RequestMapping(value="detail-with-vars/{id}/{taskId}")
+	  @ResponseBody
+	  public Leave getLeaveWithVars(@PathVariable("id")int id,String taskId) {
+		  log.debug("读取详细数据id:"+id);
+		  log.debug("taskId:"+taskId);
+		  Leave leave = new Leave();
+		  if((0!=id)&&(null != taskId)) {
+			  leave = leaveWorkflowService.getLeave(id);
+			  Map<String, Object> variables = taskService.getVariables(taskId);
+			  leave.setVariables(variables);
+		  }
+		  return leave;
+	  }
+	  /**
+	   * 完成任务
+	   */
+	  
 }
 
 

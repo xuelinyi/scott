@@ -106,7 +106,11 @@ public class LeaveWorkflowBusinessImpl implements LeaveWorkflowBusiness{
 		return null;
 	}
 
-	public Leave getLeave() {
+	public Leave getLeave(int id) {
+		log.debug("根据id查询对应的请假信息id:"+id);
+		if(0 != id) {
+			return leaveDAO.getLeave(id);
+		}
 		return null;
 	}
 }
