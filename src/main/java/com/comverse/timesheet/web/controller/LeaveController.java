@@ -133,7 +133,18 @@ public class LeaveController {
 	  /**
 	   * 完成任务
 	   */
-	  
+	  @RequestMapping(value = "complete/{id}", method = { RequestMethod.POST, RequestMethod.GET })
+	  @ResponseBody
+	  public String complete(@PathVariable("id") String taskId, com.comverse.timesheet.web.util.Variable var) {
+		  try {
+		      Map<String, Object> variables = var.getVariableMap();
+		      taskService.complete(taskId, variables);
+		      return "success";
+		    } catch (Exception e) {
+		      log.error("error on complete task {}, variables={}"+new Object[] { taskId, var.getVariableMap(), e });
+		      return "error";
+		    }
+	  }
 }
 
 

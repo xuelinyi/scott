@@ -13,7 +13,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>任务列表</title>
-<link rel="shortcut icon" href="../img/favicon.ico">
 <link href="../css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet"><!-- FONT AWESOME ICON STYLESHEET -->
@@ -71,7 +70,7 @@
 								</c:if>
 								<c:if test="${not empty leave.task.assignee }">
 									<%-- 此处用tkey记录当前节点的名称 --%>
-									<a class="handle" tkey='${leave.task.taskDefinitionKey }' tname='${leave.task.name }' href="#">办理</a>
+									<a class="handle" tkey='${leave.task.taskDefinitionKey }' tname='${leave.task.name }' oaId='${leave.id }' oaTId='${leave.task.id }' href="#">办理</a>
 								</c:if>
 							</display:column>
 						</display:table>

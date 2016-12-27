@@ -32,7 +32,7 @@ var detail = {};
  */
 function loadDetail(id, withVars, callback) {
     var dialog = this;
-    $.getJSON(ctx + '/oa/leave/detail/' + id, function(data) {
+    $.getJSON('../leave/detail/' + id, function(data) {
         detail = data;
         $.each(data, function(k, v) {
 			
@@ -56,7 +56,7 @@ function loadDetail(id, withVars, callback) {
  */
 function loadDetailWithTaskVars(leaveId, taskId, callback) {
     var dialog = this;
-    $.getJSON(ctx + '/oa/leave/detail-with-vars/' + leaveId + "/" + taskId, function(data) {
+    $.getJSON('../leave/detail-with-vars/' + leaveId + "/" + taskId, function(data) {
         detail = data;
         $.each(data, function(k, v) {
             // 格式化日期
@@ -95,11 +95,11 @@ function complete(taskId, variables) {
 	}
 	
 	$.blockUI({
-        message: '<h2><img src="/images/loading.gif" align="absmiddle"/>正在提交请求……</h2>'
+        message: '<h2><img src="../img/loading.gif" align="absmiddle"/>正在提交请求……</h2>'
     });
 	
 	// 发送任务完成请求
-    $.post(ctx + '/oa/leave/complete/' + taskId, {
+    $.post('../leave/complete/' + taskId, {
         keys: keys,
         values: values,
         types: types
@@ -382,10 +382,10 @@ function handle() {
 	var tname = $(this).attr('tname');
 	
 	// 请假记录ID
-	var rowId = $(this).parents('tr').attr('id');
+	var rowId = $(this).attr('oaId');
 	
 	// 任务ID
-	var taskId = $(this).parents('tr').attr('tid');
+	var taskId = $(this).attr('oaTId');
 	
 	// 使用对应的模板
 	$('#' + tkey).data({
