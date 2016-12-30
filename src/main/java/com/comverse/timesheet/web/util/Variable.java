@@ -43,7 +43,7 @@ public class Variable {
 			String type = arrayTypes[i];
 			Class<?> c = Enum.valueOf(PropertyType.class, type).getValue(); 
 			Object objectValue = ConvertUtils.convert(value, c);
-			vars.put(keys, objectValue);
+			vars.put(key, objectValue);
 		}
 		return vars;
 	}

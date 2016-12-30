@@ -119,7 +119,7 @@ public class LeaveController {
 	   */
 	  @RequestMapping(value="detail-with-vars/{id}/{taskId}")
 	  @ResponseBody
-	  public Leave getLeaveWithVars(@PathVariable("id")int id,String taskId) {
+	  public Leave getLeaveWithVars(@PathVariable("id")int id,@PathVariable("taskId") String taskId) {
 		  log.debug("读取详细数据id:"+id);
 		  log.debug("taskId:"+taskId);
 		  Leave leave = new Leave();
