@@ -52,4 +52,17 @@ public class LeaveDaoImpl extends BasicSqlSupport implements ILeaveDAO{
 		}
 		return null;
 	}
+	public boolean updateLeave(Leave leave) {
+		log.debug("修改请假流程的leave："+leave);
+		boolean result = false;
+		if((null != leave)&&(0!=leave.getId())) {
+			try {
+				session.update("mybatis.mapper.OaLeave.updateOaLeave",leave);
+				result = true;
+			}catch(Exception e) {
+				log.error("修改processInstanceId失败"+e);
+			}
+		}
+		return result;
+	}
 }

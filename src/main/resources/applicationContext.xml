@@ -198,10 +198,12 @@
     </bean>
     <bean id="leaveWorkflowService" class="com.comverse.timesheet.web.business.impl.LeaveWorkflowBusinessImpl"> 
     </bean>  
-    <bean id="traceService" class="com.comverse.timesheet.web.business.impl.WorkflowTraceBusinessImpl"> 
+    <bean id="traceService" class="com.comverse.timesheet.web.business.impl.WorkflowTraceBusinessImpl">
     </bean>      
-	    <bean id="checkBookIsLegitimateBusiness" class="com.comverse.timesheet.web.business.impl.CheckBookIsLegitimateBusinessImpl"> 
-    </bean>      
+	<bean id="checkBookIsLegitimateBusiness" class="com.comverse.timesheet.web.business.impl.CheckBookIsLegitimateBusinessImpl"> 
+    </bean>
+    <bean id="afterModifyApplyContentProcessor" class="com.comverse.timesheet.web.business.impl.AfterModifyApplyContentProcessor">
+    </bean>
     <bean id="taskExecutor"  
         class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">  
         <property name="corePoolSize" value="2" />  

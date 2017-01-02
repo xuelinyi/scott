@@ -126,12 +126,12 @@
                   </a>
                 </li>
                 <li>
-                  <a href="form_wizard.html">
+                  <a href="../leave/running">
                    		运行中流程（普通表单）
                   </a>
                 </li>
                 <li>
-                  <a href="form_validation.html">
+                  <a href="../leave/finished">
                     	已结束流程（普通表单）
                   </a>
                 </li>
@@ -150,22 +150,22 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="basic_table.html">
+                  <a href="../dynamic/process-list">
                     	流程列表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="responsive_table.html">
+                  <a href="../dynamic/taskList">
                     	任务列表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="dynamic_table.html">
+                  <a href="../dynamic/runningList">
                     	运行中的流程表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="advanced_table.html">
+                  <a href="../dynamic/finishedList">
                     	已结束流程表（动态）
                   </a>
                 </li>
@@ -184,22 +184,22 @@
               </a>
               <ul class="sub">
                 <li>
-                  <a href="basic_table.html">
+                  <a href="../formFormkey/process-list">
                     	流程列表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="responsive_table.html">
+                  <a href="../formFormkey/taskList">
                     	任务列表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="dynamic_table.html">
+                  <a href="../formFormkey/runningList">
                     	运行中的流程表（动态）
                   </a>
                 </li>
                 <li>
-                  <a href="advanced_table.html">
+                  <a href="../formFormkey/finishedList">
                     	已结束流程表（动态）
                   </a>
                 </li>

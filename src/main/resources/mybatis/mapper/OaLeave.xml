@@ -23,6 +23,30 @@
     <update id="updateOaLeaveProcessInstanceId" parameterType="com.comverse.timesheet.web.bean.leave.Leave" >
     	UPDATE OA_LEAVE SET PROCESS_INSTANCE_ID =#{processInstanceId} WHERE ID=#{id}
     </update>
+    <update id="updateOaLeave" parameterType="com.comverse.timesheet.web.bean.leave.Leave" >
+    	UPDATE OA_LEAVE 
+    	<set>
+    		<if test="startTime!=null">
+    		 	START_TIME =#{startTime}
+    		</if>
+    		<if test="endTime!=null">
+    		 	, END_TIME =#{endTime}
+    		</if>
+    		<if test="leaveType!=null">
+    		 	, LEAVE_TYPE =#{leaveType}
+    		</if>
+    		<if test="reason!=null">
+    			 , REASON =#{reason}
+    		</if>
+    		<if test="realityStartTime!=null">
+    			 , REALITY_START_TIME =#{realityStartTime}
+    		</if>
+    		<if test="realityEndTime!=null">
+    			 , REALITY_END_TIME =#{realityEndTime}
+    		</if>
+    	</set>
+    	<where>ID=#{id}</where>
+    </update>
     <select id="selectOaLeaveById" resultMap="Leave">
         SELECT * FROM OA_LEAVE WHERE ID=#{leaveId}
     </select>

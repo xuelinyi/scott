@@ -12,4 +12,7 @@ public interface LeaveWorkflowBusiness {
 	public ProcessInstance startWorkflow(Leave entity, Map<String, Object> variables);
 	public List<Leave> findTodoTasks(String userId);
 	public Leave getLeave(int id);
+	public boolean updateLeave(Leave entity);
+	public List<Leave> findRunningTask();
+	public List<Leave> findFinishedProcessInstaces();
 }

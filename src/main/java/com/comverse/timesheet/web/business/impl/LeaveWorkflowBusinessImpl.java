@@ -11,8 +11,11 @@ import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.activiti.engine.task.TaskQuery;
 import org.apache.log4j.Logger;
@@ -112,6 +115,54 @@ public class LeaveWorkflowBusinessImpl implements LeaveWorkflowBusiness{
 			return leaveDAO.getLeave(id);
 		}
 		return null;
+	}
+
+	public boolean updateLeave(Leave entity) {
+		log.debug("修改请假的信息。entity:"+entity);
+		if((null != entity)&&(0!=entity.getId())) {
+			return leaveDAO.updateLeave(entity);
+		}
+		return false;
+	}
+	@Transactional(readOnly=true)
+	public List<Leave> findRunningTask() {
+		log.debug("查询运行中的流程。");
+		List<Leave> leaveList = new ArrayList<Leave>();
+		ProcessInstanceQuery query = runtimeService.createProcessInstanceQuery().processDefinitionKey("leave").active().orderByProcessInstanceId().desc();
+		List<ProcessInstance> processInstanceList = query.list();
+		//关联业务实体
+		for (ProcessInstance processInstance : processInstanceList) {
+			String businessKey = processInstance.getBusinessKey();
+			Leave leave = leaveDAO.getLeave(new Integer(businessKey));
+			leave.setProcessInstance(processInstance);
+			leave.setProcessDefinition(getProcessDefinition(processInstance.getProcessDefinitionId()));
+			leaveList.add(leave);
+			
+			//设置当前任务信息
+			List<Task> taskList = taskService.createTaskQuery().processInstanceId(processInstance.getId()).active().orderByTaskCreateTime().desc().listPage(0, 1);
+			leave.setTask(taskList.get(0));
+		}
+		return leaveList;
+	}
+	/**
+	 * 读取一结束的流程信息
+	 * @author 12440
+	 */
+	@Transactional(readOnly = true)
+	public List<Leave> findFinishedProcessInstaces() {
+		log.debug("读取一结束的流程信息");
+		List<Leave> leaveList = new ArrayList<Leave>();
+		HistoricProcessInstanceQuery historicProcessInstanceQuery = historyService.createHistoricProcessInstanceQuery().processDefinitionKey("leave").finished().orderByProcessInstanceEndTime().desc();
+		List<HistoricProcessInstance> historicProcessInstanceList = historicProcessInstanceQuery.list();
+		for (HistoricProcessInstance historicProcessInstance : historicProcessInstanceList) {
+			String businessKey = historicProcessInstance.getBusinessKey();
+			Leave leave = leaveDAO.getLeave(Integer.parseInt(businessKey));
+			leave.setProcessDefinition(getProcessDefinition(historicProcessInstance.getProcessDefinitionId()));
+			leave.setHistoricProcessInstance(historicProcessInstance);
+			leaveList.add(leave);
+		}
+		
+  		return leaveList;
 	}
 }
 

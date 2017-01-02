@@ -50,15 +50,15 @@ function handle() {
 function readFormFields(taskId) {
 	var dialog = this;
 
-	// 清空对话框内容
-	$(dialog).html("<form class='dynamic-form' method='post'><table class='dynamic-form-table'></table></form>");
-	var $form = $('.dynamic-form');
-
-	// 设置表单提交id
-	$form.attr('action', ctx + '/form/dynamic/task/complete/' + taskId);
-
 	// 读取启动时的表单
-	$.getJSON(ctx + '/form/dynamic/get-form/task/' + taskId, function(datas) {
+	$.getJSON('../dynamic/get-form/task/' + taskId, function(datas) {
+		// 清空对话框内容
+		$(dialog).html("<form class='dynamic-form' method='post'><table class='dynamic-form-table'></table></form>");
+		var $form = $('.dynamic-form');
+
+		// 设置表单提交id
+		$form.attr('action', '../dynamic/task/complete/' + taskId);
+
 		var trs = "";
 		$.each(datas.taskFormData.formProperties, function() {
 			var className = this.required === true ? "required" : "";

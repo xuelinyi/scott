@@ -145,6 +145,26 @@ public class LeaveController {
 		      return "error";
 		    }
 	  }
+	  /**
+	   * 读取运行中的流程
+	   * @author 12440
+	   */
+	  @RequestMapping(value="running")
+	  public String runningList(Model model) {
+		  log.debug("读取运行的流程。");
+		  model.addAttribute("leaveList", leaveWorkflowService.findRunningTask());
+		  return "/oa/leave/running";
+	  }
+	  /**
+	   * 读取已结束的流程
+	   * @author 12440
+	   */
+	  @RequestMapping(value="finished")
+	  public String finishedList(Model model) {
+		  log.debug("读取已结束的流程。");
+		  model.addAttribute("leaveList", leaveWorkflowService.findFinishedProcessInstaces());
+		  return "/oa/leave/finished";
+	  }
 }
 
 
