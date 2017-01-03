@@ -56,7 +56,9 @@
 							<display:column property="processDefinitionId" title="流程定义ID" sortable="true"/>
 							<display:column property="startTime" title="流程启动时间" />
 							<display:column property="endTime" title="流程结束时间" />
-							<display:column property="deleteReason" title="流程结束原因" />
+							<display:column title="流程结束原因">
+								${empty historicProcessInstance.deleteReason ? "正常结束" : historicProcessInstance.deleteReason}
+							</display:column>
 						</display:table>
                         </table>
                      </div>

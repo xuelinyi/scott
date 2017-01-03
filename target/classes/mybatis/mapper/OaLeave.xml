@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="mybatis.mapper.OaLeave">  
+    <insert id="addOaLeave" parameterType="com.comverse.timesheet.web.bean.leave.Leave" useGeneratedKeys="true" keyProperty="ID"> 
+        INSERT INTO OA_LEAVE (PROCESS_INSTANCE_ID,USER_ID,START_TIME,END_TIME,LEAVE_TYPE,REASON,APPLY_TIME,REALITY_START_TIME,REALITY_END_TIME) 
+        VALUES(#{processInstanceId},#{userId},#{startTime},#{endTime},#{leaveType},#{reason},#{applyTime},#{realityStartTime},#{realityEndTime})
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">  
+             SELECT LAST_INSERT_ID() AS id  
+        </selectKey>   
+    </insert>
+    <resultMap id="Leave" type="com.comverse.timesheet.web.bean.leave.Leave">
+	     <id column="ID" property="id" />
+	     <result column="PROCESS_INSTANCE_ID" property="processInstanceId" />
+	     <result column="USER_ID" property="userId" />
+	     <result column="START_TIME" property="startTime" />
+	     <result column="END_TIME" property="endTime" />
+	     <result column="LEAVE_TYPE" property="leaveType" />
+	     <result column="REASON" property="reason" />
+	     <result column="APPLY_TIME" property="applyTime" />
+	     <result column="REALITY_START_TIME" property="realityStartTime" />
+	     <result column="REALITY_END_TIME" property="realityEndTime" />
+	</resultMap>
+    <update id="updateOaLeaveProcessInstanceId" parameterType="com.comverse.timesheet.web.bean.leave.Leave" >
+    	UPDATE OA_LEAVE SET PROCESS_INSTANCE_ID =#{processInstanceId} WHERE ID=#{id}
+    </update>
+    <update id="updateOaLeave" parameterType="com.comverse.timesheet.web.bean.leave.Leave" >
+    	UPDATE OA_LEAVE 
+    	<set>
+    		<if test="startTime!=null">
+    		 	START_TIME =#{startTime}
+    		</if>
+    		<if test="endTime!=null">
+    		 	, END_TIME =#{endTime}
+    		</if>
+    		<if test="leaveType!=null">
+    		 	, LEAVE_TYPE =#{leaveType}
+    		</if>
+    		<if test="reason!=null">
+    			 , REASON =#{reason}
+    		</if>
+    		<if test="realityStartTime!=null">
+    			 , REALITY_START_TIME =#{realityStartTime}
+    		</if>
+    		<if test="realityEndTime!=null">
+    			 , REALITY_END_TIME =#{realityEndTime}
+    		</if>
+    	</set>
+    	<where>ID=#{id}</where>
+    </update>
+    <select id="selectOaLeaveById" resultMap="Leave">
+        SELECT * FROM OA_LEAVE WHERE ID=#{leaveId}
+    </select>
+</mapper>   
