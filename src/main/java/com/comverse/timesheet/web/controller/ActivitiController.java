@@ -7,6 +7,7 @@ import java.io.IOException;
  
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;  
  
 import java.util.List;  
@@ -15,6 +16,16 @@ import java.util.Map;
  
   
  
+
+
+
+
+
+
+
+
+import java.util.zip.ZipInputStream;
+
 import javax.annotation.Resource;  
  
 import javax.imageio.ImageIO;  
@@ -34,15 +45,20 @@ import org.activiti.engine.impl.cmd.GetDeploymentProcessDiagramCmd;
 import org.activiti.engine.impl.context.Context;
 import org.activiti.engine.impl.interceptor.Command;  
  
+import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;  
  
+import org.activiti.engine.repository.ProcessDefinitionQuery;
 import org.activiti.engine.runtime.ProcessInstance;  
  
 import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;  
@@ -50,11 +66,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.comverse.timesheet.web.business.WorkflowTraceBusiness;
 import com.comverse.timesheet.web.util.ProcessInstanceDiagramCmd;
 import com.comverse.timesheet.web.util.Util;
+import com.comverse.timesheet.web.util.WorkflowUtils;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.sym;
 
 @Controller  
@@ -173,5 +191,100 @@ public class ActivitiController {
 			response.getOutputStream().write(b, 0, len);
 		}
 	}
+	/**
+	 * 流程定义列表
+	 * @author 12440
+	 */
+	@RequestMapping(value="/workflow/process-list")
+	public String processList(Model model) {
+		log.debug("查询流程定义列表");
+		/**
+		 * 保存对象，一个是ProcessDefinition流程定义，一个是Deployment流程部署
+		 */
+		List<Object[]> objects = new ArrayList<Object[]>();
+		ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery().orderByDeploymentId().desc();
+		List<ProcessDefinition> processDefinitionList= processDefinitionQuery.list();
+		for (ProcessDefinition processDefinition : processDefinitionList) {
+			String deploymentId = processDefinition.getDeploymentId();
+			Deployment deployment = repositoryService.createDeploymentQuery().deploymentId(deploymentId).singleResult();
+			objects.add(new Object[]{processDefinition,deployment});
+		}
+		model.addAttribute("objectList", objects);
+		return "workflow/process-list";
+	}
+	/**
+	 * 挂起或激活流程实例
+	 */
+	@RequestMapping(value="processdefinition/update/{state}/{processDefinitionId}")
+	public String updateState(@PathVariable(value="state")String state,@PathVariable(value="processDefinitionId")String processDefinitionId) {
+		log.debug("挂起或激活流程实例state"+state);
+		log.debug("processDefinitionId:"+processDefinitionId);
+		if(state.equals("active")) {
+			repositoryService.activateProcessDefinitionById(processDefinitionId);
+		}else if(state.equals("suspend")) {
+			repositoryService.suspendProcessDefinitionById(processDefinitionId);
+		}
+		return "redirect:/workflow/process-list";
+	}
+	/**
+	 * 删除部署的流程，级联删除流程实例
+	 * @author 12440
+	 */
+	@RequestMapping(value="/process/delete")
+	public String delete(@RequestParam("deploymentId") String deploymentId) {
+		log.debug("删除部署的流程，级联删除流程实例。deploymentId："+deploymentId);
+		repositoryService.deleteDeployment(deploymentId);
+		return "redirect:/workflow/process-list";
+	}
+	
+	/**
+	 * 部署流程
+	 * @author 12440
+	 */
+	@RequestMapping(value="deploy")
+	public String deploy(@Value("#{APP_PROPERTIES['export.diagram.path']}")String exportDir,@RequestParam(value="file",required=false)MultipartFile file) {
+		log.debug("部署流程。exportDir："+exportDir);
+		log.debug("file:"+file.getName());
+		String fileName = file.getOriginalFilename();
+		InputStream in = null;
+		Deployment deployment = null;
+		ZipInputStream zipIn = null;
+		try {
+			in = file.getInputStream();
+			String extension = FilenameUtils.getExtension(fileName);
+			if(extension.equals("zip")||extension.equals("bar")) {
+				zipIn = new ZipInputStream(in);
+				deployment = repositoryService.createDeployment().addZipInputStream(zipIn).deploy();
+			}else{
+				deployment = repositoryService.createDeployment().addInputStream(fileName, in).deploy();
+			}
+			List<ProcessDefinition> processDefinitionList = repositoryService.createProcessDefinitionQuery().deploymentId(deployment.getId()).list();
+			for (ProcessDefinition processDefinition : processDefinitionList) {
+				WorkflowUtils.exportDiagramToFile(repositoryService, processDefinition, exportDir);
+			}
+		}catch(Exception e) {
+			log.error("部署流程失败。"+e);
+		}finally {
+			if(null!=zipIn) {
+				try {
+					zipIn.close();
+					zipIn = null;
+				} catch (IOException e) {
+				}
+			}
+			if(null!=in) {
+				try {
+					in.close();
+					in = null;
+				} catch (IOException e) {
+				}
+			}
+		}
+		return "redirect:/workflow/process-list";
+	}
 }  
+
+
+
+
 
