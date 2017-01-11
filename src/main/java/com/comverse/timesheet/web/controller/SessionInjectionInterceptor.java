@@ -99,6 +99,8 @@ public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 						String LoginSuccessSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','80','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆成功');";
 						jdbcTemplate.execute(LoginSuccessSql);
 						saveActivitiUser(username);
+						String updateAccountTime = "UPDATE AACCOUNT SET LLOCKEND_TIME = '' ,LLOGIN_NUMBER='0' WHERE NNAME = '"+username+"'";
+						jdbcTemplate.execute(updateAccountTime);
 					}else{
 						SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 						String LoginSql = "INSERT INTO AADMIN_LOG(ttime,llevel,AACCOUNT,IIP,DDESC) VALUES('"+df.format(new Date())+"','96','"+username+"','"+session.getAttribute("clientIp")+"','用户:"+username+"登陆失败');";
@@ -108,7 +110,6 @@ public class SessionInjectionInterceptor extends HandlerInterceptorAdapter {
 						new SecurityContextLogoutHandler().logout(request, response, auth);
 					}
 				}
-				// read user from database
 
 			} else {
 			}
