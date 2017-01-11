@@ -40,8 +40,19 @@
 		<servlet-name>spring</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
-
-
+	<servlet>
+		<servlet-name>RestletServlet</servlet-name>
+		<servlet-class>org.restlet.ext.servlet.ServerServlet</servlet-class>
+		<init-param>
+			<!-- Application class name -->
+			<param-name>org.restlet.application</param-name>
+			<param-value>com.comverse.timesheet.web.application.ExplorerRestApplication</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestletServlet</servlet-name>
+		<url-pattern>/service/*</url-pattern>
+	</servlet-mapping>
 	<filter>
 		<filter-name>encoding</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

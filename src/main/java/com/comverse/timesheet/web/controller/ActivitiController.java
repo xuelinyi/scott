@@ -31,8 +31,13 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;  
  
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamReader;
 
+import org.activiti.bpmn.converter.BpmnXMLConverter;
 import org.activiti.bpmn.model.BpmnModel;
+import org.activiti.editor.constants.ModelDataJsonConstants;
+import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.ProcessEngine;  
  
 import org.activiti.engine.RepositoryService;  
@@ -55,6 +60,8 @@ import org.activiti.engine.task.Task;
 import org.activiti.spring.ProcessEngineFactoryBean;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -241,7 +248,7 @@ public class ActivitiController {
 	 * 部署流程
 	 * @author 12440
 	 */
-	@RequestMapping(value="deploy")
+	@RequestMapping(value="/workflow/deploy")
 	public String deploy(@Value("#{APP_PROPERTIES['export.diagram.path']}")String exportDir,@RequestParam(value="file",required=false)MultipartFile file) {
 		log.debug("部署流程。exportDir："+exportDir);
 		log.debug("file:"+file.getName());
@@ -281,6 +288,45 @@ public class ActivitiController {
 			}
 		}
 		return "redirect:/workflow/process-list";
+	}
+	/**
+	 * 转化为model
+	 * @author 12440
+	 */
+	@RequestMapping(value="/process/convert-to-model/{processDefinitionId}")
+	public String convertToModel(@PathVariable(value="processDefinitionId")String processDefinitionId) {
+		log.debug("转化为model");
+		if(null != processDefinitionId) {
+			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().
+					processDefinitionId(processDefinitionId).singleResult();
+			InputStream bpmnStream = repositoryService.getResourceAsStream(processDefinition.getDeploymentId(), 
+					processDefinition.getResourceName());
+			XMLInputFactory xif = XMLInputFactory.newInstance();
+			InputStreamReader in = null;
+			XMLStreamReader xtr = null;
+			try {
+				in = new InputStreamReader(bpmnStream,"UTF-8");
+				xtr = xif.createXMLStreamReader(in);
+				BpmnModel bpmnModel = new BpmnXMLConverter().convertToBpmnModel(xtr);
+				BpmnJsonConverter converter = new BpmnJsonConverter();
+				ObjectNode modelNode = converter.convertToJson(bpmnModel);
+				org.activiti.engine.repository.Model modelData = repositoryService.newModel();
+				modelData.setKey(processDefinition.getKey());
+				modelData.setName(processDefinition.getResourceName());
+				modelData.setCategory(processDefinition.getDeploymentId());
+				
+				ObjectNode modelObjectNode = new ObjectMapper().createObjectNode();
+				modelObjectNode.put(ModelDataJsonConstants.MODEL_NAME, processDefinition.getName());
+				modelObjectNode.put(ModelDataJsonConstants.MODEL_REVISION, 1);
+				modelObjectNode.put(ModelDataJsonConstants.MODEL_DESCRIPTION, processDefinition.getDescription());
+				modelData.setMetaInfo(modelObjectNode.toString());
+				repositoryService.saveModel(modelData);
+				repositoryService.addModelEditorSource(modelData.getId(), modelNode.toString().getBytes("utf-8"));
+			}catch(Exception e) {
+				log.error("转化为model失败");
+			}
+		}
+		return "redirect:/model/list";
 	}
 }  
 

@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>流程列表</title>
+<title>引擎配置</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet"><!-- FONT AWESOME ICON STYLESHEET -->
@@ -42,78 +42,43 @@
             <section class="wrapper site-min-height">
                <section class="panel">
                   <header class="panel-heading">
-                     <span class="label label-primary">流程列表</span>
+                     <span class="label label-primary">引擎配置</span>
                      <span class="tools pull-right">
                      <a href="javascript:;" class="fa fa-chevron-down"></a>
                      <a href="javascript:;" class="fa fa-times"></a>
                      </span>
                   </header>
                   <div class="panel-body">
-                     <div class="adv-table editable-table ">
-                        <div class="clearfix">
-                        </div>
-                        <div class="space15"></div>
-                        <div style="text-align: right;padding: 2px 1em 2px">
-							<div id="message" class="info" style="display:inline;"><b>提示：</b>点击xml或者png链接可以查看具体内容！</div>
-							<a id='deploy' href='#'>部署流程</a>
-							<a id='redeploy' href='../workflow/redeploy/all'>重新部署流程</a>
-						</div>
-						<fieldset id="deployFieldset" style="display: none">
-							<legend>部署新流程</legend>
-							<div><b>支持文件格式：</b>zip、bar、bpmn、bpmn20.xml</div>
-							<form action="../workflow/deploy" method="post" enctype="multipart/form-data">
-								<input type="file" name="file" />
-								<input type="submit" value="Submit" />
-							</form>
-						</fieldset>
-                        <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                           <display:table id="object" name="objectList" pagesize="5" class="table">
-	                        <display:setProperty name="sort.amount" value="list"></display:setProperty>
-	                        <display:column title="ProcessDefinitionId" sortable="true">
-	                        		${object[0].id }
-	                        </display:column>
-							<display:column title="DeploymentId" sortable="true" >
-								${object[0].deploymentId }
-	                        </display:column>
-							<display:column title="名称" >
-								${object[0].name }
-	                        </display:column>
-							<display:column title="KEY" sortable="true" >
-								${object[0].key }
-	                        </display:column>
-							<display:column title="版本号" sortable="true" >
-								${object[0].version }
-	                        </display:column>
-							<display:column title="XML" >
-								<a target="_blank" href='../resource/read?processDefinitionId=${object[0].id}&resourceType=xml'>${object[0].resourceName }</a>
-	                        </display:column>
-							<display:column title="图片" sortable="true">
-								<a target="_blank" href='../resource/read?processDefinitionId=${object[0].id}&resourceType=image'>${object[0].diagramResourceName }</a>
-							</display:column>
-							<display:column title="部署时间" sortable="true" >
-								${object[1].deploymentTime }
-							</display:column>
-							<display:column title="是否挂起" >
-								${object[0].suspended} |
-								<c:if test="${object[0].suspended }">
-									<a href="../processdefinition/update/active/${object[0].id}">激活</a>
-								</c:if>
-								<c:if test="${!object[0].suspended }">
-									<a href="../processdefinition/update/suspend/${object[0].id}">挂起</a>
-								</c:if>
-							</display:column>
-							<display:column title="操作" sortable="true">
-								 <a href='../process/delete?deploymentId=${object[0].deploymentId}'>删除</a>
-                        		 <a href='../process/convert-to-model/${object[0].id}'>转换为Model</a>
-							</display:column>
-						</display:table>
-                        </table>
-                     </div>
+                    <table class="table table-bordered table-hover table-condensed">
+						  <tr>
+						      <th class="text-info" width="30%">属性名称</th>
+						      <th class="text-info">属性值</th>
+						  </tr>
+						  <c:forEach items="${engineProperties}" var="prop">
+						      <tr>
+						          <th>${prop.key}</th>
+						          <td>${prop.value}</td>
+						      </tr>
+						  </c:forEach>
+						</table>
+						
+						<div class='page-title ui-corner-all'>系统参数</div>
+						<table class="table table-bordered table-hover table-condensed">
+						    <tr>
+						        <th class="text-info">属性名称</th>
+						        <th class="text-info">属性值</th>
+						    </tr>
+						    <c:forEach items="${systemProperties}" var="prop">
+						      <tr>
+						          <th>${prop.key}</th>
+						          <td>${prop.value}</td>
+						      </tr>
+						  </c:forEach>
+						</table>
                   </div>
                </section>
             </section>
          </section>
-		 <!-- END MAIN CONTENT --> 
 		 <!-- BEGIN FOOTER --> 
          <%@ include file="../footer.jsp"%>
 		 <!-- END FOOTER --> 
@@ -148,19 +113,31 @@
 	<div id="handleTemplate" class="template"></div>
 	<script type="text/javascript">
     $(function() {
-    	$('#redeploy').button({
+    	$('#create').button({
     		icons: {
-    			primary: 'ui-icon-refresh'
-    		}
-    	});
-    	$('#deploy').button({
-    		icons: {
-    			primary: 'ui-icon-document'
+    			primary: 'ui-icon-plus'
     		}
     	}).click(function() {
-    		$('#deployFieldset').toggle('normal');
+    		$('#createModelTemplate').dialog({
+    			modal: true,
+    			width: 500,
+    			buttons: [{
+    				text: '创建',
+    				click: function() {
+    					if (!$('#name').val()) {
+    						alert('请填写名称！');
+    						$('#name').focus();
+    						return;
+    					}
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+    					$('#modelForm').submit();
+    				}
+    			}]
+    		});
     	});
     });
-</script>
+    </script>
 </body>
 </html>

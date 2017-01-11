@@ -146,6 +146,21 @@
 	        <version>5.15.1</version>  
 	  
 	    </dependency>  
+	    
+	    
+	    <!-- https://mvnrepository.com/artifact/org.activiti/activiti-json-converter -->
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-json-converter</artifactId>
+		    <version>5.14</version>
+		</dependency>
+	    <!-- https://mvnrepository.com/artifact/org.activiti/activiti-bpmn-model -->
+		<dependency>
+		    <groupId>org.activiti</groupId>
+		    <artifactId>activiti-bpmn-model</artifactId>
+		    <version>5.22.0</version>
+		</dependency>
+	    
    		<!-- https://mvnrepository.com/artifact/org.directwebremoting/dwr -->
 		<dependency>
 		    <groupId>org.directwebremoting</groupId>

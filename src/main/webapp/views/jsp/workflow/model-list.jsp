@@ -53,58 +53,22 @@
                         <div class="clearfix">
                         </div>
                         <div class="space15"></div>
-                        <div style="text-align: right;padding: 2px 1em 2px">
-							<div id="message" class="info" style="display:inline;"><b>提示：</b>点击xml或者png链接可以查看具体内容！</div>
-							<a id='deploy' href='#'>部署流程</a>
-							<a id='redeploy' href='../workflow/redeploy/all'>重新部署流程</a>
-						</div>
-						<fieldset id="deployFieldset" style="display: none">
-							<legend>部署新流程</legend>
-							<div><b>支持文件格式：</b>zip、bar、bpmn、bpmn20.xml</div>
-							<form action="../workflow/deploy" method="post" enctype="multipart/form-data">
-								<input type="file" name="file" />
-								<input type="submit" value="Submit" />
-							</form>
-						</fieldset>
+                        <div style="text-align: right"><button id="create">创建</button></div>
                         <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                           <display:table id="object" name="objectList" pagesize="5" class="table">
+                           <display:table id="model" name="modelList" pagesize="5" class="table">
 	                        <display:setProperty name="sort.amount" value="list"></display:setProperty>
-	                        <display:column title="ProcessDefinitionId" sortable="true">
-	                        		${object[0].id }
-	                        </display:column>
-							<display:column title="DeploymentId" sortable="true" >
-								${object[0].deploymentId }
-	                        </display:column>
-							<display:column title="名称" >
-								${object[0].name }
-	                        </display:column>
-							<display:column title="KEY" sortable="true" >
-								${object[0].key }
-	                        </display:column>
-							<display:column title="版本号" sortable="true" >
-								${object[0].version }
-	                        </display:column>
-							<display:column title="XML" >
-								<a target="_blank" href='../resource/read?processDefinitionId=${object[0].id}&resourceType=xml'>${object[0].resourceName }</a>
-	                        </display:column>
-							<display:column title="图片" sortable="true">
-								<a target="_blank" href='../resource/read?processDefinitionId=${object[0].id}&resourceType=image'>${object[0].diagramResourceName }</a>
-							</display:column>
-							<display:column title="部署时间" sortable="true" >
-								${object[1].deploymentTime }
-							</display:column>
-							<display:column title="是否挂起" >
-								${object[0].suspended} |
-								<c:if test="${object[0].suspended }">
-									<a href="../processdefinition/update/active/${object[0].id}">激活</a>
-								</c:if>
-								<c:if test="${!object[0].suspended }">
-									<a href="../processdefinition/update/suspend/${object[0].id}">挂起</a>
-								</c:if>
-							</display:column>
-							<display:column title="操作" sortable="true">
-								 <a href='../process/delete?deploymentId=${object[0].deploymentId}'>删除</a>
-                        		 <a href='../process/convert-to-model/${object[0].id}'>转换为Model</a>
+	                        <display:column property="id" title="ID" sortable="true" />
+							<display:column property="key" title="KEY" sortable="true"/>
+							<display:column property="name" title="Name" />
+							<display:column property="version" title="Version" />
+							<display:column property="createTime" title="创建时间" />
+							<display:column property="lastUpdateTime" title="最后更新时间" />
+							<display:column property="metaInfo" title="元数据" />
+							<display:column title="操作">
+								 <a href=''>编辑</a>
+                        		 <a href=''>部署</a>
+                        		 <a href=''>导出</a>
+                        		 <a href=''>删除</a>
 							</display:column>
 						</display:table>
                         </table>
@@ -113,7 +77,31 @@
                </section>
             </section>
          </section>
-		 <!-- END MAIN CONTENT --> 
+		 <!-- END MAIN CONTENT -->
+		<div id="createModelTemplate" title="创建模型" class="template">
+        <form id="modelForm" action="../model/create" target="_blank" method="post">
+		<table>
+			<tr>
+				<td>名称：</td>
+				<td>
+					<input id="name" name="name" type="text" />
+				</td>
+			</tr>
+			<tr>
+				<td>KEY：</td>
+				<td>
+					<input id="key" name="key" type="text" />
+				</td>
+			</tr>
+			<tr>
+				<td>描述：</td>
+				<td>
+					<textarea id="description" name="description" style="width:300px;height: 50px;"></textarea>
+				</td>
+			</tr>
+		</table>
+        </form>
+	</div> 
 		 <!-- BEGIN FOOTER --> 
          <%@ include file="../footer.jsp"%>
 		 <!-- END FOOTER --> 
@@ -148,19 +136,31 @@
 	<div id="handleTemplate" class="template"></div>
 	<script type="text/javascript">
     $(function() {
-    	$('#redeploy').button({
+    	$('#create').button({
     		icons: {
-    			primary: 'ui-icon-refresh'
-    		}
-    	});
-    	$('#deploy').button({
-    		icons: {
-    			primary: 'ui-icon-document'
+    			primary: 'ui-icon-plus'
     		}
     	}).click(function() {
-    		$('#deployFieldset').toggle('normal');
+    		$('#createModelTemplate').dialog({
+    			modal: true,
+    			width: 500,
+    			buttons: [{
+    				text: '创建',
+    				click: function() {
+    					if (!$('#name').val()) {
+    						alert('请填写名称！');
+    						$('#name').focus();
+    						return;
+    					}
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1000);
+    					$('#modelForm').submit();
+    				}
+    			}]
+    		});
     	});
     });
-</script>
+    </script>
 </body>
 </html>

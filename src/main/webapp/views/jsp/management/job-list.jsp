@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>流程列表</title>
+<title>Job列表</title>
 <link href="../css/bootstrap.min.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../css/bootstrap-reset.css" rel="stylesheet"><!-- BOOTSTRAP CSS -->
 <link href="../assets/font-awesome/css/font-awesome.css" rel="stylesheet"><!-- FONT AWESOME ICON STYLESHEET -->
@@ -42,7 +42,7 @@
             <section class="wrapper site-min-height">
                <section class="panel">
                   <header class="panel-heading">
-                     <span class="label label-primary">流程列表</span>
+                     <span class="label label-primary">Job列表</span>
                      <span class="tools pull-right">
                      <a href="javascript:;" class="fa fa-chevron-down"></a>
                      <a href="javascript:;" class="fa fa-times"></a>
@@ -53,58 +53,42 @@
                         <div class="clearfix">
                         </div>
                         <div class="space15"></div>
-                        <div style="text-align: right;padding: 2px 1em 2px">
-							<div id="message" class="info" style="display:inline;"><b>提示：</b>点击xml或者png链接可以查看具体内容！</div>
-							<a id='deploy' href='#'>部署流程</a>
-							<a id='redeploy' href='../workflow/redeploy/all'>重新部署流程</a>
-						</div>
-						<fieldset id="deployFieldset" style="display: none">
-							<legend>部署新流程</legend>
-							<div><b>支持文件格式：</b>zip、bar、bpmn、bpmn20.xml</div>
-							<form action="../workflow/deploy" method="post" enctype="multipart/form-data">
-								<input type="file" name="file" />
-								<input type="submit" value="Submit" />
-							</form>
-						</fieldset>
                         <table class="table table-striped table-hover table-bordered" id="editable-sample">
-                           <display:table id="object" name="objectList" pagesize="5" class="table">
+                           <display:table id="job" name="jobList" pagesize="5" class="table">
 	                        <display:setProperty name="sort.amount" value="list"></display:setProperty>
-	                        <display:column title="ProcessDefinitionId" sortable="true">
-	                        		${object[0].id }
-	                        </display:column>
-							<display:column title="DeploymentId" sortable="true" >
-								${object[0].deploymentId }
-	                        </display:column>
-							<display:column title="名称" >
-								${object[0].name }
-	                        </display:column>
-							<display:column title="KEY" sortable="true" >
-								${object[0].key }
-	                        </display:column>
-							<display:column title="版本号" sortable="true" >
-								${object[0].version }
-	                        </display:column>
-							<display:column title="XML" >
-								<a target="_blank" href='../resource/read?processDefinitionId=${object[0].id}&resourceType=xml'>${object[0].resourceName }</a>
-	                        </display:column>
-							<display:column title="图片" sortable="true">
-								<a target="_blank" href='../resource/read?processDefinitionId=${object[0].id}&resourceType=image'>${object[0].diagramResourceName }</a>
+	                        <display:column property="id" title="作业ID" sortable="true" />
+							<display:column  title="作业类型" >
+								${JOB_TYPES[job.jobHandlerType]}
 							</display:column>
-							<display:column title="部署时间" sortable="true" >
-								${object[1].deploymentTime }
+							<display:column title="预定时间" >
+								<fmt:formatDate value="${job.duedate}" pattern="yyyy-MM-dd hh:mm:ss"/>
 							</display:column>
-							<display:column title="是否挂起" >
-								${object[0].suspended} |
-								<c:if test="${object[0].suspended }">
-									<a href="../processdefinition/update/active/${object[0].id}">激活</a>
-								</c:if>
-								<c:if test="${!object[0].suspended }">
-									<a href="../processdefinition/update/suspend/${object[0].id}">挂起</a>
-								</c:if>
+							<display:column property="retries" title="可重试次数" />
+							<display:column property="processDefinitionId" title="流程定义ID" />
+							<display:column property="processInstanceId" title="流程实例ID" />
+							<display:column property="executionId" title="执行ID" />
+							<display:column title="异常消息" >
+								${job.exceptionMessage}
 							</display:column>
-							<display:column title="操作" sortable="true">
-								 <a href='../process/delete?deploymentId=${object[0].deploymentId}'>删除</a>
-                        		 <a href='../process/convert-to-model/${object[0].id}'>转换为Model</a>
+							<display:column title="作业配置信息" >
+								<c:if test="${job.jobHandlerType == 'async-continuation'}">
+				                    到期时间：<fmt:formatDate value="${job.lockExpirationTime}" pattern="yyyy-MM-dd hh:mm:ss"/>
+				                    <br/>
+				                    锁标示(UUID)：${job.lockOwner}
+				                </c:if>
+				                ${job.jobHandlerConfiguration}
+							</display:column>
+							<display:column title="操作">
+								 <div class="btn-group">
+				                    <a class="btn btn-small btn-danger dropdown-toggle" data-toggle="dropdown" href="#">操作
+				                        <span class="caret"></span>
+				                    </a>
+				                    <ul class="dropdown-menu" style="min-width: 100px;margin-left: -70px;">
+				                        <li><a href="../managementexecuteJob/${job.id}"><i class="icon-play"></i>执行</a></li>
+				                        <li><a href="../managementdeleteJob/${job.id}"><i class="icon-trash"></i>删除</a></li>
+				                        <li><a href="#" title="更改执行次数" data-jobid="${job.id}" class="change-retries"><i class="icon-wrench"></i>执行次数</a></li>
+				                    </ul>
+				                </div>
 							</display:column>
 						</display:table>
                         </table>
@@ -113,7 +97,7 @@
                </section>
             </section>
          </section>
-		 <!-- END MAIN CONTENT --> 
+		 <!-- END MAIN CONTENT -->
 		 <!-- BEGIN FOOTER --> 
          <%@ include file="../footer.jsp"%>
 		 <!-- END FOOTER --> 
@@ -147,20 +131,18 @@
 	  	<!-- 办理任务对话框 -->
 	<div id="handleTemplate" class="template"></div>
 	<script type="text/javascript">
+	<script type="text/javascript">
     $(function() {
-    	$('#redeploy').button({
-    		icons: {
-    			primary: 'ui-icon-refresh'
-    		}
-    	});
-    	$('#deploy').button({
-    		icons: {
-    			primary: 'ui-icon-document'
-    		}
-    	}).click(function() {
-    		$('#deployFieldset').toggle('normal');
-    	});
+        $('.change-retries').click(function() {
+            var retries = prompt('请输入重试次数：');
+            if (isNaN(retries)) {
+                alert('请输入数字!');
+            } else {
+                location.href = '../management/changeJobRetries/' + $(this).data('jobid') + "?retries=" + retries;
+            }
+        });
     });
 </script>
+    </script>
 </body>
 </html>

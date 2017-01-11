@@ -239,21 +239,26 @@
                 <i class="fa fa-shopping-cart">
                 </i>
                 <span>
-                  Product
+                  管理模块
                 </span>
                 <span class="label label-success span-sidebar">
-                  2
+                  3
                 </span>
               </a>
               <ul class="sub">
                 <li>
-                  <a href="product_list.html">
-                    List View
+                  <a href="../management/engine">
+                    引擎属性
                   </a>
                 </li>
                 <li>
-                  <a href="product_details.html">
-                    Details View
+                  <a href="../management/database">
+                    引擎数据库
+                  </a>
+                </li>
+                <li>
+                  <a href="../management/jobList">
+                    作业管理
                   </a>
                 </li>
               </ul>
