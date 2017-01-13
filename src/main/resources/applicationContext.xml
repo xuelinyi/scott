@@ -24,6 +24,7 @@
 	<context:component-scan base-package="com.comverse.timesheet.web.bean" />
 	<context:component-scan base-package="com.comverse.timesheet.web.business" />
 	<context:component-scan base-package="com.comverse.timesheet.web.business.impl" />
+	<context:component-scan base-package="com.comverse.timesheet.web.server" />
 	
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
@@ -38,7 +39,6 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 	<import resource="activiti.cfg.xml"/>
-
 	<!-- access static resource -->
 	<mvc:annotation-driven>
 	<!-- ajax解决乱码 -->
@@ -204,6 +204,17 @@
     </bean>
     <bean id="afterModifyApplyContentProcessor" class="com.comverse.timesheet.web.business.impl.AfterModifyApplyContentProcessor">
     </bean>
+    <bean id="sqlExecuter" class="com.comverse.timesheet.web.server.impl.AsynSQLExecuterImpl" init-method="start" destroy-method="stop">		
+		<property name="dataSource" ref="dataSource" />
+		<property name="threadNumber" value="1"/>
+	</bean>
+	<bean id="syslogSaver" class="com.comverse.timesheet.web.server.impl.SyslogSaver">
+		<property name="sqlExecuter" ref="sqlExecuter" />
+	</bean>
+	<bean id="syslogServer" class="com.comverse.timesheet.web.server.impl.SyslogServer"  init-method="start" destroy-method="stop">
+		<property name="syslogSaver" ref="syslogSaver" />
+		<property name="port" value="19030" />
+	</bean>
     <bean id="taskExecutor"  
         class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">  
         <property name="corePoolSize" value="2" />  

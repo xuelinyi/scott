@@ -1,11 +1,10 @@
-package com.comverse.timesheet.web.server;
-
+package com.comverse.timesheet.web.server.impl;
 public class Constants {
 	public static final int SERVER_READ_BUFFER_SIZE=2*1024*1024;
 	public static final long MAGIC_NUMBER=0xFEFEFEFEFEFEFEFEL;
 
 	public static final byte MAGIC_BYTE=(byte)0xFE;
-	public static final int MAX_SEGMENT_SIZE=65535;//default value 2048, test value 65535
+	public static final int MAX_SEGMENT_SIZE=2048;//default value 2048, test value 65535
 	
 	
 	public static final int SYSLOG_SERVER_DEFAULT_PORT=9030;
@@ -25,7 +24,9 @@ public class Constants {
 	public static final int SESSION_LOG_TYPE_SESSION=0x01;
 	public static final int SESSION_LOG_TYPE_OPERATION=0x02;
 	public static final int SESSION_LOG_TYPE_FILE=0x03;
-	public static final long SESSION_LOG_TIMEOUT=5L*60L*1000L;//default 30L*60L*1000L
+	public static final int SESSION_LOG_TYPE_FILE_CONTENT=0x04;
+	public static final int SESSION_LOG_TYPE_AUDIT_LOG=0x05;
+	public static final long SESSION_LOG_TIMEOUT=30L*60L*1000L;//default 30L*60L*1000L
 	
 	public static final int SESSION_LOG_SESSION_KILLED_NO=0x00;
 	public static final int SESSION_LOG_SESSION_KILLED_NORMAL=0x01;
@@ -39,11 +40,11 @@ public class Constants {
 	
 	public static final int FLOW_ID_MAX=128-1;
 	public static final int PRIMARY_ACCOUNT_MAX=128-1;
-	public static final int PROTOCOL_VERSION_MAX=64-1;
-	public static final int SERVER_VERSION_MAX=64-1;
-	public static final int CLIENT_VERSION_MAX=64-1;
-	public static final int USERNAME_MAX=128-1;
-	public static final int SUB_PROTOCOL_VERSION_MAX=64-1;
+	public static final int PROTOCOL_VERSION_MAX=512-1;
+	public static final int SERVER_VERSION_MAX=512-1;
+	public static final int CLIENT_VERSION_MAX=512-1;
+	public static final int USERNAME_MAX=512-1;
+	public static final int SUB_PROTOCOL_VERSION_MAX=512-1;
 	
 	public static final int HTTP_METHOD_MAX=8-1;
 	public static final int HTTP_URL_MAX=2048-1;
